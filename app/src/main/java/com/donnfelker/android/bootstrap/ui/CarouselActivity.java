@@ -4,8 +4,11 @@ package com.donnfelker.android.bootstrap.ui;
 
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +24,6 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
-import net.simonvt.menudrawer.MenuDrawer;
 
 
 /**
@@ -34,9 +36,12 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
     @Inject BootstrapServiceProvider serviceProvider;
 
-    private MenuDrawer menuDrawer;
-
     private boolean userHasAuthenticated = false;
+
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +50,58 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-        // Set up navigation drawer
-        menuDrawer = MenuDrawer.attach(this);
-        menuDrawer.setMenuView(R.layout.navigation_drawer);
-        menuDrawer.setContentView(R.layout.carousel_view);
-        menuDrawer.setSlideDrawable(R.drawable.ic_drawer);
-        menuDrawer.setDrawerIndicatorEnabled(true);
+        setContentView(R.layout.carousel_view);
 
+        // VIew injection with Butterknife
         Views.inject(this);
+
+        // Set up navigation drawer
+        mTitle = mDrawerTitle = getTitle();
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                    /* Host activity */
+                mDrawerLayout,           /* DrawerLayout object */
+                R.drawable.ic_drawer,    /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,    /* "open drawer" description */
+                R.string.drawer_close) { /* "close drawer" description */
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         checkAuth();
 
     }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+
 
     private void initScreen() {
         if(userHasAuthenticated) {
@@ -102,28 +147,33 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
     private void setNavListeners() {
 
-        menuDrawer.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menuDrawer.toggleMenu();
-            }
-        });
-
-        menuDrawer.findViewById(R.id.timer).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menuDrawer.toggleMenu();
-                navigateToTimer();
-            }
-        });
+//        menuDrawer.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                menuDrawer.toggleMenu();
+//            }
+//        });
+//
+//        menuDrawer.findViewById(R.id.timer).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                menuDrawer.toggleMenu();
+//                navigateToTimer();
+//            }
+//        });
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch(item.getItemId()) {
             case android.R.id.home:
-                menuDrawer.toggleMenu();
+                //menuDrawer.toggleMenu();
                 return true;
             case R.id.timer:
                 navigateToTimer();
