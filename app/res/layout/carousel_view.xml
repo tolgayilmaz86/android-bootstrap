@@ -41,7 +41,7 @@
         <com.donnfelker.android.bootstrap.ui.view.CapitalizedTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/home"
+                android:id="@+id/menu_item_home"
                 android:text="@string/home"
                 android:drawableLeft="@drawable/ic_home"
                 style="@style/NavMenuButton"
@@ -58,7 +58,7 @@
         <com.donnfelker.android.bootstrap.ui.view.CapitalizedTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/timer"
+                android:id="@+id/menu_item_timer"
                 android:text="@string/timer"
                 android:drawableLeft="@drawable/ic_timer"
                 style="@style/NavMenuButton"

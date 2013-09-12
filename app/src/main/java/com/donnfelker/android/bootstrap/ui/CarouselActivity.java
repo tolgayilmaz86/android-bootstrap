@@ -147,20 +147,20 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
     private void setNavListeners() {
 
-//        menuDrawer.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                menuDrawer.toggleMenu();
-//            }
-//        });
-//
-//        menuDrawer.findViewById(R.id.timer).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                menuDrawer.toggleMenu();
-//                navigateToTimer();
-//            }
-//        });
+        findViewById(R.id.menu_item_home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawers();
+            }
+        });
+
+        findViewById(R.id.menu_item_timer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawers();
+                navigateToTimer();
+            }
+        });
 
     }
 
