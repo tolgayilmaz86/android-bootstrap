@@ -22,3 +22,7 @@ out
 .DS_Store
 classes
 .gradle
+app/.project
+app/.classpath
+app/.settings/
+.settings/
