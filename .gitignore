@@ -22,3 +22,6 @@ out
 .DS_Store
 classes
 .gradle
+local.properties
+.project
+.classpath
