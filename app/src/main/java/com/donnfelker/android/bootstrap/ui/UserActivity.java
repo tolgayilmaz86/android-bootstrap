@@ -1,6 +1,5 @@
 package com.donnfelker.android.bootstrap.ui;
 
-import static com.donnfelker.android.bootstrap.core.Constants.Extra.USER;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,10 +10,14 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 
+import static com.donnfelker.android.bootstrap.core.Constants.Extra.USER;
+
 public class UserActivity extends BootstrapActivity {
 
-    @InjectView(R.id.iv_avatar) protected ImageView avatar;
-    @InjectView(R.id.tv_name) protected TextView name;
+    @InjectView(R.id.iv_avatar)
+    protected ImageView avatar;
+    @InjectView(R.id.tv_name)
+    protected TextView name;
 
     protected User user;
 
@@ -24,7 +27,7 @@ public class UserActivity extends BootstrapActivity {
 
         setContentView(R.layout.user_view);
 
-        if(getIntent() != null && getIntent().getExtras() != null) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
             user = (User) getIntent().getExtras().getSerializable(USER);
         }
 

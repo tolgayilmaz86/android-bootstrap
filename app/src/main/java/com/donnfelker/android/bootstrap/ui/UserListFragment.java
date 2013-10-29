@@ -1,6 +1,5 @@
 package com.donnfelker.android.bootstrap.ui;
 
-import static com.donnfelker.android.bootstrap.core.Constants.Extra.USER;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,14 +15,19 @@ import com.donnfelker.android.bootstrap.authenticator.LogoutService;
 import com.donnfelker.android.bootstrap.core.User;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
-public class UserListFragment  extends ItemListFragment<User> {
+import javax.inject.Inject;
 
-    @Inject BootstrapServiceProvider serviceProvider;
-    @Inject LogoutService logoutService;
+import static com.donnfelker.android.bootstrap.core.Constants.Extra.USER;
+
+public class UserListFragment extends ItemListFragment<User> {
+
+    @Inject
+    BootstrapServiceProvider serviceProvider;
+    @Inject
+    LogoutService logoutService;
 
 
     @Override
@@ -49,7 +53,7 @@ public class UserListFragment  extends ItemListFragment<User> {
         listView.setDividerHeight(0);
 
         getListAdapter().addHeader(activity.getLayoutInflater()
-                        .inflate(R.layout.user_list_item_labels, null));
+                .inflate(R.layout.user_list_item_labels, null));
     }
 
     @Override
@@ -68,7 +72,7 @@ public class UserListFragment  extends ItemListFragment<User> {
                 try {
                     List<User> latest = null;
 
-                    if(getActivity() != null)
+                    if (getActivity() != null)
                         latest = serviceProvider.getService(getActivity()).getUsers();
 
                     if (latest != null)

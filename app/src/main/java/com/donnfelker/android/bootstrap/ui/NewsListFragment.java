@@ -1,6 +1,5 @@
 package com.donnfelker.android.bootstrap.ui;
 
-import static com.donnfelker.android.bootstrap.core.Constants.Extra.NEWS_ITEM;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
@@ -9,22 +8,26 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
-import com.donnfelker.android.bootstrap.BootstrapApplication;
 import com.donnfelker.android.bootstrap.BootstrapServiceProvider;
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.authenticator.LogoutService;
 import com.donnfelker.android.bootstrap.core.News;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
-import javax.inject.Inject;
 
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import static com.donnfelker.android.bootstrap.core.Constants.Extra.NEWS_ITEM;
+
 public class NewsListFragment extends ItemListFragment<News> {
 
-    @Inject protected BootstrapServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
+    @Inject
+    protected BootstrapServiceProvider serviceProvider;
+    @Inject
+    protected LogoutService logoutService;
 
 
     @Override
@@ -74,7 +77,7 @@ public class NewsListFragment extends ItemListFragment<News> {
             @Override
             public List<News> loadData() throws Exception {
                 try {
-                    if(getActivity() != null) {
+                    if (getActivity() != null) {
                         return serviceProvider.getService(getActivity()).getNews();
                     } else {
                         return Collections.emptyList();

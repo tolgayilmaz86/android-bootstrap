@@ -8,7 +8,8 @@ package com.donnfelker.android.bootstrap.core;
 public class Constants {
 
     public static class Auth {
-        private Auth() {}
+        private Auth() {
+        }
 
         /**
          * Account type id
@@ -36,8 +37,8 @@ public class Constants {
      * Thanks to the nice people at Parse for creating such a nice system for us to use for bootstrap!
      */
     public static class Http {
-        private Http() {}
-
+        private Http() {
+        }
 
 
         /**
@@ -79,7 +80,8 @@ public class Constants {
 
 
     public static class Extra {
-        private Extra() {}
+        private Extra() {
+        }
 
         public static final String NEWS_ITEM = "news_item";
 
@@ -88,7 +90,8 @@ public class Constants {
     }
 
     public static class Intent {
-        private Intent() {}
+        private Intent() {
+        }
 
         /**
          * Action prefix for all intents created
@@ -97,8 +100,9 @@ public class Constants {
 
     }
 
-    public static class Notification{
-        private Notification() {}
+    public static class Notification {
+        private Notification() {
+        }
 
         public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
     }

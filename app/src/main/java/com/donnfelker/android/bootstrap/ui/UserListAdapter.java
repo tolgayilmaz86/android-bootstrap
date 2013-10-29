@@ -46,7 +46,7 @@ public class UserListAdapter extends SingleTypeAdapter<User> {
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[] { R.id.iv_avatar, R.id.tv_name };
+        return new int[]{R.id.iv_avatar, R.id.tv_name};
     }
 
     @Override

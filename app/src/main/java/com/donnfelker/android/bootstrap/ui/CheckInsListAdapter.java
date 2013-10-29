@@ -15,7 +15,7 @@ public class CheckInsListAdapter extends AlternatingColorListAdapter<CheckIn> {
      * @param selectable
      */
     public CheckInsListAdapter(LayoutInflater inflater, List<CheckIn> items,
-                           boolean selectable) {
+                               boolean selectable) {
         super(R.layout.checkin_list_item, inflater, items, selectable);
     }
 
@@ -29,7 +29,7 @@ public class CheckInsListAdapter extends AlternatingColorListAdapter<CheckIn> {
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[] { R.id.tv_name, R.id.tv_date };
+        return new int[]{R.id.tv_name, R.id.tv_date};
     }
 
     @Override

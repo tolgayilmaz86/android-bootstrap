@@ -47,6 +47,7 @@ public class SherlockAccountAuthenticatorActivity extends ActionBarActivity {
      * Set the result that is to be sent as the result of the request that caused this
      * Activity to be launched. If result is null or this method is never called then
      * the request will be canceled.
+     *
      * @param result this is returned as the result of the AbstractAccountAuthenticator request
      */
     public final void setAccountAuthenticatorResult(Bundle result) {
@@ -56,6 +57,7 @@ public class SherlockAccountAuthenticatorActivity extends ActionBarActivity {
     /**
      * Retreives the AccountAuthenticatorResponse from either the intent of the icicle, if the
      * icicle is non-zero.
+     *
      * @param icicle the save instance data of this Activity, may be null
      */
     protected void onCreate(Bundle icicle) {

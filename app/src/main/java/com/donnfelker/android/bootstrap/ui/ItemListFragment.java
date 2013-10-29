@@ -33,7 +33,6 @@ import java.util.Collections;
 import java.util.List;
 
 
-
 /**
  * Base fragment for displaying a list of items that loads with a progress bar
  * visible
@@ -46,10 +45,9 @@ public abstract class ItemListFragment<E> extends Fragment
     private static final String FORCE_REFRESH = "forceRefresh";
 
     /**
-     * @param args
-     *            bundle passed to the loader by the LoaderManager
+     * @param args bundle passed to the loader by the LoaderManager
      * @return true if the bundle indicates a requested forced refresh of the
-     *         items
+     * items
      */
     protected static boolean isForceRefresh(Bundle args) {
         return args != null && args.getBoolean(FORCE_REFRESH, false);
@@ -92,7 +90,7 @@ public abstract class ItemListFragment<E> extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(layout.item_list, null);
     }
 
@@ -118,7 +116,7 @@ public abstract class ItemListFragment<E> extends Fragment
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
+                                    int position, long id) {
                 onListItemClick((ListView) parent, view, position, id);
             }
         });
@@ -156,14 +154,14 @@ public abstract class ItemListFragment<E> extends Fragment
         if (!isUsable())
             return false;
         switch (item.getItemId()) {
-        case id.refresh:
-            forceRefresh();
-            return true;
-        case R.id.logout:
-            logout();
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+            case id.refresh:
+                forceRefresh();
+                return true;
+            case R.id.logout:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -206,7 +204,7 @@ public abstract class ItemListFragment<E> extends Fragment
     }
 
     private ActionBarActivity getActionBarActivity() {
-        return ((ActionBarActivity)getActivity());
+        return ((ActionBarActivity) getActivity());
     }
 
     /**
@@ -369,7 +367,7 @@ public abstract class ItemListFragment<E> extends Fragment
      * @return this fragment
      */
     public ItemListFragment<E> setListShown(final boolean shown,
-            final boolean animate) {
+                                            final boolean animate) {
         if (!isUsable())
             return this;
 

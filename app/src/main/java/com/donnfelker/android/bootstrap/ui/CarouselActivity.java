@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
-
 import com.donnfelker.android.bootstrap.BootstrapServiceProvider;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.core.BootstrapService;
@@ -31,10 +30,13 @@ import butterknife.Views;
  */
 public class CarouselActivity extends BootstrapFragmentActivity {
 
-    @InjectView(R.id.tpi_header) TitlePageIndicator indicator;
-    @InjectView(R.id.vp_pages) ViewPager pager;
+    @InjectView(R.id.tpi_header)
+    TitlePageIndicator indicator;
+    @InjectView(R.id.vp_pages)
+    ViewPager pager;
 
-    @Inject BootstrapServiceProvider serviceProvider;
+    @Inject
+    BootstrapServiceProvider serviceProvider;
 
     private boolean userHasAuthenticated = false;
 
@@ -102,9 +104,8 @@ public class CarouselActivity extends BootstrapFragmentActivity {
     }
 
 
-
     private void initScreen() {
-        if(userHasAuthenticated) {
+        if (userHasAuthenticated) {
             pager.setAdapter(new BootstrapPagerAdapter(getResources(), getSupportFragmentManager()));
 
             indicator.setViewPager(pager);
@@ -120,15 +121,15 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
             @Override
             public Boolean call() throws Exception {
-                    final BootstrapService svc = serviceProvider.getService(CarouselActivity.this);
-                    return svc != null;
+                final BootstrapService svc = serviceProvider.getService(CarouselActivity.this);
+                return svc != null;
 
             }
 
             @Override
             protected void onException(Exception e) throws RuntimeException {
                 super.onException(e);
-                if(e instanceof OperationCanceledException) {
+                if (e instanceof OperationCanceledException) {
                     // User cancelled the authentication process (back button, etc).
                     // Since auth could not take place, lets finish this activity.
                     finish();
@@ -167,11 +168,11 @@ public class CarouselActivity extends BootstrapFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(mDrawerToggle.onOptionsItemSelected(item)) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 //menuDrawer.toggleMenu();
                 return true;

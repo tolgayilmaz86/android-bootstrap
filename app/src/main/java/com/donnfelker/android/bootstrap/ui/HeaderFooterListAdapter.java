@@ -37,7 +37,7 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
     }
 
     private HeaderFooterListAdapter(ArrayList<FixedViewInfo> headerViewInfos,
-            ArrayList<FixedViewInfo> footerViewInfos, ListView view, E adapter) {
+                                    ArrayList<FixedViewInfo> footerViewInfos, ListView view, E adapter) {
         super(headerViewInfos, footerViewInfos, adapter);
 
         headers = headerViewInfos;
@@ -49,9 +49,9 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
     /**
      * Add non-selectable header view with no data
      *
-     * @see #addHeader(View, Object, boolean)
      * @param view
      * @return this adapter
+     * @see #addHeader(View, Object, boolean)
      */
     public HeaderFooterListAdapter<E> addHeader(View view) {
         return addHeader(view, null, false);
@@ -66,7 +66,7 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
      * @return this adapter
      */
     public HeaderFooterListAdapter<E> addHeader(View view, Object data,
-            boolean isSelectable) {
+                                                boolean isSelectable) {
         FixedViewInfo info = list.new FixedViewInfo();
         info.view = view;
         info.data = data;
@@ -80,9 +80,9 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
     /**
      * Add non-selectable footer view with no data
      *
-     * @see #addFooter(View, Object, boolean)
      * @param view
      * @return this adapter
+     * @see #addFooter(View, Object, boolean)
      */
     public HeaderFooterListAdapter<E> addFooter(View view) {
         return addFooter(view, null, false);
@@ -97,7 +97,7 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
      * @return this adapter
      */
     public HeaderFooterListAdapter<E> addFooter(View view, Object data,
-            boolean isSelectable) {
+                                                boolean isSelectable) {
         FixedViewInfo info = list.new FixedViewInfo();
         info.view = view;
         info.data = data;
