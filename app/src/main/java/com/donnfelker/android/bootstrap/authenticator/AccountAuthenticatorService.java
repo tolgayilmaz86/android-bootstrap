@@ -9,18 +9,22 @@ import android.os.IBinder;
 /**
  * Authenticator service that returns a subclass of AbstractAccountAuthenticator in onBind()
  */
-public class AccountAuthenticatorService extends Service {
+class AccountAuthenticatorService extends Service {
 
-    private static BootstrapAccountAuthenticator AUTHENTICATOR = null;
+    private static BootstrapAccountAuthenticator sAuthenticator = null;
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return intent.getAction().equals(ACTION_AUTHENTICATOR_INTENT) ? getAuthenticator().getIBinder() : null;
+    public IBinder onBind(final Intent intent) {
+        if (intent != null && ACTION_AUTHENTICATOR_INTENT.equals(intent.getAction())) {
+            return getAuthenticator().getIBinder();
+        }
+        return null;
     }
 
     private BootstrapAccountAuthenticator getAuthenticator() {
-        if (AUTHENTICATOR == null)
-            AUTHENTICATOR = new BootstrapAccountAuthenticator(this);
-        return AUTHENTICATOR;
+        if (sAuthenticator == null) {
+            sAuthenticator = new BootstrapAccountAuthenticator(this);
+        }
+        return sAuthenticator;
     }
 }

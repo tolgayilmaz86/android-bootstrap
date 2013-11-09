@@ -17,9 +17,9 @@ import java.util.List;
 public abstract class AlternatingColorListAdapter<V> extends
         SingleTypeAdapter<V> {
 
-    private final int primaryResource;
+    private final int mPrimaryResource;
 
-    private final int secondaryResource;
+    private final int mSecondaryResource;
 
     /**
      * Create adapter with alternating row colors
@@ -42,15 +42,15 @@ public abstract class AlternatingColorListAdapter<V> extends
      * @param selectable
      */
     public AlternatingColorListAdapter(final int layoutId,
-            LayoutInflater inflater, final List<V> items, boolean selectable) {
+            final LayoutInflater inflater, final List<V> items, final boolean selectable) {
         super(inflater, layoutId);
 
         if (selectable) {
-            primaryResource = drawable.table_background_selector;
-            secondaryResource = drawable.table_background_alternate_selector;
+            mPrimaryResource = drawable.table_background_selector;
+            mSecondaryResource = drawable.table_background_alternate_selector;
         } else {
-            primaryResource = R.color.pager_background;
-            secondaryResource = R.color.pager_background_alternate;
+            mPrimaryResource = R.color.pager_background;
+            mSecondaryResource = R.color.pager_background_alternate;
         }
 
         setItems(items);
@@ -59,8 +59,8 @@ public abstract class AlternatingColorListAdapter<V> extends
     @Override
     protected void update(final int position, final V item) {
         if (position % 2 != 0)
-            updater.view.setBackgroundResource(primaryResource);
+            updater.view.setBackgroundResource(mPrimaryResource);
         else
-            updater.view.setBackgroundResource(secondaryResource);
+            updater.view.setBackgroundResource(mSecondaryResource);
     }
 }

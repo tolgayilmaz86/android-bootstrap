@@ -13,14 +13,14 @@ import butterknife.Views;
 public class BootstrapFragmentActivity extends ActionBarActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Injector.inject(this);
     }
 
     @Override
-    public void setContentView(int layoutResId) {
+    public void setContentView(final int layoutResId) {
         super.setContentView(layoutResId);
 
         Views.inject(this);

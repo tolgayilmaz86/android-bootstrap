@@ -17,14 +17,14 @@ import butterknife.Views;
 public abstract class BootstrapActivity extends ActionBarActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Injector.inject(this);
     }
 
     @Override
-    public void setContentView(int layoutResId) {
+    public void setContentView(final int layoutResId) {
         super.setContentView(layoutResId);
 
         // Used to inject views with the Butterknife library
@@ -32,11 +32,11 @@ public abstract class BootstrapActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:  // This is the home button in the top left corner of the screen.
                 // Dont call finish! Because activity could have been started by an outside activity and the home button would not operated as expected!
-                Intent homeIntent = new Intent(this, CarouselActivity.class);
+                final Intent homeIntent = new Intent(this, CarouselActivity.class);
                 homeIntent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(homeIntent);
                 return true;

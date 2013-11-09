@@ -13,27 +13,29 @@ import butterknife.InjectView;
 
 public class UserActivity extends BootstrapActivity {
 
-    @InjectView(R.id.iv_avatar) protected ImageView avatar;
-    @InjectView(R.id.tv_name) protected TextView name;
+    @InjectView(R.id.iv_avatar) protected ImageView mAvatar;
+    @InjectView(R.id.tv_name) protected TextView mName;
 
-    protected User user;
+    private User mUser;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.user_view);
 
-        if(getIntent() != null && getIntent().getExtras() != null) {
-            user = (User) getIntent().getExtras().getSerializable(USER);
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            mUser = (User) getIntent().getExtras().getSerializable(USER);
         }
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Picasso.with(this).load(user.getAvatarUrl()).placeholder(R.drawable.gravatar_icon).into(avatar);
+        Picasso.with(this).load(mUser.getAvatarUrl())
+                .placeholder(R.drawable.gravatar_icon)
+                .into(mAvatar);
 
-        name.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+        mName.setText(String.format("%s %s", mUser.getFirstName(), mUser.getLastName()));
 
     }
 

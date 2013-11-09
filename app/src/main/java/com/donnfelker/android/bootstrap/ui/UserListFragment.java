@@ -22,18 +22,18 @@ import java.util.List;
 
 public class UserListFragment  extends ItemListFragment<User> {
 
-    @Inject BootstrapServiceProvider serviceProvider;
-    @Inject LogoutService logoutService;
+    @Inject protected BootstrapServiceProvider mServiceProvider;
+    @Inject protected LogoutService mLogoutService;
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         setEmptyText(R.string.no_users);
@@ -42,7 +42,7 @@ public class UserListFragment  extends ItemListFragment<User> {
     }
 
     @Override
-    protected void configureList(Activity activity, ListView listView) {
+    protected void configureList(final Activity activity, final ListView listView) {
         super.configureList(activity, listView);
 
         listView.setFastScrollEnabled(true);
@@ -53,32 +53,34 @@ public class UserListFragment  extends ItemListFragment<User> {
     }
 
     @Override
-    LogoutService getLogoutService() {
-        return logoutService;
+    protected LogoutService getLogoutService() {
+        return mLogoutService;
     }
 
-
     @Override
-    public Loader<List<User>> onCreateLoader(int id, Bundle args) {
-        final List<User> initialItems = items;
-        return new ThrowableLoader<List<User>>(getActivity(), items) {
+    public Loader<List<User>> onCreateLoader(final int id, final Bundle args) {
+        final List<User> initialItems = mItems;
+        return new ThrowableLoader<List<User>>(getActivity(), mItems) {
             @Override
             public List<User> loadData() throws Exception {
 
                 try {
                     List<User> latest = null;
 
-                    if(getActivity() != null)
-                        latest = serviceProvider.getService(getActivity()).getUsers();
+                    if(getActivity() != null) {
+                        latest = mServiceProvider.getService(getActivity()).getUsers();
+                    }
 
-                    if (latest != null)
+                    if (latest != null) {
                         return latest;
-                    else
+                    } else {
                         return Collections.emptyList();
-                } catch (OperationCanceledException e) {
-                    Activity activity = getActivity();
-                    if (activity != null)
+                    }
+                } catch (final OperationCanceledException e) {
+                    final Activity activity = getActivity();
+                    if (activity != null) {
                         activity.finish();
+                    }
                     return initialItems;
                 }
             }
@@ -86,25 +88,25 @@ public class UserListFragment  extends ItemListFragment<User> {
 
     }
 
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        User user = ((User) l.getItemAtPosition(position));
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
+        final User user = ((User) l.getItemAtPosition(position));
 
         startActivity(new Intent(getActivity(), UserActivity.class).putExtra(USER, user));
     }
 
     @Override
-    public void onLoadFinished(Loader<List<User>> loader, List<User> items) {
+    public void onLoadFinished(final Loader<List<User>> loader, final List<User> items) {
         super.onLoadFinished(loader, items);
 
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
+    protected int getErrorMessage(final Exception exception) {
         return R.string.error_loading_users;
     }
 
     @Override
-    protected SingleTypeAdapter<User> createAdapter(List<User> items) {
+    protected SingleTypeAdapter<User> createAdapter(final List<User> items) {
         return new UserListAdapter(getActivity().getLayoutInflater(), items);
     }
 }

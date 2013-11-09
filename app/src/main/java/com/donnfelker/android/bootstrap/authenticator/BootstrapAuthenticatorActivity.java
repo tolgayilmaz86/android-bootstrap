@@ -15,7 +15,6 @@ import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_APP_ID;
 import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_REST_API_KEY;
 import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_AUTH;
 import static com.github.kevinsawicki.http.HttpRequest.get;
-import static com.github.kevinsawicki.http.HttpRequest.post;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
@@ -27,7 +26,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
@@ -51,15 +49,11 @@ import com.donnfelker.android.bootstrap.R.string;
 import com.donnfelker.android.bootstrap.ui.TextWatcherAdapter;
 import com.google.gson.Gson;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.Views;
-
-import static com.donnfelker.android.bootstrap.core.Constants.Http.USERNAME;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.PASSWORD;
 
 /**
  * Activity to authenticate the user against an API (example API on Parse.com)
@@ -67,9 +61,9 @@ import static com.donnfelker.android.bootstrap.core.Constants.Http.PASSWORD;
 public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticatorActivity {
 
     /**
-     * PARAM_CONFIRMCREDENTIALS
+     * PARAM_CONFIRM_CREDENTIALS
      */
-    public static final String PARAM_CONFIRMCREDENTIALS = "confirmCredentials";
+    public static final String PARAM_CONFIRM_CREDENTIALS = "confirmCredentials";
 
     /**
      * PARAM_PASSWORD
@@ -87,27 +81,27 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
     public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
 
 
-    private AccountManager accountManager;
+    private AccountManager mAccountManager;
 
-    @InjectView(id.et_email) AutoCompleteTextView emailText;
-    @InjectView(id.et_password) EditText passwordText;
-    @InjectView(id.b_signin) Button signinButton;
+    @InjectView(id.et_email) protected AutoCompleteTextView mEmailText;
+    @InjectView(id.et_password) protected EditText mPasswordText;
+    @InjectView(id.b_signin) protected Button mSignInButton;
 
-    private TextWatcher watcher = validationTextWatcher();
+    private final TextWatcher mWatcher = validationTextWatcher();
 
-    private SafeAsyncTask<Boolean> authenticationTask;
-    private String authToken;
-    private String authTokenType;
+    private SafeAsyncTask<Boolean> mAuthenticationTask;
+    private String mAuthToken;
+    private String mAuthTokenType;
 
     /**
      * If set we are just checking that the user knows their credentials; this
      * doesn't cause the user's password to be changed on the device.
      */
-    private Boolean confirmCredentials = false;
+    private Boolean mConfirmCredentials = false;
 
-    private String email;
+    private String mEmail;
 
-    private String password;
+    private String mPassword;
 
 
     /**
@@ -115,75 +109,77 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
      * oauth token or some other type of timed token that expires/etc. We're just using the parse.com
      * sessionId to prove the example of how to utilize a token.
      */
-    private String token;
+    private String mToken;
 
     /**
      * Was the original caller asking for an entirely new account?
      */
-    protected boolean requestNewAccount = false;
+    protected boolean mRequestNewAccount = false;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        accountManager = AccountManager.get(this);
+        mAccountManager = AccountManager.get(this);
+
         final Intent intent = getIntent();
-        email = intent.getStringExtra(PARAM_USERNAME);
-        authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
-        requestNewAccount = email == null;
-        confirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,
-                false);
+        mEmail = intent.getStringExtra(PARAM_USERNAME);
+        mAuthTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
+        mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRM_CREDENTIALS, false);
+
+        mRequestNewAccount = mEmail == null;
 
         setContentView(layout.login_activity);
 
         Views.inject(this);
 
-        emailText.setAdapter(new ArrayAdapter<String>(this,
+        mEmailText.setAdapter(new ArrayAdapter<String>(this,
                 simple_dropdown_item_1line, userEmailAccounts()));
 
-        passwordText.setOnKeyListener(new OnKeyListener() {
+        mPasswordText.setOnKeyListener(new OnKeyListener() {
 
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
+            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && signinButton.isEnabled()) {
-                    handleLogin(signinButton);
+                        && keyCode == KEYCODE_ENTER && mSignInButton.isEnabled()) {
+                    handleLogin(mSignInButton);
                     return true;
                 }
                 return false;
             }
         });
 
-        passwordText.setOnEditorActionListener(new OnEditorActionListener() {
+        mPasswordText.setOnEditorActionListener(new OnEditorActionListener() {
 
-            public boolean onEditorAction(TextView v, int actionId,
-                    KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && signinButton.isEnabled()) {
-                    handleLogin(signinButton);
+            public boolean onEditorAction(final TextView v, final int actionId,
+                                          final KeyEvent event) {
+                if (actionId == IME_ACTION_DONE && mSignInButton.isEnabled()) {
+                    handleLogin(mSignInButton);
                     return true;
                 }
                 return false;
             }
         });
 
-        emailText.addTextChangedListener(watcher);
-        passwordText.addTextChangedListener(watcher);
+        mEmailText.addTextChangedListener(mWatcher);
+        mPasswordText.addTextChangedListener(mWatcher);
 
-        TextView signupText = (TextView) findViewById(id.tv_signup);
-        signupText.setMovementMethod(LinkMovementMethod.getInstance());
-        signupText.setText(Html.fromHtml(getString(string.signup_link)));
+        final TextView signUpText = (TextView) findViewById(id.tv_signup);
+        signUpText.setMovementMethod(LinkMovementMethod.getInstance());
+        signUpText.setText(Html.fromHtml(getString(string.signup_link)));
     }
 
     private List<String> userEmailAccounts() {
-        Account[] accounts = accountManager.getAccountsByType("com.google");
-        List<String> emailAddresses = new ArrayList<String>(accounts.length);
-        for (Account account : accounts)
+        final Account[] accounts = mAccountManager.getAccountsByType("com.google");
+        final List<String> emailAddresses = new ArrayList<String>(accounts.length);
+        for (final Account account : accounts) {
             emailAddresses.add(account.name);
+        }
         return emailAddresses;
     }
 
     private TextWatcher validationTextWatcher() {
         return new TextWatcherAdapter() {
-            public void afterTextChanged(Editable gitDirEditText) {
+            public void afterTextChanged(final Editable gitDirEditText) {
                 updateUIWithValidation();
             }
 
@@ -197,11 +193,11 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
     }
 
     private void updateUIWithValidation() {
-        boolean populated = populated(emailText) && populated(passwordText);
-        signinButton.setEnabled(populated);
+        final boolean populated = populated(mEmailText) && populated(mPasswordText);
+        mSignInButton.setEnabled(populated);
     }
 
-    private boolean populated(EditText editText) {
+    private boolean populated(final EditText editText) {
         return editText.length() > 0;
     }
 
@@ -212,9 +208,10 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
         dialog.setIndeterminate(true);
         dialog.setCancelable(true);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-                if (authenticationTask != null)
-                    authenticationTask.cancel(true);
+            public void onCancel(final DialogInterface dialog) {
+                if (mAuthenticationTask != null) {
+                    mAuthenticationTask.cancel(true);
+                }
             }
         });
         return dialog;
@@ -228,21 +225,25 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
      *
      * @param view
      */
-    public void handleLogin(View view) {
-        if (authenticationTask != null)
+    public void handleLogin(final View view) {
+        if (mAuthenticationTask != null) {
             return;
+        }
 
-        if (requestNewAccount)
-            email = emailText.getText().toString();
-        password = passwordText.getText().toString();
+        if (mRequestNewAccount) {
+            mEmail = mEmailText.getText().toString();
+        }
+
+        mPassword = mPasswordText.getText().toString();
         showProgress();
 
-        authenticationTask = new SafeAsyncTask<Boolean>() {
+        mAuthenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
 
-                final String query = String.format("%s=%s&%s=%s", PARAM_USERNAME, email, PARAM_PASSWORD, password);
+                final String query = String.format("%s=%s&%s=%s",
+                        PARAM_USERNAME, mEmail, PARAM_PASSWORD, mPassword);
 
-                HttpRequest request = get(URL_AUTH + "?" + query)
+                final HttpRequest request = get(URL_AUTH + "?" + query)
                         .header(HEADER_PARSE_APP_ID, PARSE_APP_ID)
                         .header(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY);
 
@@ -250,41 +251,45 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
                 Ln.d("Authentication response=%s", request.code());
 
                 if(request.ok()) {
-                    final User model = new Gson().fromJson(Strings.toString(request.buffer()), User.class);
-                    token = model.getSessionToken();
+                    final User model = new Gson().fromJson(
+                            Strings.toString(request.buffer()),
+                            User.class
+                    );
+                    mToken = model.getSessionToken();
                 }
 
                 return request.ok();
             }
 
             @Override
-            protected void onException(Exception e) throws RuntimeException {
-                Throwable cause = e.getCause() != null ? e.getCause() : e;
+            protected void onException(final Exception e) throws RuntimeException {
+                final Throwable cause = e.getCause() != null ? e.getCause() : e;
 
-                String message;
+                final String message;
                 // A 404 is returned as an Exception with this message
                 if ("Received authentication challenge is null".equals(cause
-                        .getMessage()))
+                        .getMessage())) {
                     message = getResources().getString(
                             string.message_bad_credentials);
-                else
+                } else {
                     message = cause.getMessage();
+                }
 
                 Toaster.showLong(BootstrapAuthenticatorActivity.this, message);
             }
 
             @Override
-            public void onSuccess(Boolean authSuccess) {
+            public void onSuccess(final Boolean authSuccess) {
                 onAuthenticationResult(authSuccess);
             }
 
             @Override
             protected void onFinally() throws RuntimeException {
                 hideProgress();
-                authenticationTask = null;
+                mAuthenticationTask = null;
             }
         };
-        authenticationTask.execute();
+        mAuthenticationTask.execute();
     }
 
     /**
@@ -294,9 +299,9 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
      *
      * @param result
      */
-    protected void finishConfirmCredentials(boolean result) {
-        final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-        accountManager.setPassword(account, password);
+    protected void finishConfirmCredentials(final boolean result) {
+        final Account account = new Account(mEmail, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        mAccountManager.setPassword(account, mPassword);
 
         final Intent intent = new Intent();
         intent.putExtra(KEY_BOOLEAN_RESULT, result);
@@ -313,19 +318,26 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
      */
 
     protected void finishLogin() {
-        final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        final Account account = new Account(mEmail, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
 
-        if (requestNewAccount)
-            accountManager.addAccountExplicitly(account, password, null);
-        else
-            accountManager.setPassword(account, password);
+        if (mRequestNewAccount) {
+            mAccountManager.addAccountExplicitly(account, mPassword, null);
+        } else {
+            mAccountManager.setPassword(account, mPassword);
+        }
+
+
+        mAuthToken = mToken;
+
         final Intent intent = new Intent();
-        authToken = token;
-        intent.putExtra(KEY_ACCOUNT_NAME, email);
+        intent.putExtra(KEY_ACCOUNT_NAME, mEmail);
         intent.putExtra(KEY_ACCOUNT_TYPE, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-        if (authTokenType != null
-                && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE))
-            intent.putExtra(KEY_AUTHTOKEN, authToken);
+
+        if (mAuthTokenType != null
+                && mAuthTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {
+            intent.putExtra(KEY_AUTHTOKEN, mAuthToken);
+        }
+
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         finish();
@@ -352,20 +364,22 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
      *
      * @param result
      */
-    public void onAuthenticationResult(boolean result) {
-        if (result)
-            if (!confirmCredentials)
+    public void onAuthenticationResult(final boolean result) {
+        if (result) {
+            if (!mConfirmCredentials) {
                 finishLogin();
-            else
+            } else {
                 finishConfirmCredentials(true);
-        else {
+            }
+        } else {
             Ln.d("onAuthenticationResult: failed to authenticate");
-            if (requestNewAccount)
+            if (mRequestNewAccount) {
                 Toaster.showLong(BootstrapAuthenticatorActivity.this,
                         string.message_auth_failed_new_account);
-            else
+            } else {
                 Toaster.showLong(BootstrapAuthenticatorActivity.this,
                         string.message_auth_failed);
+            }
         }
     }
 }

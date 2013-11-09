@@ -25,9 +25,9 @@ public class TimerTickEvent {
     @Override
     public String toString() {
         return new StringBuilder("")
-                .append("Millis: " + getMillis())
+                .append("Millis: ").append(getMillis())
                 .append(", ")
-                .append("Seconds: " + getSeconds())
+                .append("Seconds: ").append(getSeconds())
                 .toString();
     }
 

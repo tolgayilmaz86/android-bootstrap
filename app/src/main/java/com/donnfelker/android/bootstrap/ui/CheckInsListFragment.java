@@ -9,7 +9,6 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
-import com.donnfelker.android.bootstrap.BootstrapApplication;
 import com.donnfelker.android.bootstrap.BootstrapServiceProvider;
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
@@ -18,30 +17,22 @@ import com.donnfelker.android.bootstrap.core.CheckIn;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import javax.inject.Inject;
 
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
 public class CheckInsListFragment extends ItemListFragment<CheckIn> {
 
-    @Inject protected BootstrapServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
+    @Inject protected BootstrapServiceProvider mServiceProvider;
+    @Inject protected LogoutService mLogoutService;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-
-    }
-
-    @Override
-    protected void configureList(Activity activity, ListView listView) {
+    protected void configureList(final Activity activity, final ListView listView) {
         super.configureList(activity, listView);
 
         listView.setFastScrollEnabled(true);
@@ -53,8 +44,8 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     }
 
     @Override
-    LogoutService getLogoutService() {
-        return logoutService;
+    protected LogoutService getLogoutService() {
+        return mLogoutService;
     }
 
     @Override
@@ -65,15 +56,15 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     }
 
     @Override
-    public Loader<List<CheckIn>> onCreateLoader(int id, Bundle args) {
-        final List<CheckIn> initialItems = items;
-        return new ThrowableLoader<List<CheckIn>>(getActivity(), items) {
+    public Loader<List<CheckIn>> onCreateLoader(final int id, final Bundle args) {
+        final List<CheckIn> initialItems = mItems;
+        return new ThrowableLoader<List<CheckIn>>(getActivity(), mItems) {
 
             @Override
             public List<CheckIn> loadData() throws Exception {
                 try {
                     if(getActivity() != null) {
-                        return serviceProvider.getService(getActivity()).getCheckIns();
+                        return mServiceProvider.getService(getActivity()).getCheckIns();
                     } else {
                         return Collections.emptyList();
                     }
@@ -89,11 +80,11 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     }
 
     @Override
-    protected SingleTypeAdapter<CheckIn> createAdapter(List<CheckIn> items) {
+    protected SingleTypeAdapter<CheckIn> createAdapter(final List<CheckIn> items) {
         return new CheckInsListAdapter(getActivity().getLayoutInflater(), items);
     }
 
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         CheckIn checkIn = ((CheckIn) l.getItemAtPosition(position));
 
         String uri = String.format("geo:%s,%s?q=%s",
@@ -102,7 +93,9 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
                 checkIn.getName());
 
         // Show a chooser that allows the user to decide how to display this data, in this case, map data.
-        startActivity(Intent.createChooser(new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose)));
+        startActivity(Intent.createChooser(
+                new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose))
+        );
     }
 
     @Override

@@ -11,28 +11,28 @@ import butterknife.InjectView;
 
 public class NewsActivity extends BootstrapActivity {
 
-    protected News newsItem;
+    protected News mNewsItem;
 
-    @InjectView(R.id.tv_title) protected TextView title;
-    @InjectView(R.id.tv_content) protected TextView content;
+    @InjectView(R.id.tv_title) protected TextView mTitle;
+    @InjectView(R.id.tv_content) protected TextView mContent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.news);
 
-        if(getIntent() != null && getIntent().getExtras() != null) {
-            newsItem = (News) getIntent().getExtras().getSerializable(NEWS_ITEM);
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            mNewsItem = (News) getIntent().getExtras().getSerializable(NEWS_ITEM);
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        setTitle(newsItem.getTitle());
+        setTitle(mNewsItem.getTitle());
 
-        title.setText(newsItem.getTitle());
-        content.setText(newsItem.getContent());
+        mTitle.setText(mNewsItem.getTitle());
+        mContent.setText(mNewsItem.getContent());
 
     }
 

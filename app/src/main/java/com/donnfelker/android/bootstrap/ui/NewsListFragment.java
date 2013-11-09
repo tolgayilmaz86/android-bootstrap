@@ -9,7 +9,6 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
-import com.donnfelker.android.bootstrap.BootstrapApplication;
 import com.donnfelker.android.bootstrap.BootstrapServiceProvider;
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
@@ -55,7 +54,7 @@ public class NewsListFragment extends ItemListFragment<News> {
     }
 
     @Override
-    LogoutService getLogoutService() {
+    protected LogoutService getLogoutService() {
         return logoutService;
     }
 
@@ -68,8 +67,8 @@ public class NewsListFragment extends ItemListFragment<News> {
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
-        final List<News> initialItems = items;
-        return new ThrowableLoader<List<News>>(getActivity(), items) {
+        final List<News> initialItems = mItems;
+        return new ThrowableLoader<List<News>>(getActivity(), mItems) {
 
             @Override
             public List<News> loadData() throws Exception {

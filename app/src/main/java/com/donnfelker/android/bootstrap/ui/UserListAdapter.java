@@ -23,7 +23,7 @@ public class UserListAdapter extends SingleTypeAdapter<User> {
      * @param inflater
      * @param items
      */
-    public UserListAdapter(LayoutInflater inflater, List<User> items) {
+    public UserListAdapter(final LayoutInflater inflater, final List<User> items) {
         super(inflater, R.layout.user_list_item);
 
         setItems(items);
@@ -32,7 +32,7 @@ public class UserListAdapter extends SingleTypeAdapter<User> {
     /**
      * @param inflater
      */
-    public UserListAdapter(LayoutInflater inflater) {
+    public UserListAdapter(final LayoutInflater inflater) {
         this(inflater, null);
 
     }
@@ -50,7 +50,7 @@ public class UserListAdapter extends SingleTypeAdapter<User> {
     }
 
     @Override
-    protected void update(int position, User user) {
+    protected void update(final int position, final User user) {
 
         Picasso.with(BootstrapApplication.getInstance())
                 .load(user.getAvatarUrl())
