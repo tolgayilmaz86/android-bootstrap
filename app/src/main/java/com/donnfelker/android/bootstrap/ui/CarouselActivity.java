@@ -66,14 +66,14 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                getSupportActionBar().setTitle(mTitle);
+                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                getSupportActionBar().setTitle(mDrawerTitle);
+                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
 
