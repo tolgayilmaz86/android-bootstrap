@@ -24,10 +24,8 @@ import static com.donnfelker.android.bootstrap.core.Constants.Extra.USER;
 
 public class UserListFragment extends ItemListFragment<User> {
 
-    @Inject
-    BootstrapServiceProvider serviceProvider;
-    @Inject
-    LogoutService logoutService;
+    @Inject BootstrapServiceProvider serviceProvider;
+    @Inject LogoutService logoutService;
 
 
     @Override
@@ -41,8 +39,6 @@ public class UserListFragment extends ItemListFragment<User> {
         super.onActivityCreated(savedInstanceState);
 
         setEmptyText(R.string.no_users);
-
-
     }
 
     @Override

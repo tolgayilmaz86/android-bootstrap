@@ -17,14 +17,10 @@ import javax.inject.Provider;
 
 
 public class UserAgentProvider implements Provider<String> {
-    @Inject
-    protected ApplicationInfo appInfo;
-    @Inject
-    protected PackageInfo info;
-    @Inject
-    protected TelephonyManager telephonyManager;
-    @Inject
-    protected ClassLoader classLoader;
+    @Inject protected ApplicationInfo appInfo;
+    @Inject protected PackageInfo info;
+    @Inject protected TelephonyManager telephonyManager;
+    @Inject protected ClassLoader classLoader;
 
     protected String userAgent;
 

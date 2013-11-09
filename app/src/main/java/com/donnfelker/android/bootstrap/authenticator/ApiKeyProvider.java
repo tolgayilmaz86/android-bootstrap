@@ -21,8 +21,7 @@ import static android.accounts.AccountManager.KEY_AUTHTOKEN;
  */
 public class ApiKeyProvider {
 
-    @Inject
-    AccountManager accountManager;
+    @Inject AccountManager accountManager;
 
     /**
      * This call blocks, so shouldn't be called on the UI thread

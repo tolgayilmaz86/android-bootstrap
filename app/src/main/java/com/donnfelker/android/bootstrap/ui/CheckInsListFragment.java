@@ -23,10 +23,8 @@ import javax.inject.Inject;
 
 public class CheckInsListFragment extends ItemListFragment<CheckIn> {
 
-    @Inject
-    protected BootstrapServiceProvider serviceProvider;
-    @Inject
-    protected LogoutService logoutService;
+    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

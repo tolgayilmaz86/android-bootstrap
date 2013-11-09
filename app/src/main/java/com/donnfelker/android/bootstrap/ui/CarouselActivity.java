@@ -30,13 +30,10 @@ import butterknife.Views;
  */
 public class CarouselActivity extends BootstrapFragmentActivity {
 
-    @InjectView(R.id.tpi_header)
-    TitlePageIndicator indicator;
-    @InjectView(R.id.vp_pages)
-    ViewPager pager;
+    @InjectView(R.id.tpi_header) TitlePageIndicator indicator;
+    @InjectView(R.id.vp_pages) ViewPager pager;
 
-    @Inject
-    BootstrapServiceProvider serviceProvider;
+    @Inject BootstrapServiceProvider serviceProvider;
 
     private boolean userHasAuthenticated = false;
 

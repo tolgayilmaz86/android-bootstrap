@@ -14,10 +14,8 @@ import static com.donnfelker.android.bootstrap.core.Constants.Extra.USER;
 
 public class UserActivity extends BootstrapActivity {
 
-    @InjectView(R.id.iv_avatar)
-    protected ImageView avatar;
-    @InjectView(R.id.tv_name)
-    protected TextView name;
+    @InjectView(R.id.iv_avatar) protected ImageView avatar;
+    @InjectView(R.id.tv_name) protected TextView name;
 
     protected User user;
 

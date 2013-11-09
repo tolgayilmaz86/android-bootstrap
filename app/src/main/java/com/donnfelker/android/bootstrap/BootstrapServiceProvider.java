@@ -17,10 +17,8 @@ import javax.inject.Inject;
  */
 public class BootstrapServiceProvider {
 
-    @Inject
-    ApiKeyProvider keyProvider;
-    @Inject
-    UserAgentProvider userAgentProvider;
+    @Inject ApiKeyProvider keyProvider;
+    @Inject UserAgentProvider userAgentProvider;
 
     /**
      * Get service for configured key provider
