@@ -4,9 +4,8 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Button;
-
-import com.donnfelker.android.bootstrap.util.Ln;
 
 import java.util.Hashtable;
 import java.util.Locale;
@@ -64,7 +63,7 @@ public class CapitalizedTextView extends Button {
                             assetPath);
                     cache.put(assetPath, t);
                 } catch (Exception e) {
-                    Ln.e(e, "Could not get typeface '" + assetPath);
+                    Log.e(TAG, "Could not get typeface '" + assetPath, e);
                     return null;
                 }
             }
