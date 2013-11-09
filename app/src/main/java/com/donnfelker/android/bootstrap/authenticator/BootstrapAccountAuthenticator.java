@@ -32,9 +32,9 @@ class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     /*
-     * The user has requested to add a new account to the system. We return an intent that will launch our login screen
-     * if the user has not logged in yet, otherwise our activity will just pass the user's credentials on to the account
-     * manager.
+     * The user has requested to add a new account to the system. We return an intent that will
+     * launch our login screen if the user has not logged in yet, otherwise our activity will
+     * just pass the user's credentials on to the account manager.
      */
     @Override
     public Bundle addAccount(final AccountAuthenticatorResponse response, final String accountType,

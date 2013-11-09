@@ -26,7 +26,8 @@ public class ApiKeyProvider {
     /**
      * This call blocks, so shouldn't be called on the UI thread
      *
-     * @return API key to be used for authorization with a {@link com.donnfelker.android.bootstrap.core.BootstrapService} instance
+     * @return API key to be used for authorization with a
+     *      {@link com.donnfelker.android.bootstrap.core.BootstrapService} instance
      * @throws AccountsException
      * @throws IOException
      */

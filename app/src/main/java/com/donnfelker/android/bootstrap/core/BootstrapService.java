@@ -140,14 +140,14 @@ public class BootstrapService {
         request.header(HEADER_PARSE_APP_ID, PARSE_APP_ID);
 
         /*
-        NOTE: This may be where you want to add a header for the api token that was saved when you
-        logged in. In the bootstrap sample this is where we are saving the session id as the token.
-        If you actually had received a token you'd take the "apiKey" (aka: token) and add it to the
-        header or form values before you make your requests.
-
-        Add the user name and password to the request here if your service needs username or password for each
-        request. You can do this like this:
-        request.basic("myusername", "mypassword");
+         * NOTE: This may be where you want to add a header for the api token that was saved when
+         * you logged in. In the bootstrap sample this is where we are saving the session id as
+         * the token. If you actually had received a token you'd take the "apiKey" (aka: token)
+         * and add it to the header or form values before you make your requests.
+         *
+         * Add the user name and password to the request here if your service needs username or
+         * password for each request. You can do this like this:
+         * request.basic("myusername", "mypassword");
          */
 
         return request;
