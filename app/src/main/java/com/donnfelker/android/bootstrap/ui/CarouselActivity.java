@@ -51,7 +51,7 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
         setContentView(R.layout.carousel_view);
 
-        // VIew injection with Butterknife
+        // View injection with Butterknife
         Views.inject(this);
 
         // Set up navigation drawer
