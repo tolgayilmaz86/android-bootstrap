@@ -11,7 +11,7 @@ public class CheckIn {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(final Location location) {
         this.location = location;
     }
 
@@ -19,7 +19,7 @@ public class CheckIn {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -27,7 +27,7 @@ public class CheckIn {
         return objectId;
     }
 
-    public void setObjectId(String objectId) {
+    public void setObjectId(final String objectId) {
         this.objectId = objectId;
     }
 }

@@ -1,14 +1,6 @@
 
 package com.donnfelker.android.bootstrap.core;
 
-import static com.donnfelker.android.bootstrap.core.Constants.Http.HEADER_PARSE_APP_ID;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.HEADER_PARSE_REST_API_KEY;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_APP_ID;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_REST_API_KEY;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_CHECKINS;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_NEWS;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_USERS;
-
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.google.gson.Gson;
@@ -19,6 +11,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Collections;
 import java.util.List;
+
+import static com.donnfelker.android.bootstrap.core.Constants.Http.HEADER_PARSE_APP_ID;
+import static com.donnfelker.android.bootstrap.core.Constants.Http.HEADER_PARSE_REST_API_KEY;
+import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_APP_ID;
+import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_REST_API_KEY;
+import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_CHECKINS;
+import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_NEWS;
+import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_USERS;
 
 /**
  * Bootstrap API service
@@ -126,7 +126,7 @@ public class BootstrapService {
         request.connectTimeout(TIMEOUT).readTimeout(TIMEOUT);
         request.userAgent(userAgentProvider.get());
 
-        if(isPostOrPut(request))
+        if (isPostOrPut(request))
             request.contentType(Constants.Http.CONTENT_TYPE_JSON); // All PUT & POST requests to Parse.com api must be in JSON - https://www.parse.com/docs/rest#general-requests
 
         return addCredentialsTo(request);
@@ -134,14 +134,14 @@ public class BootstrapService {
 
     private boolean isPostOrPut(HttpRequest request) {
         return request.getConnection().getRequestMethod().equals(HttpRequest.METHOD_POST)
-               || request.getConnection().getRequestMethod().equals(HttpRequest.METHOD_PUT);
+                || request.getConnection().getRequestMethod().equals(HttpRequest.METHOD_PUT);
 
     }
 
     private HttpRequest addCredentialsTo(HttpRequest request) {
 
         // Required params for
-        request.header(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY );
+        request.header(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY);
         request.header(HEADER_PARSE_APP_ID, PARSE_APP_ID);
 
         /**
@@ -149,7 +149,7 @@ public class BootstrapService {
          * logged in. In the bootstrap sample this is where we are saving the session id as the token.
          * If you actually had received a token you'd take the "apiKey" (aka: token) and add it to the
          * header or form values before you make your requests.
-          */
+         */
 
         /**
          * Add the user name and password to the request here if your service needs username or password for each

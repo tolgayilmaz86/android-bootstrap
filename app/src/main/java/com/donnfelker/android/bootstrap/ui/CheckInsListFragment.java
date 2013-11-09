@@ -9,18 +9,17 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
-import com.donnfelker.android.bootstrap.BootstrapApplication;
 import com.donnfelker.android.bootstrap.BootstrapServiceProvider;
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.authenticator.LogoutService;
 import com.donnfelker.android.bootstrap.core.CheckIn;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
-import javax.inject.Inject;
 
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class CheckInsListFragment extends ItemListFragment<CheckIn> {
 
@@ -72,7 +71,7 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
             @Override
             public List<CheckIn> loadData() throws Exception {
                 try {
-                    if(getActivity() != null) {
+                    if (getActivity() != null) {
                         return serviceProvider.getService(getActivity()).getCheckIns();
                     } else {
                         return Collections.emptyList();

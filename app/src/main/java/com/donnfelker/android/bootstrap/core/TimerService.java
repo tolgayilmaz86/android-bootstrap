@@ -11,16 +11,15 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 
-import com.donnfelker.android.bootstrap.BootstrapApplication;
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.ui.BootstrapTimerActivity;
-import javax.inject.Inject;
-
 import com.donnfelker.android.bootstrap.util.Ln;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
 import com.squareup.otto.Subscribe;
+
+import javax.inject.Inject;
 
 import static com.donnfelker.android.bootstrap.core.Constants.Notification.TIMER_NOTIFICATION_ID;
 
@@ -70,7 +69,7 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if(timerStarted == false) {
+        if (timerStarted == false) {
 
             timerStarted = true;
 
@@ -135,7 +134,7 @@ public class TimerService extends Service {
         base = SystemClock.elapsedRealtime();
 
         // If coming from a paused state, then find our true base.
-        if(pausedBaseTime > 0)
+        if (pausedBaseTime > 0)
             base = base - pausedBaseTime;
 
         isPaused = false;
@@ -177,7 +176,6 @@ public class TimerService extends Service {
     }
 
 
-
     private void notifyTimerRunning() {
         updateNotification(getString(R.string.timer_running));
         produceTimerIsPausedEvent();
@@ -191,6 +189,7 @@ public class TimerService extends Service {
 
     /**
      * Creates a notification to show in the notification bar
+     *
      * @param message the message to display in the notification bar
      * @return a new {@link Notification}
      */

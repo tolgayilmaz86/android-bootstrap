@@ -2,7 +2,6 @@
 package com.donnfelker.android.bootstrap.ui;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.donnfelker.android.bootstrap.util.Ln;
 

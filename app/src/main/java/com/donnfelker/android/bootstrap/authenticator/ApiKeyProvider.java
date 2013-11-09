@@ -2,8 +2,6 @@
 
 package com.donnfelker.android.bootstrap.authenticator;
 
-import static android.accounts.AccountManager.KEY_AUTHTOKEN;
-
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AccountsException;
@@ -11,9 +9,12 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.donnfelker.android.bootstrap.core.Constants;
-import javax.inject.Inject;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
+
+import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 
 /**
  * Bridge class that obtains a API key for the currently configured account

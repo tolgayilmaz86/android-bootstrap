@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.donnfelker.android.bootstrap.BootstrapApplication;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.core.PauseTimerEvent;
 import com.donnfelker.android.bootstrap.core.ResumeTimerEvent;
@@ -16,12 +15,12 @@ import com.donnfelker.android.bootstrap.core.StopTimerEvent;
 import com.donnfelker.android.bootstrap.core.TimerPausedEvent;
 import com.donnfelker.android.bootstrap.core.TimerService;
 import com.donnfelker.android.bootstrap.core.TimerTickEvent;
-import javax.inject.Inject;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import javax.inject.Inject;
+
 import butterknife.InjectView;
-import butterknife.Views;
 
 public class BootstrapTimerActivity extends BootstrapFragmentActivity implements View.OnClickListener {
 
@@ -64,7 +63,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.start:
                 startTimer();
                 break;
@@ -84,7 +83,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * Starts the timer service
      */
     private void startTimer() {
-        if(isTimerServiceRunning() == false) {
+        if (isTimerServiceRunning() == false) {
             final Intent i = new Intent(this, TimerService.class);
             startService(i);
 
@@ -117,12 +116,12 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     @Subscribe
     public void onTimerPausedEvent(TimerPausedEvent event) {
-        if(event.isTimerIsPaused()) {
+        if (event.isTimerIsPaused()) {
             resume.setVisibility(View.VISIBLE);
             stop.setVisibility(View.VISIBLE);
             pause.setVisibility(View.GONE);
             start.setVisibility(View.GONE);
-        } else if(isTimerServiceRunning()) {
+        } else if (isTimerServiceRunning()) {
             pause.setVisibility(View.VISIBLE);
             stop.setVisibility(View.VISIBLE);
             resume.setVisibility(View.GONE);
@@ -132,6 +131,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     /**
      * Called by {@link Bus} when a tick event occurs.
+     *
      * @param event The event
      */
     @Subscribe
@@ -140,9 +140,9 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
     }
 
 
-
     /**
      * Called by {@link Bus} when a tick event occurs.
+     *
      * @param event The event
      */
     @Subscribe
@@ -153,6 +153,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     /**
      * Called by {@link Bus} when a tick event occurs.
+     *
      * @param event The event
      */
     @Subscribe
@@ -163,6 +164,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     /**
      * Called by {@link Bus} when a tick event occurs.
+     *
      * @param event The event
      */
     @Subscribe
@@ -176,6 +178,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     /**
      * Checks to see if the timer service is running or not.
+     *
      * @return true if the service is running otherwise false.
      */
     private boolean isTimerServiceRunning() {
@@ -190,6 +193,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     /**
      * Sets the formatted time
+     *
      * @param millis the elapsed time
      */
     private void setFormattedTime(long millis) {
@@ -199,6 +203,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     /**
      * Formats the time to look like "HH:MM:SS"
+     *
      * @param millis The number of elapsed milliseconds
      * @return A formatted time value
      */
@@ -224,7 +229,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
             hoursD = "0" + hours;
 
         // HH:MM:SS
-        return String.format("%1$s:%2$s:%3$s" , hoursD , minutesD , secondsD);
+        return String.format("%1$s:%2$s:%3$s", hoursD, minutesD, secondsD);
 
     }
 

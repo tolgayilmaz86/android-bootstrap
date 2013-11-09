@@ -37,34 +37,34 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
         switch (position) {
-        case 0:
-            NewsListFragment newsFragment = new NewsListFragment();
-            newsFragment.setArguments(bundle);
-            return newsFragment;
-        case 1:
-            UserListFragment userListFragment = new UserListFragment();
-            userListFragment.setArguments(bundle);
-            return userListFragment;
-        case 2:
-            CheckInsListFragment checkInsFragment = new CheckInsListFragment();
-            checkInsFragment.setArguments(bundle);
-            return checkInsFragment;
-        default:
-            return null;
+            case 0:
+                NewsListFragment newsFragment = new NewsListFragment();
+                newsFragment.setArguments(bundle);
+                return newsFragment;
+            case 1:
+                UserListFragment userListFragment = new UserListFragment();
+                userListFragment.setArguments(bundle);
+                return userListFragment;
+            case 2:
+                CheckInsListFragment checkInsFragment = new CheckInsListFragment();
+                checkInsFragment.setArguments(bundle);
+                return checkInsFragment;
+            default:
+                return null;
         }
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-        case 0:
-            return resources.getString(R.string.page_news);
-        case 1:
-            return resources.getString(R.string.page_users);
-        case 2:
-            return resources.getString(R.string.page_checkins);
-        default:
-            return null;
+            case 0:
+                return resources.getString(R.string.page_news);
+            case 1:
+                return resources.getString(R.string.page_users);
+            case 2:
+                return resources.getString(R.string.page_checkins);
+            default:
+                return null;
         }
     }
 }

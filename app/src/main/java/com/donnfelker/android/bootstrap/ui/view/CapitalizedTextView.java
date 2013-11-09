@@ -4,35 +4,37 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Button;
 
-import com.donnfelker.android.bootstrap.util.Strings;
-
+import java.util.Hashtable;
 import java.util.Locale;
 
 /**
  * A button who's text is always uppercase which uses the roboto font.
- * Inspired by {@link com.actionbarsherlock.internal.widget.CapitalizingTextView}
+ * Inspired by <code>com.actionbarsherlock.internal.widget.CapitalizingTextView</code>
  */
 public class CapitalizedTextView extends Button {
 
-    private static final boolean SANS_ICE_CREAM = Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     private static final boolean IS_GINGERBREAD = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
 
-    public CapitalizedTextView(Context context) {
-        super( context );
+    private static final String TAG = "Typefaces";
+    private static final Hashtable<String, Typeface> cache = new Hashtable<String, Typeface>();
 
-        setTF( context );
+    public CapitalizedTextView(Context context) {
+        super(context);
+
+        setTF(context);
     }
 
     public CapitalizedTextView(Context context, AttributeSet attrs) {
-        super( context, attrs );
+        super(context, attrs);
 
         setTF(context);
     }
 
     public CapitalizedTextView(Context context, AttributeSet attrs, int defStyle) {
-        super( context, attrs, defStyle );
+        super(context, attrs, defStyle);
 
         setTF(context);
 
@@ -52,9 +54,24 @@ public class CapitalizedTextView extends Button {
         }
     }
 
-    private void setTF(Context context) {
-        setTypeface( Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf") );
+    public static Typeface getTypeFace(Context c, String assetPath) {
+        synchronized (cache) {
+            if (!cache.containsKey(assetPath)) {
+                try {
+                    Typeface t = Typeface.createFromAsset(c.getAssets(),
+                            assetPath);
+                    cache.put(assetPath, t);
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not get typeface '" + assetPath, e);
+                    return null;
+                }
+            }
+            return cache.get(assetPath);
+        }
     }
 
-
+    private void setTF(Context context) {
+        Typeface tf = getTypeFace(context, "fonts/Roboto-Regular.ttf");
+        setTypeface(tf);
+    }
 }

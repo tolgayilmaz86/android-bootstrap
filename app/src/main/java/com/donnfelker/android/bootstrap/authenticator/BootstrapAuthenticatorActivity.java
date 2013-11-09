@@ -1,6 +1,46 @@
 
 package com.donnfelker.android.bootstrap.authenticator;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnKeyListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+
+import com.donnfelker.android.bootstrap.R.id;
+import com.donnfelker.android.bootstrap.R.layout;
+import com.donnfelker.android.bootstrap.R.string;
+import com.donnfelker.android.bootstrap.core.Constants;
+import com.donnfelker.android.bootstrap.core.User;
+import com.donnfelker.android.bootstrap.ui.TextWatcherAdapter;
+import com.donnfelker.android.bootstrap.util.Ln;
+import com.donnfelker.android.bootstrap.util.SafeAsyncTask;
+import com.donnfelker.android.bootstrap.util.Strings;
+import com.github.kevinsawicki.http.HttpRequest;
+import com.github.kevinsawicki.wishlist.Toaster;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
+import butterknife.Views;
+
 import static android.R.layout.simple_dropdown_item_1line;
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
@@ -15,51 +55,6 @@ import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_APP_ID;
 import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_REST_API_KEY;
 import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_AUTH;
 import static com.github.kevinsawicki.http.HttpRequest.get;
-import static com.github.kevinsawicki.http.HttpRequest.post;
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.Html;
-import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnKeyListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
-
-import com.donnfelker.android.bootstrap.core.Constants;
-import com.donnfelker.android.bootstrap.core.User;
-import com.donnfelker.android.bootstrap.util.Ln;
-import com.donnfelker.android.bootstrap.util.SafeAsyncTask;
-import com.donnfelker.android.bootstrap.util.Strings;
-import com.github.kevinsawicki.http.HttpRequest;
-import com.github.kevinsawicki.wishlist.Toaster;
-import com.donnfelker.android.bootstrap.R.id;
-import com.donnfelker.android.bootstrap.R.layout;
-import com.donnfelker.android.bootstrap.R.string;
-import com.donnfelker.android.bootstrap.ui.TextWatcherAdapter;
-import com.google.gson.Gson;
-
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.InjectView;
-import butterknife.Views;
-
-import static com.donnfelker.android.bootstrap.core.Constants.Http.USERNAME;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.PASSWORD;
 
 /**
  * Activity to authenticate the user against an API (example API on Parse.com)
@@ -156,7 +151,7 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
         passwordText.setOnEditorActionListener(new OnEditorActionListener() {
 
             public boolean onEditorAction(TextView v, int actionId,
-                    KeyEvent event) {
+                                          KeyEvent event) {
                 if (actionId == IME_ACTION_DONE && signinButton.isEnabled()) {
                     handleLogin(signinButton);
                     return true;
@@ -249,7 +244,7 @@ public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticator
 
                 Ln.d("Authentication response=%s", request.code());
 
-                if(request.ok()) {
+                if (request.ok()) {
                     final User model = new Gson().fromJson(Strings.toString(request.buffer()), User.class);
                     token = model.getSessionToken();
                 }
