@@ -24,26 +24,26 @@ import butterknife.InjectView;
 
 public class BootstrapTimerActivity extends BootstrapFragmentActivity implements View.OnClickListener {
 
-    @Inject Bus BUS;
+    @Inject Bus mBus;
 
-    @InjectView(R.id.chronometer) protected TextView chronometer;
-    @InjectView(R.id.start) protected Button start;
-    @InjectView(R.id.stop) protected Button stop;
-    @InjectView(R.id.pause) protected Button pause;
-    @InjectView(R.id.resume) protected Button resume;
+    @InjectView(R.id.chronometer) protected TextView mChronometer;
+    @InjectView(R.id.start) protected Button mStart;
+    @InjectView(R.id.stop) protected Button mStop;
+    @InjectView(R.id.pause) protected Button mPause;
+    @InjectView(R.id.resume) protected Button mResume;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.bootstrap_timer);
 
         setTitle(R.string.timer);
 
-        start.setOnClickListener(this);
-        stop.setOnClickListener(this);
-        pause.setOnClickListener(this);
-        resume.setOnClickListener(this);
+        mStart.setOnClickListener(this);
+        mStop.setOnClickListener(this);
+        mPause.setOnClickListener(this);
+        mResume.setOnClickListener(this);
 
     }
 
@@ -51,14 +51,14 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
     protected void onResume() {
         super.onResume();
 
-        BUS.register(this);
+        mBus.register(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        BUS.unregister(this);
+        mBus.unregister(this);
     }
 
     @Override
@@ -83,13 +83,13 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * Starts the timer service
      */
     private void startTimer() {
-        if (isTimerServiceRunning() == false) {
+        if(!isTimerServiceRunning()) {
             final Intent i = new Intent(this, TimerService.class);
             startService(i);
 
-            start.setVisibility(View.GONE);
-            stop.setVisibility(View.VISIBLE);
-            pause.setVisibility(View.VISIBLE);
+            mStart.setVisibility(View.GONE);
+            mStop.setVisibility(View.VISIBLE);
+            mPause.setVisibility(View.VISIBLE);
         }
     }
 
@@ -97,35 +97,35 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * Posts a {@link StopTimerEvent} message to the {@link Bus}
      */
     private void produceStopEvent() {
-        BUS.post(new StopTimerEvent());
+        mBus.post(new StopTimerEvent());
     }
 
     /**
      * Posts a {@link PauseTimerEvent} message to the {@link Bus}
      */
     private void producePauseEvent() {
-        BUS.post(new PauseTimerEvent());
+        mBus.post(new PauseTimerEvent());
     }
 
     /**
      * Posts a {@link ResumeTimerEvent} message to the {@link Bus}
      */
     private void produceResumeEvent() {
-        BUS.post(new ResumeTimerEvent());
+        mBus.post(new ResumeTimerEvent());
     }
 
     @Subscribe
-    public void onTimerPausedEvent(TimerPausedEvent event) {
-        if (event.isTimerIsPaused()) {
-            resume.setVisibility(View.VISIBLE);
-            stop.setVisibility(View.VISIBLE);
-            pause.setVisibility(View.GONE);
-            start.setVisibility(View.GONE);
-        } else if (isTimerServiceRunning()) {
-            pause.setVisibility(View.VISIBLE);
-            stop.setVisibility(View.VISIBLE);
-            resume.setVisibility(View.GONE);
-            start.setVisibility(View.GONE);
+    public void onTimerPausedEvent(final TimerPausedEvent event) {
+        if(event.isTimerIsPaused()) {
+            mResume.setVisibility(View.VISIBLE);
+            mStop.setVisibility(View.VISIBLE);
+            mPause.setVisibility(View.GONE);
+            mStart.setVisibility(View.GONE);
+        } else if(isTimerServiceRunning()) {
+            mPause.setVisibility(View.VISIBLE);
+            mStop.setVisibility(View.VISIBLE);
+            mResume.setVisibility(View.GONE);
+            mStart.setVisibility(View.GONE);
         }
     }
 
@@ -135,7 +135,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * @param event The event
      */
     @Subscribe
-    public void onTickEvent(TimerTickEvent event) {
+    public void onTickEvent(final TimerTickEvent event) {
         setFormattedTime(event.getMillis());
     }
 
@@ -146,9 +146,9 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * @param event The event
      */
     @Subscribe
-    public void onPauseEvent(PauseTimerEvent event) {
-        resume.setVisibility(View.VISIBLE);
-        pause.setVisibility(View.GONE);
+    public void onPauseEvent(final PauseTimerEvent event) {
+        mResume.setVisibility(View.VISIBLE);
+        mPause.setVisibility(View.GONE);
     }
 
     /**
@@ -157,9 +157,9 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * @param event The event
      */
     @Subscribe
-    public void onResumeEvent(ResumeTimerEvent event) {
-        resume.setVisibility(View.GONE);
-        pause.setVisibility(View.VISIBLE);
+    public void onResumeEvent(final ResumeTimerEvent event) {
+        mResume.setVisibility(View.GONE);
+        mPause.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -168,11 +168,11 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * @param event The event
      */
     @Subscribe
-    public void onStopEvent(StopTimerEvent event) {
-        resume.setVisibility(View.GONE);
-        pause.setVisibility(View.GONE);
-        start.setVisibility(View.VISIBLE);
-        stop.setVisibility(View.GONE);
+    public void onStopEvent(final StopTimerEvent event) {
+        mResume.setVisibility(View.GONE);
+        mPause.setVisibility(View.GONE);
+        mStart.setVisibility(View.VISIBLE);
+        mStop.setVisibility(View.GONE);
         setFormattedTime(0); // Since its stopped, zero out the timer.
     }
 
@@ -182,7 +182,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * @return true if the service is running otherwise false.
      */
     private boolean isTimerServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        final ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (TimerService.class.getName().equals(service.service.getClassName())) {
                 return true;
@@ -198,7 +198,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      */
     private void setFormattedTime(long millis) {
         final String formattedTime = formatTime(millis);
-        chronometer.setText(formattedTime);
+        mChronometer.setText(formattedTime);
     }
 
     /**
@@ -207,7 +207,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * @param millis The number of elapsed milliseconds
      * @return A formatted time value
      */
-    public static String formatTime(long millis) {
+    public static String formatTime(final long millis) {
 
         long seconds = millis / 1000;
         long minutes = seconds / 60;

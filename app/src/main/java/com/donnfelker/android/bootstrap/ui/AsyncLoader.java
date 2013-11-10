@@ -15,35 +15,38 @@ import android.support.v4.content.AsyncTaskLoader;
  * @author Alexander Blom (me@alexanderblom.se)
  */
 public abstract class AsyncLoader<D> extends AsyncTaskLoader<D> {
-    private D data;
+    private D mData;
 
     /**
      * Create async loader
      *
      * @param context
      */
-    public AsyncLoader(Context context) {
+    public AsyncLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public void deliverResult(D data) {
-        if (isReset())
+    public void deliverResult(final D data) {
+        if (isReset()) {
             // An async query came in while the loader is stopped
             return;
+        }
 
-        this.data = data;
+        mData = data;
 
         super.deliverResult(data);
     }
 
     @Override
     protected void onStartLoading() {
-        if (data != null)
-            deliverResult(data);
+        if (mData != null) {
+            deliverResult(mData);
+        }
 
-        if (takeContentChanged() || data == null)
+        if (takeContentChanged() || mData == null) {
             forceLoad();
+        }
     }
 
     @Override
@@ -59,6 +62,6 @@ public abstract class AsyncLoader<D> extends AsyncTaskLoader<D> {
         // Ensure the loader is stopped
         onStopLoading();
 
-        data = null;
+        mData = null;
     }
 }

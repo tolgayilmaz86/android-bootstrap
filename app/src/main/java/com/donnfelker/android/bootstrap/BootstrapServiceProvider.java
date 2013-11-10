@@ -17,8 +17,8 @@ import javax.inject.Inject;
  */
 public class BootstrapServiceProvider {
 
-    @Inject ApiKeyProvider keyProvider;
-    @Inject UserAgentProvider userAgentProvider;
+    @Inject ApiKeyProvider mKeyProvider;
+    @Inject UserAgentProvider mUserAgentProvider;
 
     /**
      * Get service for configured key provider
@@ -30,6 +30,6 @@ public class BootstrapServiceProvider {
      * @throws AccountsException
      */
     public BootstrapService getService(Activity activity) throws IOException, AccountsException {
-        return new BootstrapService(keyProvider.getAuthKey(activity), userAgentProvider);
+        return new BootstrapService(mKeyProvider.getAuthKey(activity), mUserAgentProvider);
     }
 }

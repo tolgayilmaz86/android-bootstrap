@@ -14,9 +14,9 @@ import com.donnfelker.android.bootstrap.util.Ln;
 public abstract class ThrowableLoader<D> extends AsyncLoader<D> {
 
 
-    private final D data;
+    private final D mData;
 
-    private Exception exception;
+    private Exception mException;
 
     /**
      * Create loader for context and seeded with initial data
@@ -24,21 +24,21 @@ public abstract class ThrowableLoader<D> extends AsyncLoader<D> {
      * @param context
      * @param data
      */
-    public ThrowableLoader(Context context, D data) {
+    public ThrowableLoader(final Context context, final D data) {
         super(context);
 
-        this.data = data;
+        this.mData = data;
     }
 
     @Override
     public D loadInBackground() {
-        exception = null;
+        mException = null;
         try {
             return loadData();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Ln.d(e, "Exception loading data");
-            exception = e;
-            return data;
+            mException = e;
+            return mData;
         }
     }
 
@@ -46,7 +46,7 @@ public abstract class ThrowableLoader<D> extends AsyncLoader<D> {
      * @return exception
      */
     public Exception getException() {
-        return exception;
+        return mException;
     }
 
     /**
@@ -55,8 +55,8 @@ public abstract class ThrowableLoader<D> extends AsyncLoader<D> {
      * @return exception
      */
     public Exception clearException() {
-        final Exception throwable = exception;
-        exception = null;
+        final Exception throwable = mException;
+        mException = null;
         return throwable;
     }
 

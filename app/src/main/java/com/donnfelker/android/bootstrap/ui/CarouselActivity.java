@@ -30,12 +30,12 @@ import butterknife.Views;
  */
 public class CarouselActivity extends BootstrapFragmentActivity {
 
-    @InjectView(R.id.tpi_header) TitlePageIndicator indicator;
-    @InjectView(R.id.vp_pages) ViewPager pager;
+    @InjectView(R.id.tpi_header) protected TitlePageIndicator mIndicator;
+    @InjectView(R.id.vp_pages) protected ViewPager mPager;
 
-    @Inject BootstrapServiceProvider serviceProvider;
+    @Inject protected BootstrapServiceProvider mServiceProvider;
 
-    private boolean userHasAuthenticated = false;
+    private boolean mIsUserAuthenticated = false;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -102,12 +102,12 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
 
     private void initScreen() {
-        if (userHasAuthenticated) {
-            pager.setAdapter(new BootstrapPagerAdapter(getResources(), getSupportFragmentManager()));
+        if(mIsUserAuthenticated) {
+            mPager.setAdapter(new BootstrapPagerAdapter(getResources(),
+                    getSupportFragmentManager()));
 
-            indicator.setViewPager(pager);
-            pager.setCurrentItem(1);
-
+            mIndicator.setViewPager(mPager);
+            mPager.setCurrentItem(1);
         }
 
         setNavListeners();
@@ -118,9 +118,8 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
             @Override
             public Boolean call() throws Exception {
-                final BootstrapService svc = serviceProvider.getService(CarouselActivity.this);
+                final BootstrapService svc = mServiceProvider.getService(CarouselActivity.this);
                 return svc != null;
-
             }
 
             @Override
@@ -136,7 +135,7 @@ public class CarouselActivity extends BootstrapFragmentActivity {
             @Override
             protected void onSuccess(Boolean hasAuthenticated) throws Exception {
                 super.onSuccess(hasAuthenticated);
-                userHasAuthenticated = true;
+                mIsUserAuthenticated = true;
                 initScreen();
             }
         }.execute();

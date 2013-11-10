@@ -69,7 +69,7 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (timerStarted == false) {
+        if(!timerStarted) {
 
             timerStarted = true;
 

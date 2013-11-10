@@ -16,16 +16,16 @@ import static android.os.Build.VERSION_CODES.FROYO;
  */
 public class BootstrapApplication extends Application {
 
-    private static BootstrapApplication instance;
+    private static BootstrapApplication sInstance;
 
     /**
      * Create main application
      */
     public BootstrapApplication() {
-
         // Disable http.keepAlive on Froyo and below
-        if (SDK_INT <= FROYO)
+        if (SDK_INT <= FROYO) {
             HttpRequest.keepAlive(false);
+        }
     }
 
     /**
@@ -36,14 +36,13 @@ public class BootstrapApplication extends Application {
     public BootstrapApplication(final Context context) {
         this();
         attachBaseContext(context);
-
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        instance = this;
+        sInstance = this;
 
         // Perform injection
         Injector.init(getRootModule(), this);
@@ -66,6 +65,6 @@ public class BootstrapApplication extends Application {
     }
 
     public static BootstrapApplication getInstance() {
-        return instance;
+        return sInstance;
     }
 }
