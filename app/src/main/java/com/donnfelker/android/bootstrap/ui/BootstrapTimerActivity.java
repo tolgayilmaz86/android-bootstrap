@@ -18,19 +18,22 @@ import com.donnfelker.android.bootstrap.core.TimerTickEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import javax.inject.Inject;
 
 import butterknife.InjectView;
 
 public class BootstrapTimerActivity extends BootstrapFragmentActivity implements View.OnClickListener {
 
-    @Inject Bus mBus;
+    @Inject Bus eventBus;
 
-    @InjectView(R.id.chronometer) protected TextView mChronometer;
-    @InjectView(R.id.start) protected Button mStart;
-    @InjectView(R.id.stop) protected Button mStop;
-    @InjectView(R.id.pause) protected Button mPause;
-    @InjectView(R.id.resume) protected Button mResume;
+    @InjectView(R.id.chronometer) protected TextView chronometer;
+    @InjectView(R.id.start) protected Button start;
+    @InjectView(R.id.stop) protected Button stop;
+    @InjectView(R.id.pause) protected Button pause;
+    @InjectView(R.id.resume) protected Button resume;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -38,12 +41,15 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
         setContentView(R.layout.bootstrap_timer);
 
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         setTitle(R.string.timer);
 
-        mStart.setOnClickListener(this);
-        mStop.setOnClickListener(this);
-        mPause.setOnClickListener(this);
-        mResume.setOnClickListener(this);
+        start.setOnClickListener(this);
+        stop.setOnClickListener(this);
+        pause.setOnClickListener(this);
+        resume.setOnClickListener(this);
 
     }
 
@@ -51,18 +57,18 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
     protected void onResume() {
         super.onResume();
 
-        mBus.register(this);
+        eventBus.register(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        mBus.unregister(this);
+        eventBus.unregister(this);
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.start:
                 startTimer();
@@ -87,9 +93,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
             final Intent i = new Intent(this, TimerService.class);
             startService(i);
 
-            mStart.setVisibility(View.GONE);
-            mStop.setVisibility(View.VISIBLE);
-            mPause.setVisibility(View.VISIBLE);
+            setButtonVisibility(GONE, VISIBLE, GONE, VISIBLE);
         }
     }
 
@@ -97,35 +101,29 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * Posts a {@link StopTimerEvent} message to the {@link Bus}
      */
     private void produceStopEvent() {
-        mBus.post(new StopTimerEvent());
+        eventBus.post(new StopTimerEvent());
     }
 
     /**
      * Posts a {@link PauseTimerEvent} message to the {@link Bus}
      */
     private void producePauseEvent() {
-        mBus.post(new PauseTimerEvent());
+        eventBus.post(new PauseTimerEvent());
     }
 
     /**
      * Posts a {@link ResumeTimerEvent} message to the {@link Bus}
      */
     private void produceResumeEvent() {
-        mBus.post(new ResumeTimerEvent());
+        eventBus.post(new ResumeTimerEvent());
     }
 
     @Subscribe
     public void onTimerPausedEvent(final TimerPausedEvent event) {
         if (event.isTimerIsPaused()) {
-            mResume.setVisibility(View.VISIBLE);
-            mStop.setVisibility(View.VISIBLE);
-            mPause.setVisibility(View.GONE);
-            mStart.setVisibility(View.GONE);
+            setButtonVisibility(GONE, VISIBLE, VISIBLE, GONE);
         } else if (isTimerServiceRunning()) {
-            mPause.setVisibility(View.VISIBLE);
-            mStop.setVisibility(View.VISIBLE);
-            mResume.setVisibility(View.GONE);
-            mStart.setVisibility(View.GONE);
+            setButtonVisibility(GONE, VISIBLE, GONE, VISIBLE);
         }
     }
 
@@ -139,7 +137,6 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
         setFormattedTime(event.getMillis());
     }
 
-
     /**
      * Called by {@link Bus} when a tick event occurs.
      *
@@ -147,8 +144,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      */
     @Subscribe
     public void onPauseEvent(final PauseTimerEvent event) {
-        mResume.setVisibility(View.VISIBLE);
-        mPause.setVisibility(View.GONE);
+        setButtonVisibility(GONE, VISIBLE, VISIBLE, GONE);
     }
 
     /**
@@ -158,8 +154,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      */
     @Subscribe
     public void onResumeEvent(final ResumeTimerEvent event) {
-        mResume.setVisibility(View.GONE);
-        mPause.setVisibility(View.VISIBLE);
+        setButtonVisibility(GONE, VISIBLE, GONE, VISIBLE);
     }
 
     /**
@@ -169,10 +164,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      */
     @Subscribe
     public void onStopEvent(final StopTimerEvent event) {
-        mResume.setVisibility(View.GONE);
-        mPause.setVisibility(View.GONE);
-        mStart.setVisibility(View.VISIBLE);
-        mStop.setVisibility(View.GONE);
+        setButtonVisibility(VISIBLE, GONE, GONE, GONE);
         setFormattedTime(0); // Since its stopped, zero out the timer.
     }
 
@@ -191,6 +183,14 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
         return false;
     }
 
+    private void setButtonVisibility(final int start, final int stop,
+                                     final int resume, final int pause) {
+        this.start.setVisibility(start);
+        this.stop.setVisibility(stop);
+        this.resume.setVisibility(resume);
+        this.pause.setVisibility(pause);
+    }
+
     /**
      * Sets the formatted time
      *
@@ -198,7 +198,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      */
     private void setFormattedTime(long millis) {
         final String formattedTime = formatTime(millis);
-        mChronometer.setText(formattedTime);
+        chronometer.setText(formattedTime);
     }
 
     /**
@@ -208,30 +208,12 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * @return A formatted time value
      */
     public static String formatTime(final long millis) {
-
-        long seconds = millis / 1000;
-        long minutes = seconds / 60;
-        long hours = minutes / 60;
-
-        seconds = seconds % 60;
-        minutes = minutes % 60;
-        hours = hours % 60;
-
-        String secondsD = String.valueOf(seconds);
-        String minutesD = String.valueOf(minutes);
-        String hoursD = String.valueOf(hours);
-
-        if (seconds < 10)
-            secondsD = "0" + seconds;
-        if (minutes < 10)
-            minutesD = "0" + minutes;
-        if (hours < 10)
-            hoursD = "0" + hours;
-
-        // HH:MM:SS
-        return String.format("%1$s:%2$s:%3$s", hoursD, minutesD, secondsD);
-
+        //TODO does not support hour>=100 (4.1 days)
+        return String.format("%02d:%02d:%02d",
+                millis / (1000 * 60 * 60),
+                (millis / (1000 * 60)) % 60,
+                (millis / 1000) % 60
+        );
     }
-
 
 }

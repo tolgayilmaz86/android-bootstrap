@@ -30,20 +30,20 @@ import butterknife.Views;
  */
 public class CarouselActivity extends BootstrapFragmentActivity {
 
-    @InjectView(R.id.tpi_header) protected TitlePageIndicator mIndicator;
-    @InjectView(R.id.vp_pages) protected ViewPager mPager;
+    @InjectView(R.id.tpi_header) protected TitlePageIndicator indicator;
+    @InjectView(R.id.vp_pages) protected ViewPager pager;
 
-    @Inject protected BootstrapServiceProvider mServiceProvider;
+    @Inject protected BootstrapServiceProvider serviceProvider;
 
-    private boolean mIsUserAuthenticated = false;
+    private boolean userAuthenticated = false;
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private CharSequence drawerTitle;
+    private CharSequence title;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
@@ -55,30 +55,30 @@ public class CarouselActivity extends BootstrapFragmentActivity {
         Views.inject(this);
 
         // Set up navigation drawer
-        mTitle = mDrawerTitle = getTitle();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(
+        title = drawerTitle = getTitle();
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerToggle = new ActionBarDrawerToggle(
                 this,                    /* Host activity */
-                mDrawerLayout,           /* DrawerLayout object */
+                drawerLayout,           /* DrawerLayout object */
                 R.drawable.ic_drawer,    /* nav drawer icon to replace 'Up' caret */
                 R.string.drawer_open,    /* "open drawer" description */
                 R.string.drawer_close) { /* "close drawer" description */
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(title);
                 supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(drawerTitle);
                 supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
 
         // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        drawerLayout.setDrawerListener(drawerToggle);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -88,26 +88,26 @@ public class CarouselActivity extends BootstrapFragmentActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        drawerToggle.syncState();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
 
     private void initScreen() {
-        if (mIsUserAuthenticated) {
-            mPager.setAdapter(new BootstrapPagerAdapter(getResources(),
+        if (userAuthenticated) {
+            pager.setAdapter(new BootstrapPagerAdapter(getResources(),
                     getSupportFragmentManager()));
 
-            mIndicator.setViewPager(mPager);
-            mPager.setCurrentItem(1);
+            indicator.setViewPager(pager);
+            pager.setCurrentItem(1);
         }
 
         setNavListeners();
@@ -118,12 +118,12 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
             @Override
             public Boolean call() throws Exception {
-                final BootstrapService svc = mServiceProvider.getService(CarouselActivity.this);
+                final BootstrapService svc = serviceProvider.getService(CarouselActivity.this);
                 return svc != null;
             }
 
             @Override
-            protected void onException(Exception e) throws RuntimeException {
+            protected void onException(final Exception e) throws RuntimeException {
                 super.onException(e);
                 if (e instanceof OperationCanceledException) {
                     // User cancelled the authentication process (back button, etc).
@@ -133,9 +133,9 @@ public class CarouselActivity extends BootstrapFragmentActivity {
             }
 
             @Override
-            protected void onSuccess(Boolean hasAuthenticated) throws Exception {
+            protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
                 super.onSuccess(hasAuthenticated);
-                mIsUserAuthenticated = true;
+                userAuthenticated = true;
                 initScreen();
             }
         }.execute();
@@ -146,15 +146,15 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
         findViewById(R.id.menu_item_home).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mDrawerLayout.closeDrawers();
+            public void onClick(final View v) {
+                drawerLayout.closeDrawers();
             }
         });
 
         findViewById(R.id.menu_item_timer).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mDrawerLayout.closeDrawers();
+            public void onClick(final View v) {
+                drawerLayout.closeDrawers();
                 navigateToTimer();
             }
         });
@@ -162,9 +162,9 @@ public class CarouselActivity extends BootstrapFragmentActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 

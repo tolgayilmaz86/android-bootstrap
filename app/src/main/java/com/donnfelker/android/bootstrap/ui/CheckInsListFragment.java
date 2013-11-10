@@ -23,8 +23,8 @@ import javax.inject.Inject;
 
 public class CheckInsListFragment extends ItemListFragment<CheckIn> {
 
-    @Inject protected BootstrapServiceProvider mServiceProvider;
-    @Inject protected LogoutService mLogoutService;
+    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
 
     @Override
     protected LogoutService getLogoutService() {
-        return mLogoutService;
+        return logoutService;
     }
 
     @Override
@@ -58,19 +58,19 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
 
     @Override
     public Loader<List<CheckIn>> onCreateLoader(final int id, final Bundle args) {
-        final List<CheckIn> initialItems = mItems;
-        return new ThrowableLoader<List<CheckIn>>(getActivity(), mItems) {
+        final List<CheckIn> initialItems = items;
+        return new ThrowableLoader<List<CheckIn>>(getActivity(), items) {
 
             @Override
             public List<CheckIn> loadData() throws Exception {
                 try {
                     if (getActivity() != null) {
-                        return mServiceProvider.getService(getActivity()).getCheckIns();
+                        return serviceProvider.getService(getActivity()).getCheckIns();
                     } else {
                         return Collections.emptyList();
                     }
-                } catch (OperationCanceledException e) {
-                    Activity activity = getActivity();
+                } catch (final OperationCanceledException e) {
+                    final Activity activity = getActivity();
                     if (activity != null)
                         activity.finish();
                     return initialItems;
@@ -85,9 +85,9 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        CheckIn checkIn = ((CheckIn) l.getItemAtPosition(position));
+        final CheckIn checkIn = ((CheckIn) l.getItemAtPosition(position));
 
-        String uri = String.format("geo:%s,%s?q=%s",
+        final String uri = String.format("geo:%s,%s?q=%s",
                 checkIn.getLocation().getLatitude(),
                 checkIn.getLocation().getLongitude(),
                 checkIn.getName());
@@ -99,7 +99,7 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
+    protected int getErrorMessage(final Exception exception) {
         return R.string.error_loading_checkins;
     }
 }

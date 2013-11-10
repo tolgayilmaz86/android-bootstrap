@@ -25,7 +25,7 @@ import static com.donnfelker.android.bootstrap.core.Constants.Notification.TIMER
 
 public class TimerService extends Service {
 
-    @Inject protected Bus BUS;
+    @Inject protected Bus eventBus;
     @Inject NotificationManager notificationManager;
 
     private boolean timerRunning = false;
@@ -49,7 +49,7 @@ public class TimerService extends Service {
         Injector.inject(this);
 
         // Register the bus so we can send notifications.
-        BUS.register(this);
+        eventBus.register(this);
 
     }
 
@@ -57,7 +57,7 @@ public class TimerService extends Service {
     public void onDestroy() {
 
         // Unregister bus, since its not longer needed as the service is shutting down
-        BUS.unregister(this);
+        eventBus.unregister(this);
 
         notificationManager.cancel(TIMER_NOTIFICATION_ID);
 
@@ -171,7 +171,7 @@ public class TimerService extends Service {
         currentRunningTimeInMillis = now - base;
         Ln.d("Elapsed Seconds: " + currentRunningTimeInMillis / 1000);
 
-        BUS.post(produceTickEvent());
+        eventBus.post(produceTickEvent());
 
     }
 

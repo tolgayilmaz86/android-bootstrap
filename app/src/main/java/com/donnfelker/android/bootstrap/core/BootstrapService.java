@@ -72,10 +72,10 @@ public class BootstrapService {
         }
     }
 
-    private final String mApiKey;
-    private final String mUsername;
-    private final String mPassword;
-    private UserAgentProvider mUserAgentProvider;
+    private final String apiKey;
+    private final String username;
+    private final String password;
+    private UserAgentProvider userAgentProvider;
 
     /**
      * Create bootstrap service
@@ -84,9 +84,9 @@ public class BootstrapService {
      * @param password
      */
     public BootstrapService(final String username, final String password) {
-        mUsername = username;
-        mPassword = password;
-        mApiKey = null;
+        this.username = username;
+        this.password = password;
+        this.apiKey = null;
     }
 
     /**
@@ -96,10 +96,10 @@ public class BootstrapService {
      * @param apiKey
      */
     public BootstrapService(final String apiKey, final UserAgentProvider userAgentProvider) {
-        this.mUserAgentProvider = userAgentProvider;
-        this.mUsername = null;
-        this.mPassword = null;
-        this.mApiKey = apiKey;
+        this.userAgentProvider = userAgentProvider;
+        this.username = null;
+        this.password = null;
+        this.apiKey = apiKey;
     }
 
     /**
@@ -117,7 +117,7 @@ public class BootstrapService {
 
     private HttpRequest configure(final HttpRequest request) {
         request.connectTimeout(TIMEOUT).readTimeout(TIMEOUT);
-        request.userAgent(mUserAgentProvider.get());
+        request.userAgent(userAgentProvider.get());
 
         if (isPostOrPut(request)) {
             // All PUT & POST requests to Parse.com api must be in JSON

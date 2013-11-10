@@ -17,39 +17,39 @@ import javax.inject.Inject;
  */
 public class LogoutService {
 
-    protected final Context mContext;
-    protected final AccountManager mAccountManager;
+    protected final Context context;
+    protected final AccountManager accountManager;
 
     @Inject
     public LogoutService(final Context context, final AccountManager accountManager) {
-        mContext = context;
-        mAccountManager = accountManager;
+        this.context = context;
+        this.accountManager = accountManager;
     }
 
     public void logout(final Runnable onSuccess) {
-        new LogoutTask(mContext, onSuccess).execute();
+        new LogoutTask(context, onSuccess).execute();
     }
 
     private static class LogoutTask extends SafeAsyncTask<Boolean> {
 
-        private final Context mTaskContext;
-        private final Runnable mOnSuccess;
+        private final Context taskContext;
+        private final Runnable onSuccess;
 
         protected LogoutTask(final Context context, final Runnable onSuccess) {
-            this.mTaskContext = context;
-            this.mOnSuccess = onSuccess;
+            this.taskContext = context;
+            this.onSuccess = onSuccess;
         }
 
         @Override
         public Boolean call() throws Exception {
 
-            final AccountManager aMngrWithContext = AccountManager.get(mTaskContext);
-            if (aMngrWithContext != null) {
-                final Account[] accounts = aMngrWithContext
+            final AccountManager accountManagerWithContext = AccountManager.get(taskContext);
+            if (accountManagerWithContext != null) {
+                final Account[] accounts = accountManagerWithContext
                         .getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
                 if (accounts.length > 0) {
                     final AccountManagerFuture<Boolean> removeAccountFuture
-                            = aMngrWithContext.removeAccount(accounts[0], null, null);
+                            = accountManagerWithContext.removeAccount(accounts[0], null, null);
 
                     return removeAccountFuture.getResult();
                 }
@@ -65,7 +65,7 @@ public class LogoutService {
             super.onSuccess(accountWasRemoved);
 
             Ln.d("Logout succeeded: %s", accountWasRemoved);
-            mOnSuccess.run();
+            onSuccess.run();
 
         }
 

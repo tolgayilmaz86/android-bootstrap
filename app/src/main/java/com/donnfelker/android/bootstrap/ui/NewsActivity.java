@@ -12,10 +12,10 @@ import static com.donnfelker.android.bootstrap.core.Constants.Extra.NEWS_ITEM;
 
 public class NewsActivity extends BootstrapActivity {
 
-    protected News mNewsItem;
+    private News newsItem;
 
-    @InjectView(R.id.tv_title) protected TextView mTitle;
-    @InjectView(R.id.tv_content) protected TextView mContent;
+    @InjectView(R.id.tv_title) protected TextView title;
+    @InjectView(R.id.tv_content) protected TextView content;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -24,16 +24,16 @@ public class NewsActivity extends BootstrapActivity {
         setContentView(R.layout.news);
 
         if (getIntent() != null && getIntent().getExtras() != null) {
-            mNewsItem = (News) getIntent().getExtras().getSerializable(NEWS_ITEM);
+            newsItem = (News) getIntent().getExtras().getSerializable(NEWS_ITEM);
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        setTitle(mNewsItem.getTitle());
+        setTitle(newsItem.getTitle());
 
-        mTitle.setText(mNewsItem.getTitle());
-        mContent.setText(mNewsItem.getContent());
+        title.setText(newsItem.getTitle());
+        content.setText(newsItem.getContent());
 
     }
 

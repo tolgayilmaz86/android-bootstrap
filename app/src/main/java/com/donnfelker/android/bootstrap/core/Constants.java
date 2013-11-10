@@ -5,11 +5,11 @@ package com.donnfelker.android.bootstrap.core;
 /**
  * Bootstrap constants
  */
-public class Constants {
+public final class Constants {
+    private Constants() {}
 
-    public static class Auth {
-        private Auth() {
-        }
+    public static final class Auth {
+        private Auth() {}
 
         /**
          * Account type id
@@ -36,9 +36,8 @@ public class Constants {
      * All HTTP is done through a REST style API built for demonstration purposes on Parse.com
      * Thanks to the nice people at Parse for creating such a nice system for us to use for bootstrap!
      */
-    public static class Http {
-        private Http() {
-        }
+    public static final class Http {
+        private Http() {}
 
 
         /**
@@ -79,9 +78,8 @@ public class Constants {
     }
 
 
-    public static class Extra {
-        private Extra() {
-        }
+    public static final class Extra {
+        private Extra() {}
 
         public static final String NEWS_ITEM = "news_item";
 
@@ -89,9 +87,8 @@ public class Constants {
 
     }
 
-    public static class Intent {
-        private Intent() {
-        }
+    public static final class Intent {
+        private Intent() {}
 
         /**
          * Action prefix for all intents created

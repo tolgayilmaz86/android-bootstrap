@@ -6,7 +6,6 @@ public class News implements Serializable {
 
     private static final long serialVersionUID = -6641292855569752036L;
 
-    //FIXME rename members
     private String title;
     private String content;
     private String objectId;

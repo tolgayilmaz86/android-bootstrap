@@ -24,8 +24,8 @@ import static com.donnfelker.android.bootstrap.core.Constants.Extra.USER;
 
 public class UserListFragment extends ItemListFragment<User> {
 
-    @Inject protected BootstrapServiceProvider mServiceProvider;
-    @Inject protected LogoutService mLogoutService;
+    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
 
 
     @Override
@@ -54,13 +54,13 @@ public class UserListFragment extends ItemListFragment<User> {
 
     @Override
     protected LogoutService getLogoutService() {
-        return mLogoutService;
+        return logoutService;
     }
 
     @Override
     public Loader<List<User>> onCreateLoader(final int id, final Bundle args) {
-        final List<User> initialItems = mItems;
-        return new ThrowableLoader<List<User>>(getActivity(), mItems) {
+        final List<User> initialItems = items;
+        return new ThrowableLoader<List<User>>(getActivity(), items) {
             @Override
             public List<User> loadData() throws Exception {
 
@@ -68,7 +68,7 @@ public class UserListFragment extends ItemListFragment<User> {
                     List<User> latest = null;
 
                     if (getActivity() != null) {
-                        latest = mServiceProvider.getService(getActivity()).getUsers();
+                        latest = serviceProvider.getService(getActivity()).getUsers();
                     }
 
                     if (latest != null) {

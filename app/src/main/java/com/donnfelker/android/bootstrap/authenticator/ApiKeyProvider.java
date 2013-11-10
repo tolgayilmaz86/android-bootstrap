@@ -21,7 +21,7 @@ import static com.donnfelker.android.bootstrap.core.Constants.Auth.BOOTSTRAP_ACC
  */
 public class ApiKeyProvider {
 
-    @Inject protected AccountManager mAccountManager;
+    @Inject protected AccountManager accountManager;
 
     /**
      * This call blocks, so shouldn't be called on the UI thread.
@@ -33,7 +33,7 @@ public class ApiKeyProvider {
      */
     public String getAuthKey(final Activity activity) throws AccountsException, IOException {
         final AccountManagerFuture<Bundle> accountManagerFuture
-                = mAccountManager.getAuthTokenByFeatures(BOOTSTRAP_ACCOUNT_TYPE,
+                = accountManager.getAuthTokenByFeatures(BOOTSTRAP_ACCOUNT_TYPE,
                 AUTHTOKEN_TYPE, new String[0], activity, null, null, null, null);
 
         return accountManagerFuture.getResult().getString(KEY_AUTHTOKEN);

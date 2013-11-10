@@ -14,10 +14,10 @@ import static com.donnfelker.android.bootstrap.core.Constants.Extra.USER;
 
 public class UserActivity extends BootstrapActivity {
 
-    @InjectView(R.id.iv_avatar) protected ImageView mAvatar;
-    @InjectView(R.id.tv_name) protected TextView mName;
+    @InjectView(R.id.iv_avatar) protected ImageView avatar;
+    @InjectView(R.id.tv_name) protected TextView name;
 
-    private User mUser;
+    private User user;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -26,17 +26,17 @@ public class UserActivity extends BootstrapActivity {
         setContentView(R.layout.user_view);
 
         if (getIntent() != null && getIntent().getExtras() != null) {
-            mUser = (User) getIntent().getExtras().getSerializable(USER);
+            user = (User) getIntent().getExtras().getSerializable(USER);
         }
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Picasso.with(this).load(mUser.getAvatarUrl())
+        Picasso.with(this).load(user.getAvatarUrl())
                 .placeholder(R.drawable.gravatar_icon)
-                .into(mAvatar);
+                .into(avatar);
 
-        mName.setText(String.format("%s %s", mUser.getFirstName(), mUser.getLastName()));
+        name.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
 
     }
 

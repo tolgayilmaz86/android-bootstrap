@@ -17,13 +17,13 @@ import java.util.ArrayList;
 public class HeaderFooterListAdapter<E extends BaseAdapter> extends
         HeaderViewListAdapter {
 
-    private final ListView mList;
+    private final ListView list;
 
-    private final ArrayList<FixedViewInfo> mHeaders;
+    private final ArrayList<FixedViewInfo> headers;
 
-    private final ArrayList<FixedViewInfo> mFooters;
+    private final ArrayList<FixedViewInfo> footers;
 
-    private final E mWrapped;
+    private final E wrapped;
 
     /**
      * Create header footer adapter
@@ -40,10 +40,10 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
                                     final ArrayList<FixedViewInfo> footerViewInfos, final ListView view, final E adapter) {
         super(headerViewInfos, footerViewInfos, adapter);
 
-        mHeaders = headerViewInfos;
-        mFooters = footerViewInfos;
-        mList = view;
-        mWrapped = adapter;
+        headers = headerViewInfos;
+        footers = footerViewInfos;
+        list = view;
+        wrapped = adapter;
     }
 
     /**
@@ -67,13 +67,13 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
      */
     public HeaderFooterListAdapter<E> addHeader(final View view, final Object data,
                                                 final boolean isSelectable) {
-        final FixedViewInfo info = mList.new FixedViewInfo();
+        final FixedViewInfo info = list.new FixedViewInfo();
         info.view = view;
         info.data = data;
         info.isSelectable = isSelectable;
 
-        mHeaders.add(info);
-        mWrapped.notifyDataSetChanged();
+        headers.add(info);
+        wrapped.notifyDataSetChanged();
         return this;
     }
 
@@ -98,13 +98,13 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
      */
     public HeaderFooterListAdapter<E> addFooter(final View view, final Object data,
                                                 final boolean isSelectable) {
-        final FixedViewInfo info = mList.new FixedViewInfo();
+        final FixedViewInfo info = list.new FixedViewInfo();
         info.view = view;
         info.data = data;
         info.isSelectable = isSelectable;
 
-        mFooters.add(info);
-        mWrapped.notifyDataSetChanged();
+        footers.add(info);
+        wrapped.notifyDataSetChanged();
         return this;
     }
 
@@ -112,7 +112,7 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
     public boolean removeHeader(final View v) {
         final boolean removed = super.removeHeader(v);
         if (removed) {
-            mWrapped.notifyDataSetChanged();
+            wrapped.notifyDataSetChanged();
         }
         return removed;
     }
@@ -124,15 +124,15 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
      */
     public boolean clearHeaders() {
         boolean removed = false;
-        if (!mHeaders.isEmpty()) {
-            final FixedViewInfo[] infos = mHeaders.toArray(new FixedViewInfo[mHeaders
+        if (!headers.isEmpty()) {
+            final FixedViewInfo[] infos = headers.toArray(new FixedViewInfo[headers
                     .size()]);
             for (final FixedViewInfo info : infos) {
                 removed = super.removeHeader(info.view) || removed;
             }
         }
         if (removed) {
-            mWrapped.notifyDataSetChanged();
+            wrapped.notifyDataSetChanged();
         }
         return removed;
     }
@@ -144,15 +144,15 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
      */
     public boolean clearFooters() {
         boolean removed = false;
-        if (!mFooters.isEmpty()) {
-            final FixedViewInfo[] infos = mFooters.toArray(new FixedViewInfo[mFooters
+        if (!footers.isEmpty()) {
+            final FixedViewInfo[] infos = footers.toArray(new FixedViewInfo[footers
                     .size()]);
             for (final FixedViewInfo info : infos) {
                 removed = super.removeFooter(info.view) || removed;
             }
         }
         if (removed) {
-            mWrapped.notifyDataSetChanged();
+            wrapped.notifyDataSetChanged();
         }
         return removed;
     }
@@ -161,18 +161,18 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
     public boolean removeFooter(final View v) {
         final boolean removed = super.removeFooter(v);
         if (removed) {
-            mWrapped.notifyDataSetChanged();
+            wrapped.notifyDataSetChanged();
         }
         return removed;
     }
 
     @Override
     public E getWrappedAdapter() {
-        return mWrapped;
+        return wrapped;
     }
 
     @Override
     public boolean isEmpty() {
-        return mWrapped.isEmpty();
+        return wrapped.isEmpty();
     }
 }

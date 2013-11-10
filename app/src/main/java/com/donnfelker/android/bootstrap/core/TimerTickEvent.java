@@ -7,6 +7,7 @@ package com.donnfelker.android.bootstrap.core;
  * as the background service runs the timer.
  */
 public class TimerTickEvent {
+
     private final long millis;
 
     public TimerTickEvent(long millis) {

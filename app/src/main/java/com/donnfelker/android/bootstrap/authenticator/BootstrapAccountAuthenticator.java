@@ -25,12 +25,12 @@ class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
 
     private static final String DESCRIPTION_CLIENT = "Bootstrap for Android";
 
-    private final Context mContext;
+    private final Context context;
 
     public BootstrapAccountAuthenticator(final Context context) {
         super(context);
 
-        mContext = context;
+        this.context = context;
     }
 
     /*
@@ -42,7 +42,7 @@ class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
     public Bundle addAccount(final AccountAuthenticatorResponse response, final String accountType,
                              final String authTokenType, final String[] requiredFeatures,
                              final Bundle options) throws NetworkErrorException {
-        final Intent intent = new Intent(mContext, BootstrapAuthenticatorActivity.class);
+        final Intent intent = new Intent(context, BootstrapAuthenticatorActivity.class);
         intent.putExtra(PARAM_AUTHTOKEN_TYPE, authTokenType);
         intent.putExtra(KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 
@@ -84,7 +84,7 @@ class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
 
         Ln.d("Attempting to get authToken");
 
-        final String authToken = AccountManager.get(mContext).peekAuthToken(account, authTokenType);
+        final String authToken = AccountManager.get(context).peekAuthToken(account, authTokenType);
 
         final Bundle bundle = new Bundle();
         bundle.putString(KEY_ACCOUNT_NAME, account.name);
