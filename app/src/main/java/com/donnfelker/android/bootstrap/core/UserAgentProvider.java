@@ -17,14 +17,15 @@ import javax.inject.Provider;
 
 
 public class UserAgentProvider implements Provider<String> {
+
+    private static final String APP_NAME = "Android Bootstrap";
+
     @Inject protected ApplicationInfo appInfo;
     @Inject protected PackageInfo info;
     @Inject protected TelephonyManager telephonyManager;
     @Inject protected ClassLoader classLoader;
 
     protected String userAgent;
-
-    private static final String APP_NAME = "Android Bootstrap";
 
     @Override
     public String get() {

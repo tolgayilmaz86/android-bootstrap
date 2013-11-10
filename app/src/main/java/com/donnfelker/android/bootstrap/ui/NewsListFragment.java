@@ -24,11 +24,8 @@ import static com.donnfelker.android.bootstrap.core.Constants.Extra.NEWS_ITEM;
 
 public class NewsListFragment extends ItemListFragment<News> {
 
-    @Inject
-    protected BootstrapServiceProvider serviceProvider;
-    @Inject
-    protected LogoutService logoutService;
-
+    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,8 +38,6 @@ public class NewsListFragment extends ItemListFragment<News> {
         super.onActivityCreated(savedInstanceState);
 
         setEmptyText(R.string.no_news);
-
-
     }
 
     @Override
@@ -58,7 +53,7 @@ public class NewsListFragment extends ItemListFragment<News> {
     }
 
     @Override
-    LogoutService getLogoutService() {
+    protected LogoutService getLogoutService() {
         return logoutService;
     }
 

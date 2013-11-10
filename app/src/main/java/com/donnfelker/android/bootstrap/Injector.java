@@ -3,8 +3,8 @@ package com.donnfelker.android.bootstrap;
 import dagger.ObjectGraph;
 
 public final class Injector {
-    public static ObjectGraph objectGraph = null;
 
+    public static ObjectGraph objectGraph = null;  //TODO why is this public?
 
     public static void init(final Object rootModule) {
 

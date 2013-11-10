@@ -36,12 +36,13 @@ import android.support.v7.app.ActionBarActivity;
  * The activity then sets the result that is to be handed to the response via
  * {@link #setAccountAuthenticatorResult(android.os.Bundle)}.
  * This result will be sent as the result of the request when the activity finishes. If this
- * is never set or if it is set to null then error {@link android.accounts.AccountManager#ERROR_CODE_CANCELED}
+ * is never set or if it is set to null then error
+ * {@link android.accounts.AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  */
 public class SherlockAccountAuthenticatorActivity extends ActionBarActivity {
-    private AccountAuthenticatorResponse mAccountAuthenticatorResponse = null;
-    private Bundle mResultBundle = null;
+    private AccountAuthenticatorResponse accountAuthenticatorResponse = null;
+    private Bundle resultBundle = null;
 
     /**
      * Set the result that is to be sent as the result of the request that caused this
@@ -51,7 +52,7 @@ public class SherlockAccountAuthenticatorActivity extends ActionBarActivity {
      * @param result this is returned as the result of the AbstractAccountAuthenticator request
      */
     public final void setAccountAuthenticatorResult(Bundle result) {
-        mResultBundle = result;
+        resultBundle = result;
     }
 
     /**
@@ -63,11 +64,11 @@ public class SherlockAccountAuthenticatorActivity extends ActionBarActivity {
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-        mAccountAuthenticatorResponse =
+        accountAuthenticatorResponse =
                 getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
 
-        if (mAccountAuthenticatorResponse != null) {
-            mAccountAuthenticatorResponse.onRequestContinued();
+        if (accountAuthenticatorResponse != null) {
+            accountAuthenticatorResponse.onRequestContinued();
         }
     }
 
@@ -75,15 +76,15 @@ public class SherlockAccountAuthenticatorActivity extends ActionBarActivity {
      * Sends the result or a Constants.ERROR_CODE_CANCELED error if a result isn't present.
      */
     public void finish() {
-        if (mAccountAuthenticatorResponse != null) {
+        if (accountAuthenticatorResponse != null) {
             // send the result bundle back if set, otherwise send an error.
-            if (mResultBundle != null) {
-                mAccountAuthenticatorResponse.onResult(mResultBundle);
+            if (resultBundle != null) {
+                accountAuthenticatorResponse.onResult(resultBundle);
             } else {
-                mAccountAuthenticatorResponse.onError(AccountManager.ERROR_CODE_CANCELED,
+                accountAuthenticatorResponse.onError(AccountManager.ERROR_CODE_CANCELED,
                         "canceled");
             }
-            mAccountAuthenticatorResponse = null;
+            accountAuthenticatorResponse = null;
         }
         super.finish();
     }

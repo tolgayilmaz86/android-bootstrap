@@ -32,22 +32,23 @@ public class GravatarUtils {
     public static final String CHARSET = "CP1252"; //$NON-NLS-1$
 
     private static String digest(final String value) {
-        byte[] digested;
+        final byte[] digested;
         try {
             digested = MessageDigest.getInstance(HASH_ALGORITHM).digest(
                     value.getBytes(CHARSET));
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             return null;
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             return null;
         }
 
-        String hashed = new BigInteger(1, digested).toString(16);
-        int padding = HASH_LENGTH - hashed.length();
-        if (padding == 0)
+        final String hashed = new BigInteger(1, digested).toString(16);
+        final int padding = HASH_LENGTH - hashed.length();
+        if (padding == 0) {
             return hashed;
+        }
 
-        char[] zeros = new char[padding];
+        final char[] zeros = new char[padding];
         Arrays.fill(zeros, '0');
         return new StringBuilder(HASH_LENGTH).append(zeros).append(hashed)
                 .toString();
@@ -59,10 +60,11 @@ public class GravatarUtils {
      * @param email
      * @return hash
      */
-    public static String getHash(String email) {
-        if (TextUtils.isEmpty(email))
+    public static String getHash(final String email) {
+        if (TextUtils.isEmpty(email)) {
             return null;
-        email = email.trim().toLowerCase(US);
-        return email.length() > 0 ? digest(email) : null;
+        }
+        final String tmpEmail = email.trim().toLowerCase(US);
+        return tmpEmail.length() > 0 ? digest(tmpEmail) : null;
     }
 }

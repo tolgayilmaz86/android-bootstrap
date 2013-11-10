@@ -13,8 +13,8 @@ public class NewsListAdapter extends AlternatingColorListAdapter<News> {
      * @param items
      * @param selectable
      */
-    public NewsListAdapter(LayoutInflater inflater, List<News> items,
-                           boolean selectable) {
+    public NewsListAdapter(final LayoutInflater inflater, final List<News> items,
+                           final boolean selectable) {
         super(R.layout.news_list_item, inflater, items, selectable);
     }
 
@@ -22,7 +22,7 @@ public class NewsListAdapter extends AlternatingColorListAdapter<News> {
      * @param inflater
      * @param items
      */
-    public NewsListAdapter(LayoutInflater inflater, List<News> items) {
+    public NewsListAdapter(final LayoutInflater inflater, final List<News> items) {
         super(R.layout.news_list_item, inflater, items);
     }
 
@@ -33,7 +33,7 @@ public class NewsListAdapter extends AlternatingColorListAdapter<News> {
     }
 
     @Override
-    protected void update(int position, News item) {
+    protected void update(final int position, final News item) {
         super.update(position, item);
 
         setText(0, item.getTitle());

@@ -1,11 +1,10 @@
 package com.donnfelker.android.bootstrap.core;
 
-public class CheckIn {
+public class CheckIn { //TODO implements Serializable?
 
     private Location location;
     private String name;
     private String objectId;
-
 
     public Location getLocation() {
         return location;

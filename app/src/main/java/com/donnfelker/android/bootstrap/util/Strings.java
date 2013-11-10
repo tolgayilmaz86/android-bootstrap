@@ -19,7 +19,8 @@ public class Strings {
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
     /**
-     * Originally from RoboGuice: https://github.com/roboguice/roboguice/blob/master/roboguice/src/main/java/roboguice/util/Strings.java
+     * Originally from RoboGuice:
+     * https://github.com/roboguice/roboguice/blob/master/roboguice/src/main/java/roboguice/util/Strings.java
      * Like join, but allows for a distinct final delimiter.  For english sentences such
      * as "Alice, Bob and Charlie" use ", " and " and " as the delimiters.
      *
@@ -29,7 +30,8 @@ public class Strings {
      * @param <T>           the type
      * @return a string
      */
-    public static <T> String joinAnd(final String delimiter, final String lastDelimiter, final Collection<T> objs) {
+    public static <T> String joinAnd(final String delimiter, final String lastDelimiter,
+                                     final Collection<T> objs) {
         if (objs == null || objs.isEmpty())
             return "";
 
@@ -39,12 +41,14 @@ public class Strings {
         while (iter.hasNext()) {
             final T obj = iter.next();
             if (notEmpty(obj))
-                buffer.append(++i == objs.size() ? lastDelimiter : delimiter).append(Strings.toString(obj));
+                buffer.append(++i == objs.size() ? lastDelimiter : delimiter).
+                        append(Strings.toString(obj));
         }
         return buffer.toString();
     }
 
-    public static <T> String joinAnd(final String delimiter, final String lastDelimiter, final T... objs) {
+    public static <T> String joinAnd(final String delimiter, final String lastDelimiter,
+                                     final T... objs) {
         return joinAnd(delimiter, lastDelimiter, Arrays.asList(objs));
     }
 
@@ -146,7 +150,8 @@ public class Strings {
 
     public static String capitalize(String s) {
         final String c = Strings.toString(s);
-        return c.length() >= 2 ? c.substring(0, 1).toUpperCase() + c.substring(1) : c.length() >= 1 ? c.toUpperCase() : c;
+        return c.length() >= 2 ? c.substring(0, 1).toUpperCase() + c.substring(1) :
+                c.length() >= 1 ? c.toUpperCase() : c;
     }
 
     public static boolean equals(Object a, Object b) {
@@ -165,7 +170,8 @@ public class Strings {
         final int arrayLen = ((len - 1) / chunkSize) + 1;
         final String[] array = new String[arrayLen];
         for (int i = 0; i < arrayLen; ++i)
-            array[i] = str.substring(i * chunkSize, (i * chunkSize) + chunkSize < len ? (i * chunkSize) + chunkSize : len);
+            array[i] = str.substring(i * chunkSize, (i * chunkSize) + chunkSize < len
+                    ? (i * chunkSize) + chunkSize : len);
 
         return array;
     }

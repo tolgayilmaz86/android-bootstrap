@@ -29,7 +29,8 @@ public class BootstrapServiceProvider {
      * @throws IOException
      * @throws AccountsException
      */
-    public BootstrapService getService(Activity activity) throws IOException, AccountsException {
+    public BootstrapService getService(final Activity activity)
+            throws IOException, AccountsException {
         return new BootstrapService(keyProvider.getAuthKey(activity), userAgentProvider);
     }
 }

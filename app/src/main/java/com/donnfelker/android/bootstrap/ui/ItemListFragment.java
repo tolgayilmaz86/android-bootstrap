@@ -49,7 +49,7 @@ public abstract class ItemListFragment<E> extends Fragment
      * @return true if the bundle indicates a requested forced refresh of the
      * items
      */
-    protected static boolean isForceRefresh(Bundle args) {
+    protected static boolean isForceRefresh(final Bundle args) {
         return args != null && args.getBoolean(FORCE_REFRESH, false);
     }
 
@@ -79,18 +79,19 @@ public abstract class ItemListFragment<E> extends Fragment
     protected boolean listShown;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (!items.isEmpty())
+        if (!items.isEmpty()) {
             setListShown(true, false);
+        }
 
         getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         return inflater.inflate(layout.item_list, null);
     }
 
@@ -108,7 +109,7 @@ public abstract class ItemListFragment<E> extends Fragment
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         listView = (ListView) view.findViewById(android.R.id.list);
@@ -133,26 +134,27 @@ public abstract class ItemListFragment<E> extends Fragment
      * @param activity
      * @param listView
      */
-    protected void configureList(Activity activity, ListView listView) {
+    protected void configureList(final Activity activity, final ListView listView) {
         listView.setAdapter(createAdapter());
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu optionsMenu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu optionsMenu, final MenuInflater inflater) {
         inflater.inflate(R.menu.bootstrap, optionsMenu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (!isUsable())
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (!isUsable()) {
             return false;
+        }
         switch (item.getItemId()) {
             case id.refresh:
                 forceRefresh();
@@ -165,7 +167,7 @@ public abstract class ItemListFragment<E> extends Fragment
         }
     }
 
-    abstract LogoutService getLogoutService();
+    protected abstract LogoutService getLogoutService();
 
     private void logout() {
         getLogoutService().logout(new Runnable() {
@@ -182,7 +184,7 @@ public abstract class ItemListFragment<E> extends Fragment
      * Force a refresh of the items displayed ignoring any cached items
      */
     protected void forceRefresh() {
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
         bundle.putBoolean(FORCE_REFRESH, true);
         refresh(bundle);
     }
@@ -195,8 +197,9 @@ public abstract class ItemListFragment<E> extends Fragment
     }
 
     private void refresh(final Bundle args) {
-        if (!isUsable())
+        if (!isUsable()) {
             return;
+        }
 
         getActionBarActivity().setSupportProgressBarIndeterminateVisibility(true);
 
@@ -213,13 +216,13 @@ public abstract class ItemListFragment<E> extends Fragment
      * @param exception
      * @return string resource id
      */
-    protected abstract int getErrorMessage(Exception exception);
+    protected abstract int getErrorMessage(final Exception exception);
 
-    public void onLoadFinished(Loader<List<E>> loader, List<E> items) {
+    public void onLoadFinished(final Loader<List<E>> loader, final List<E> items) {
 
         getActionBarActivity().setSupportProgressBarIndeterminateVisibility(false);
 
-        Exception exception = getException(loader);
+        final Exception exception = getException(loader);
         if (exception != null) {
             showError(getErrorMessage(exception));
             showList();
@@ -237,7 +240,7 @@ public abstract class ItemListFragment<E> extends Fragment
      * @return adapter
      */
     protected HeaderFooterListAdapter<SingleTypeAdapter<E>> createAdapter() {
-        SingleTypeAdapter<E> wrapped = createAdapter(items);
+        final SingleTypeAdapter<E> wrapped = createAdapter(items);
         return new HeaderFooterListAdapter<SingleTypeAdapter<E>>(getListView(),
                 wrapped);
     }
@@ -258,7 +261,7 @@ public abstract class ItemListFragment<E> extends Fragment
     }
 
     @Override
-    public void onLoaderReset(Loader<List<E>> loader) {
+    public void onLoaderReset(final Loader<List<E>> loader) {
         // Intentionally left blank
     }
 
@@ -279,10 +282,11 @@ public abstract class ItemListFragment<E> extends Fragment
      * @return exception or null if none provided
      */
     protected Exception getException(final Loader<List<E>> loader) {
-        if (loader instanceof ThrowableLoader)
+        if (loader instanceof ThrowableLoader) {
             return ((ThrowableLoader<List<E>>) loader).clearException();
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -310,11 +314,11 @@ public abstract class ItemListFragment<E> extends Fragment
      */
     @SuppressWarnings("unchecked")
     protected HeaderFooterListAdapter<SingleTypeAdapter<E>> getListAdapter() {
-        if (listView != null)
+        if (listView != null) {
             return (HeaderFooterListAdapter<SingleTypeAdapter<E>>) listView
                     .getAdapter();
-        else
-            return null;
+        }
+        return null;
     }
 
     /**
@@ -324,18 +328,21 @@ public abstract class ItemListFragment<E> extends Fragment
      * @return this fragment
      */
     protected ItemListFragment<E> setListAdapter(final ListAdapter adapter) {
-        if (listView != null)
+        if (listView != null) {
             listView.setAdapter(adapter);
+        }
         return this;
     }
 
     private ItemListFragment<E> fadeIn(final View view, final boolean animate) {
-        if (view != null)
-            if (animate)
+        if (view != null) {
+            if (animate) {
                 view.startAnimation(AnimationUtils.loadAnimation(getActivity(),
                         android.R.anim.fade_in));
-            else
+            } else {
                 view.clearAnimation();
+            }
+        }
         return this;
     }
 
@@ -366,35 +373,38 @@ public abstract class ItemListFragment<E> extends Fragment
      * @param animate
      * @return this fragment
      */
-    public ItemListFragment<E> setListShown(final boolean shown,
-                                            final boolean animate) {
-        if (!isUsable())
+    public ItemListFragment<E> setListShown(final boolean shown, final boolean animate) {
+        if (!isUsable()) {
             return this;
+        }
 
         if (shown == listShown) {
-            if (shown)
+            if (shown) {
                 // List has already been shown so hide/show the empty view with
                 // no fade effect
-                if (items.isEmpty())
+                if (items.isEmpty()) {
                     hide(listView).show(emptyView);
-                else
+                } else {
                     hide(emptyView).show(listView);
+                }
+            }
             return this;
         }
 
         listShown = shown;
 
-        if (shown)
-            if (!items.isEmpty())
+        if (shown) {
+            if (!items.isEmpty()) {
                 hide(progressBar).hide(emptyView).fadeIn(listView, animate)
                         .show(listView);
-            else
+            } else {
                 hide(progressBar).hide(listView).fadeIn(emptyView, animate)
                         .show(emptyView);
-        else
+            }
+        } else {
             hide(listView).hide(emptyView).fadeIn(progressBar, animate)
                     .show(progressBar);
-
+        }
         return this;
     }
 
@@ -405,8 +415,9 @@ public abstract class ItemListFragment<E> extends Fragment
      * @return this fragment
      */
     protected ItemListFragment<E> setEmptyText(final String message) {
-        if (emptyView != null)
+        if (emptyView != null) {
             emptyView.setText(message);
+        }
         return this;
     }
 
@@ -417,8 +428,9 @@ public abstract class ItemListFragment<E> extends Fragment
      * @return this fragment
      */
     protected ItemListFragment<E> setEmptyText(final int resId) {
-        if (emptyView != null)
+        if (emptyView != null) {
             emptyView.setText(resId);
+        }
         return this;
     }
 
@@ -430,7 +442,8 @@ public abstract class ItemListFragment<E> extends Fragment
      * @param position
      * @param id
      */
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(final ListView l, final View v,
+                                final int position, final long id) {
     }
 
     /**

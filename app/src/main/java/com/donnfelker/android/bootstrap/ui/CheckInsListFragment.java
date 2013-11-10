@@ -27,20 +27,13 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     @Inject protected LogoutService logoutService;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-
-    }
-
-    @Override
-    protected void configureList(Activity activity, ListView listView) {
+    protected void configureList(final Activity activity, final ListView listView) {
         super.configureList(activity, listView);
 
         listView.setFastScrollEnabled(true);
@@ -52,7 +45,7 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     }
 
     @Override
-    LogoutService getLogoutService() {
+    protected LogoutService getLogoutService() {
         return logoutService;
     }
 
@@ -64,7 +57,7 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     }
 
     @Override
-    public Loader<List<CheckIn>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<CheckIn>> onCreateLoader(final int id, final Bundle args) {
         final List<CheckIn> initialItems = items;
         return new ThrowableLoader<List<CheckIn>>(getActivity(), items) {
 
@@ -76,9 +69,8 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
                     } else {
                         return Collections.emptyList();
                     }
-
-                } catch (OperationCanceledException e) {
-                    Activity activity = getActivity();
+                } catch (final OperationCanceledException e) {
+                    final Activity activity = getActivity();
                     if (activity != null)
                         activity.finish();
                     return initialItems;
@@ -88,24 +80,26 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
     }
 
     @Override
-    protected SingleTypeAdapter<CheckIn> createAdapter(List<CheckIn> items) {
+    protected SingleTypeAdapter<CheckIn> createAdapter(final List<CheckIn> items) {
         return new CheckInsListAdapter(getActivity().getLayoutInflater(), items);
     }
 
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        CheckIn checkIn = ((CheckIn) l.getItemAtPosition(position));
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
+        final CheckIn checkIn = ((CheckIn) l.getItemAtPosition(position));
 
-        String uri = String.format("geo:%s,%s?q=%s",
+        final String uri = String.format("geo:%s,%s?q=%s",
                 checkIn.getLocation().getLatitude(),
                 checkIn.getLocation().getLongitude(),
                 checkIn.getName());
 
         // Show a chooser that allows the user to decide how to display this data, in this case, map data.
-        startActivity(Intent.createChooser(new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose)));
+        startActivity(Intent.createChooser(
+                new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose))
+        );
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
+    protected int getErrorMessage(final Exception exception) {
         return R.string.error_loading_checkins;
     }
 }

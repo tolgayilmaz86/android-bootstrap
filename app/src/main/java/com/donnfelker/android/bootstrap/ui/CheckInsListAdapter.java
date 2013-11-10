@@ -14,8 +14,8 @@ public class CheckInsListAdapter extends AlternatingColorListAdapter<CheckIn> {
      * @param items
      * @param selectable
      */
-    public CheckInsListAdapter(LayoutInflater inflater, List<CheckIn> items,
-                               boolean selectable) {
+    public CheckInsListAdapter(final LayoutInflater inflater, final List<CheckIn> items,
+                               final boolean selectable) {
         super(R.layout.checkin_list_item, inflater, items, selectable);
     }
 
@@ -23,7 +23,7 @@ public class CheckInsListAdapter extends AlternatingColorListAdapter<CheckIn> {
      * @param inflater
      * @param items
      */
-    public CheckInsListAdapter(LayoutInflater inflater, List<CheckIn> items) {
+    public CheckInsListAdapter(final LayoutInflater inflater, final List<CheckIn> items) {
         super(R.layout.checkin_list_item, inflater, items);
     }
 
@@ -33,7 +33,7 @@ public class CheckInsListAdapter extends AlternatingColorListAdapter<CheckIn> {
     }
 
     @Override
-    protected void update(int position, CheckIn item) {
+    protected void update(final int position, final CheckIn item) {
         super.update(position, item);
 
         setText(0, item.getName());

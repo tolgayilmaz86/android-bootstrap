@@ -12,13 +12,13 @@ import static com.donnfelker.android.bootstrap.core.Constants.Extra.NEWS_ITEM;
 
 public class NewsActivity extends BootstrapActivity {
 
-    protected News newsItem;
+    private News newsItem;
 
     @InjectView(R.id.tv_title) protected TextView title;
     @InjectView(R.id.tv_content) protected TextView content;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.news);
