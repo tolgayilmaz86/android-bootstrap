@@ -35,7 +35,7 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
 
-    private boolean userAuthenticated = false;
+    private boolean userHasAuthenticated = false;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -102,7 +102,7 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
 
     private void initScreen() {
-        if (userAuthenticated) {
+        if (userHasAuthenticated) {
             pager.setAdapter(new BootstrapPagerAdapter(getResources(),
                     getSupportFragmentManager()));
 
@@ -135,7 +135,7 @@ public class CarouselActivity extends BootstrapFragmentActivity {
             @Override
             protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
                 super.onSuccess(hasAuthenticated);
-                userAuthenticated = true;
+                userHasAuthenticated = true;
                 initScreen();
             }
         }.execute();

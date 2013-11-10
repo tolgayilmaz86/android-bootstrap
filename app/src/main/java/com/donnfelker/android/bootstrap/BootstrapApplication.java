@@ -16,7 +16,7 @@ import static android.os.Build.VERSION_CODES.FROYO;
  */
 public class BootstrapApplication extends Application {
 
-    private static BootstrapApplication sInstance;
+    private static BootstrapApplication instance;
 
     /**
      * Create main application
@@ -42,7 +42,7 @@ public class BootstrapApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        sInstance = this;
+        instance = this;
 
         // Perform injection
         Injector.init(getRootModule(), this);
@@ -65,6 +65,6 @@ public class BootstrapApplication extends Application {
     }
 
     public static BootstrapApplication getInstance() {
-        return sInstance;
+        return instance;
     }
 }
