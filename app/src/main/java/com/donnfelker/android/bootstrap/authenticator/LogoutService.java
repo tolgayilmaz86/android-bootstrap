@@ -47,7 +47,7 @@ public class LogoutService {
             if (aMngrWithContext != null) {
                 final Account[] accounts = aMngrWithContext
                         .getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-                if(accounts.length > 0) {
+                if (accounts.length > 0) {
                     final AccountManagerFuture<Boolean> removeAccountFuture
                             = aMngrWithContext.removeAccount(accounts[0], null, null);
 

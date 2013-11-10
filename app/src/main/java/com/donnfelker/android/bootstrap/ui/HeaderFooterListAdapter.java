@@ -37,7 +37,7 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
     }
 
     private HeaderFooterListAdapter(final ArrayList<FixedViewInfo> headerViewInfos,
-            final ArrayList<FixedViewInfo> footerViewInfos, final ListView view, final E adapter) {
+                                    final ArrayList<FixedViewInfo> footerViewInfos, final ListView view, final E adapter) {
         super(headerViewInfos, footerViewInfos, adapter);
 
         mHeaders = headerViewInfos;
@@ -66,7 +66,7 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
      * @return this adapter
      */
     public HeaderFooterListAdapter<E> addHeader(final View view, final Object data,
-            final boolean isSelectable) {
+                                                final boolean isSelectable) {
         final FixedViewInfo info = mList.new FixedViewInfo();
         info.view = view;
         info.data = data;
@@ -97,7 +97,7 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
      * @return this adapter
      */
     public HeaderFooterListAdapter<E> addFooter(final View view, final Object data,
-            final boolean isSelectable) {
+                                                final boolean isSelectable) {
         final FixedViewInfo info = mList.new FixedViewInfo();
         info.view = view;
         info.data = data;

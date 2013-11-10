@@ -27,11 +27,12 @@ public class BootstrapService {
 
     /**
      * GSON instance to use for all request  with date format set up for proper parsing.
-     *
+     * <p/>
      * You can also configure GSON with different naming policies for your API.
      * Maybe your API is Rails API and all json values are lower case with an underscore,
      * like this "first_name" instead of "firstName".
      * You can configure GSON as such below.
+     * <p/>
      *
      * public static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd")
      *         .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -118,7 +119,7 @@ public class BootstrapService {
         request.connectTimeout(TIMEOUT).readTimeout(TIMEOUT);
         request.userAgent(mUserAgentProvider.get());
 
-        if(isPostOrPut(request)) {
+        if (isPostOrPut(request)) {
             // All PUT & POST requests to Parse.com api must be in JSON
             // https://www.parse.com/docs/rest#general-requests
             request.contentType(Constants.Http.CONTENT_TYPE_JSON);

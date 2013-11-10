@@ -15,7 +15,7 @@ public class CheckInsListAdapter extends AlternatingColorListAdapter<CheckIn> {
      * @param selectable
      */
     public CheckInsListAdapter(final LayoutInflater inflater, final List<CheckIn> items,
-                           final boolean selectable) {
+                               final boolean selectable) {
         super(R.layout.checkin_list_item, inflater, items, selectable);
     }
 

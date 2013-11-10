@@ -13,7 +13,6 @@ import com.donnfelker.android.bootstrap.util.Ln;
  */
 public abstract class ThrowableLoader<D> extends AsyncLoader<D> {
 
-
     private final D mData;
 
     private Exception mException;

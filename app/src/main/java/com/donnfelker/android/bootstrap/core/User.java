@@ -8,6 +8,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = -7495897652017488896L;
 
+    //TODO rename member variables
     protected String firstName;
     protected String lastName;
     protected String username;

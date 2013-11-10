@@ -13,7 +13,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 /**
- * Originally from RoboGuice: https://github.com/roboguice/roboguice/blob/master/roboguice/src/main/java/roboguice/util/SafeAsyncTask.java
+ * Originally from RoboGuice:
+ * https://github.com/roboguice/roboguice/blob/master/roboguice/src/main/java/roboguice/util/SafeAsyncTask.java
  * <p/>
  * A class similar but unrelated to android's {@link android.os.AsyncTask}.
  * <p/>

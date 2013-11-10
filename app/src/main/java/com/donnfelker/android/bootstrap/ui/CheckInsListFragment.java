@@ -64,7 +64,7 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
             @Override
             public List<CheckIn> loadData() throws Exception {
                 try {
-                    if(getActivity() != null) {
+                    if (getActivity() != null) {
                         return mServiceProvider.getService(getActivity()).getCheckIns();
                     } else {
                         return Collections.emptyList();

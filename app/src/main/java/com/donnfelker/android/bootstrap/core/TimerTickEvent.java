@@ -21,7 +21,6 @@ public class TimerTickEvent {
         return (millis / 1000);
     }
 
-
     @Override
     public String toString() {
         return new StringBuilder("")

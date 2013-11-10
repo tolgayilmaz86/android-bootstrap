@@ -102,7 +102,7 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
 
     private void initScreen() {
-        if(mIsUserAuthenticated) {
+        if (mIsUserAuthenticated) {
             mPager.setAdapter(new BootstrapPagerAdapter(getResources(),
                     getSupportFragmentManager()));
 

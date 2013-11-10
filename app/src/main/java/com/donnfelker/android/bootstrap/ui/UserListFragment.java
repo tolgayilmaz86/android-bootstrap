@@ -67,7 +67,7 @@ public class UserListFragment extends ItemListFragment<User> {
                 try {
                     List<User> latest = null;
 
-                    if(getActivity() != null) {
+                    if (getActivity() != null) {
                         latest = mServiceProvider.getService(getActivity()).getUsers();
                     }
 

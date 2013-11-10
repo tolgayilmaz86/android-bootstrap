@@ -83,7 +83,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * Starts the timer service
      */
     private void startTimer() {
-        if(!isTimerServiceRunning()) {
+        if (!isTimerServiceRunning()) {
             final Intent i = new Intent(this, TimerService.class);
             startService(i);
 
@@ -116,12 +116,12 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     @Subscribe
     public void onTimerPausedEvent(final TimerPausedEvent event) {
-        if(event.isTimerIsPaused()) {
+        if (event.isTimerIsPaused()) {
             mResume.setVisibility(View.VISIBLE);
             mStop.setVisibility(View.VISIBLE);
             mPause.setVisibility(View.GONE);
             mStart.setVisibility(View.GONE);
-        } else if(isTimerServiceRunning()) {
+        } else if (isTimerServiceRunning()) {
             mPause.setVisibility(View.VISIBLE);
             mStop.setVisibility(View.VISIBLE);
             mResume.setVisibility(View.GONE);

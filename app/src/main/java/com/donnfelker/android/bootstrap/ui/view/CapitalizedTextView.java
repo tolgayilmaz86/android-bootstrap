@@ -16,7 +16,8 @@ import java.util.Locale;
  */
 public class CapitalizedTextView extends Button {
 
-    private static final boolean IS_GINGERBREAD = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
+    private static final boolean IS_GINGERBREAD
+            = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
 
     private static final String TAG = "Typefaces";
     private static final Hashtable<String, Typeface> cache = new Hashtable<String, Typeface>();

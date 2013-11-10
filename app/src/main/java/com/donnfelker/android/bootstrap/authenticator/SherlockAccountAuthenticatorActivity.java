@@ -36,7 +36,8 @@ import android.support.v7.app.ActionBarActivity;
  * The activity then sets the result that is to be handed to the response via
  * {@link #setAccountAuthenticatorResult(android.os.Bundle)}.
  * This result will be sent as the result of the request when the activity finishes. If this
- * is never set or if it is set to null then error {@link android.accounts.AccountManager#ERROR_CODE_CANCELED}
+ * is never set or if it is set to null then error
+ * {@link android.accounts.AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  */
 public class SherlockAccountAuthenticatorActivity extends ActionBarActivity {

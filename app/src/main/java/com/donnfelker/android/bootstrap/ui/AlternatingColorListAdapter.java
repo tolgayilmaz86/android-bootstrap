@@ -42,7 +42,7 @@ public abstract class AlternatingColorListAdapter<V> extends
      * @param selectable
      */
     public AlternatingColorListAdapter(final int layoutId,
-            final LayoutInflater inflater, final List<V> items, final boolean selectable) {
+                                       final LayoutInflater inflater, final List<V> items, final boolean selectable) {
         super(inflater, layoutId);
 
         if (selectable) {

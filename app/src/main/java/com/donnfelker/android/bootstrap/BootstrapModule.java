@@ -25,20 +25,20 @@ import dagger.Provides;
  * Register all of your entry points below.
  */
 @Module(
-    complete = false,
+        complete = false,
 
-    injects = {
-        BootstrapApplication.class,
-        BootstrapAuthenticatorActivity.class,
-        CarouselActivity.class,
-        BootstrapTimerActivity.class,
-        CheckInsListFragment.class,
-        NewsActivity.class,
-        NewsListFragment.class,
-        UserActivity.class,
-        UserListFragment.class,
-        TimerService.class
-    }
+        injects = {
+                BootstrapApplication.class,
+                BootstrapAuthenticatorActivity.class,
+                CarouselActivity.class,
+                BootstrapTimerActivity.class,
+                CheckInsListFragment.class,
+                NewsActivity.class,
+                NewsListFragment.class,
+                UserActivity.class,
+                UserListFragment.class,
+                TimerService.class
+        }
 )
 public class BootstrapModule {
 

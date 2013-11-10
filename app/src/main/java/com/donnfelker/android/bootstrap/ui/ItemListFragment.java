@@ -91,7 +91,7 @@ public abstract class ItemListFragment<E> extends Fragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-            final Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         return inflater.inflate(layout.item_list, null);
     }
 
