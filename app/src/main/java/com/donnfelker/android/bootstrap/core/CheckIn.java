@@ -1,7 +1,5 @@
 package com.donnfelker.android.bootstrap.core;
 
-import java.io.Serializable;
-
 public class CheckIn {
 
     //FIXME rename members
