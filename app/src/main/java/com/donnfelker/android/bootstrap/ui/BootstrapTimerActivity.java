@@ -4,6 +4,9 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,6 +42,9 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
         setContentView(R.layout.bootstrap_timer);
 
         setTitle(R.string.timer);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         start.setOnClickListener(this);
         stop.setOnClickListener(this);
@@ -79,11 +85,40 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            // Source:
+            // http://developer.android.com/training/implementing-navigation/ancestral.html
+            // This is the home button in the top left corner of the screen.
+            case android.R.id.home:
+                final Intent upIntent = NavUtils.getParentActivityIntent(this);
+                // If parent is not properly defined in AndroidManifest.xml upIntent will be null
+                // TODO hanlde upIntent == null
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                    // This activity is NOT part of this app's task, so create a new task
+                    // when navigating up, with a synthesized back stack.
+                    TaskStackBuilder.create(this)
+                            // Add all of this activity's parents to the back stack
+                            .addNextIntentWithParentStack(upIntent)
+                                    // Navigate up to the closest parent
+                            .startActivities();
+                } else {
+                    // This activity is part of this app's task, so simply
+                    // navigate up to the logical parent activity.
+                    NavUtils.navigateUpTo(this, upIntent);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /**
      * Starts the timer service
      */
     private void startTimer() {
-        if (isTimerServiceRunning() == false) {
+        if (!isTimerServiceRunning()) {
             final Intent i = new Intent(this, TimerService.class);
             startService(i);
 
