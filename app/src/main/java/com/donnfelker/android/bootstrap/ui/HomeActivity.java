@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,22 +16,21 @@ import android.view.Window;
 import com.donnfelker.android.bootstrap.BootstrapServiceProvider;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.core.BootstrapService;
+import com.donnfelker.android.bootstrap.util.Ln;
 import com.donnfelker.android.bootstrap.util.SafeAsyncTask;
-import com.viewpagerindicator.TitlePageIndicator;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
 import butterknife.Views;
 
 
 /**
- * Activity to view the carousel and view pager indicator with fragments.
+ * Initial activity for the application.
+ *
+ * If you need to remove the authentication from the application please see
+ * {@link com.donnfelker.android.bootstrap.authenticator.ApiKeyProvider#getAuthKey(android.app.Activity)}
  */
-public class CarouselActivity extends BootstrapFragmentActivity {
-
-    @InjectView(R.id.tpi_header) protected TitlePageIndicator indicator;
-    @InjectView(R.id.vp_pages) protected ViewPager pager;
+public class HomeActivity extends BootstrapFragmentActivity {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
 
@@ -49,7 +48,7 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.carousel_view);
+        setContentView(R.layout.home_activity);
 
         // View injection with Butterknife
         Views.inject(this);
@@ -103,11 +102,12 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
     private void initScreen() {
         if (userHasAuthenticated) {
-            pager.setAdapter(new BootstrapPagerAdapter(getResources(),
-                    getSupportFragmentManager()));
 
-            indicator.setViewPager(pager);
-            pager.setCurrentItem(1);
+            Ln.d("Foo");
+            final FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, new CarouselFragment())
+                    .commit();
         }
 
         setNavListeners();
@@ -118,7 +118,7 @@ public class CarouselActivity extends BootstrapFragmentActivity {
 
             @Override
             public Boolean call() throws Exception {
-                final BootstrapService svc = serviceProvider.getService(CarouselActivity.this);
+                final BootstrapService svc = serviceProvider.getService(HomeActivity.this);
                 return svc != null;
             }
 

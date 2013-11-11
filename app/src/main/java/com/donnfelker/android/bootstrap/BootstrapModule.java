@@ -7,7 +7,7 @@ import com.donnfelker.android.bootstrap.authenticator.BootstrapAuthenticatorActi
 import com.donnfelker.android.bootstrap.authenticator.LogoutService;
 import com.donnfelker.android.bootstrap.core.TimerService;
 import com.donnfelker.android.bootstrap.ui.BootstrapTimerActivity;
-import com.donnfelker.android.bootstrap.ui.CarouselActivity;
+import com.donnfelker.android.bootstrap.ui.HomeActivity;
 import com.donnfelker.android.bootstrap.ui.CheckInsListFragment;
 import com.donnfelker.android.bootstrap.ui.NewsActivity;
 import com.donnfelker.android.bootstrap.ui.NewsListFragment;
@@ -30,7 +30,7 @@ import dagger.Provides;
         injects = {
                 BootstrapApplication.class,
                 BootstrapAuthenticatorActivity.class,
-                CarouselActivity.class,
+                HomeActivity.class,
                 BootstrapTimerActivity.class,
                 CheckInsListFragment.class,
                 NewsActivity.class,

@@ -39,7 +39,7 @@ public abstract class BootstrapActivity extends ActionBarActivity {
             case android.R.id.home:
                 // Don't call finish! Because activity could have been started by an
                 // outside activity and the home button would not operated as expected!
-                final Intent homeIntent = new Intent(this, CarouselActivity.class);
+                final Intent homeIntent = new Intent(this, HomeActivity.class);
                 homeIntent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(homeIntent);
                 return true;
