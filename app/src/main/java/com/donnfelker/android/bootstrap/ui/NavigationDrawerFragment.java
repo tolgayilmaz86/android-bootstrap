@@ -22,6 +22,7 @@ import android.widget.ListView;
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.events.NavItemSelectedEvent;
+import com.donnfelker.android.bootstrap.util.UIUtils;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -213,8 +214,18 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Forward the new configuration the drawer toggle component.
-        drawerToggle.onConfigurationChanged(newConfig);
+
+        if(!isTablet()) {
+            // Forward the new configuration the drawer toggle component.
+            drawerToggle.onConfigurationChanged(newConfig);
+        }
+    }
+
+    private boolean isTablet() {
+        if(getActivity() != null) {
+            return UIUtils.isTablet(getActivity());
+        }
+        return false;
     }
 
     @Override
