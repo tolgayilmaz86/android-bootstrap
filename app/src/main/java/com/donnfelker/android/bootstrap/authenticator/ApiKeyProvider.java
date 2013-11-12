@@ -31,12 +31,8 @@ public class ApiKeyProvider {
      * {@link com.donnfelker.android.bootstrap.authenticator.BootstrapAccountAuthenticator} will get started.
      * If you want to remove the authentication then you can comment out the code below and return a string such as
      * "foo" and the authentication process will not be kicked off. Alternatively, you can remove this class
-     * completely and clean up any referecnes to the authenticator.
+     * completely and clean up any references to the authenticator.
      *
-     * @see com.donnfelker.android.bootstrap.authenticator.BootstrapAccountAuthenticator
-     * @see com.donnfelker.android.bootstrap.authenticator.BootstrapAuthenticatorActivity
-     * @see com.donnfelker.android.bootstrap.authenticator.AccountAuthenticatorService
-     * @see com.donnfelker.android.bootstrap.authenticator.ApiKeyProvider
      *
      * @return API key to be used for authorization with a
      * {@link com.donnfelker.android.bootstrap.core.BootstrapService} instance

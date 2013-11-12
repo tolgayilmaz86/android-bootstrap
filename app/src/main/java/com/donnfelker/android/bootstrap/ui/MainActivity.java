@@ -16,8 +16,10 @@ import android.view.Window;
 import com.donnfelker.android.bootstrap.BootstrapServiceProvider;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.core.BootstrapService;
+import com.donnfelker.android.bootstrap.events.NavItemSelectedEvent;
 import com.donnfelker.android.bootstrap.util.Ln;
 import com.donnfelker.android.bootstrap.util.SafeAsyncTask;
+import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
@@ -30,7 +32,7 @@ import butterknife.Views;
  * If you need to remove the authentication from the application please see
  * {@link com.donnfelker.android.bootstrap.authenticator.ApiKeyProvider#getAuthKey(android.app.Activity)}
  */
-public class HomeActivity extends BootstrapFragmentActivity {
+public class MainActivity extends BootstrapFragmentActivity {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
 
@@ -40,6 +42,7 @@ public class HomeActivity extends BootstrapFragmentActivity {
     private ActionBarDrawerToggle drawerToggle;
     private CharSequence drawerTitle;
     private CharSequence title;
+    private NavigationDrawerFragment navigationDrawerFragment;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class HomeActivity extends BootstrapFragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.home_activity);
+        setContentView(R.layout.main_activity);
 
         // View injection with Butterknife
         Views.inject(this);
@@ -60,8 +63,8 @@ public class HomeActivity extends BootstrapFragmentActivity {
                 this,                    /* Host activity */
                 drawerLayout,           /* DrawerLayout object */
                 R.drawable.ic_drawer,    /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,    /* "open drawer" description */
-                R.string.drawer_close) { /* "close drawer" description */
+                R.string.navigation_drawer_open,    /* "open drawer" description */
+                R.string.navigation_drawer_close) { /* "close drawer" description */
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
@@ -82,6 +85,14 @@ public class HomeActivity extends BootstrapFragmentActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        navigationDrawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+        // Set up the drawer.
+        navigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+
         checkAuth();
 
     }
@@ -92,6 +103,7 @@ public class HomeActivity extends BootstrapFragmentActivity {
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
+
 
     @Override
     public void onConfigurationChanged(final Configuration newConfig) {
@@ -110,7 +122,6 @@ public class HomeActivity extends BootstrapFragmentActivity {
                     .commit();
         }
 
-        setNavListeners();
     }
 
     private void checkAuth() {
@@ -118,7 +129,7 @@ public class HomeActivity extends BootstrapFragmentActivity {
 
             @Override
             public Boolean call() throws Exception {
-                final BootstrapService svc = serviceProvider.getService(HomeActivity.this);
+                final BootstrapService svc = serviceProvider.getService(MainActivity.this);
                 return svc != null;
             }
 
@@ -139,26 +150,6 @@ public class HomeActivity extends BootstrapFragmentActivity {
                 initScreen();
             }
         }.execute();
-    }
-
-
-    private void setNavListeners() {
-
-        findViewById(R.id.menu_item_home).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                drawerLayout.closeDrawers();
-            }
-        });
-
-        findViewById(R.id.menu_item_timer).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                drawerLayout.closeDrawers();
-                navigateToTimer();
-            }
-        });
-
     }
 
     @Override
@@ -183,5 +174,22 @@ public class HomeActivity extends BootstrapFragmentActivity {
     private void navigateToTimer() {
         final Intent i = new Intent(this, BootstrapTimerActivity.class);
         startActivity(i);
+    }
+
+    @Subscribe
+    public void onNavigationItemSelected(NavItemSelectedEvent event) {
+
+        Ln.d("Selected: %1$s", event.getItemPosition());
+
+        switch(event.getItemPosition()) {
+            case 0:
+                // Home
+                // do nothing as we're already on the home screen.
+                break;
+            case 1:
+                // Timer
+                navigateToTimer();
+                break;
+        }
     }
 }
