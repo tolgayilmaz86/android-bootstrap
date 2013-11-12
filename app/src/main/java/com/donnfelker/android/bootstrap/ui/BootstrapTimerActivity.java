@@ -98,7 +98,7 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
-            default:
+                default:
                 return super.onOptionsItemSelected(item);
         }
     }
