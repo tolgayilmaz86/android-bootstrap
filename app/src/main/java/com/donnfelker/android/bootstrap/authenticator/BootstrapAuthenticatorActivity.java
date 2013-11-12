@@ -58,7 +58,7 @@ import static com.github.kevinsawicki.http.HttpRequest.get;
 /**
  * Activity to authenticate the user against an API (example API on Parse.com)
  */
-public class BootstrapAuthenticatorActivity extends SherlockAccountAuthenticatorActivity {
+public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticatorActivity {
 
     /**
      * PARAM_CONFIRM_CREDENTIALS

@@ -125,13 +125,13 @@ code in this project is based on the GitHub Gaug.es and GitHub Android app.
 Android Bootstrap is built on the awesome [Parse.com API](http://www.parse.com/)
 and uses many great open-source libraries from the Android dev community:
 
-* [ActionBarSherlock](https://github.com/JakeWharton/ActionBarSherlock) for a
+* [AppCompat](http://www.youtube.com/watch?v=6TGgYqfJnyc) for a
   consistent, great looking header across all Android platforms,
   [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator)
   for swiping between fragments and
   [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) for 
   view animations - all from [Jake Wharton](http://jakewharton.com/).
-* [MenuDrawer](https://github.com/SimonVT/android-menudrawer) for the menu drawer navigation.
+* [NavigationDrawer](http://developer.android.com/design/patterns/navigation-drawer.html) for the menu drawer navigation.
 * [Dagger](https://github.com/square/dagger) for dependency-injection.
 * [ButterKnife](https://github.com/JakeWharton/butterknife) for view injection
 * [Otto](https://github.com/square/otto) as the event bus
@@ -143,6 +143,10 @@ and uses many great open-source libraries from the Android dev community:
   remote HTTP resources (API's in this case).
 * [google-gson](http://code.google.com/p/google-gson/) for consuming JSON and hydrating
   POJO's for use in the app.
+
+
+## Contributors
+Thank you to all the [contributors](http://www.github.com/donnfelker/android-bootstrap/contributors) on this project. Your help is much appreciated.
 
 
 ## Contributing

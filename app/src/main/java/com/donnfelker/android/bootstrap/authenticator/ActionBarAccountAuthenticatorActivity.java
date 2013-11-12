@@ -1,24 +1,5 @@
 package com.donnfelker.android.bootstrap.authenticator;
 
-/*
- * Originally from:
- * https://github.com/rtyley/roboguice-sherlock/blob/master/src/main/java/com/github/rtyley/android/sherlock/android/accounts/SherlockAccountAuthenticatorActivity.java
- *
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
@@ -28,7 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 /**
  * Base class for implementing an Activity that is used to help implement an
  * AbstractAccountAuthenticator. If the AbstractAccountAuthenticator needs to use an activity
- * to handle the request then it can have the activity extend SherlockAccountAuthenticatorActivity.
+ * to handle the request then it can have the activity extend ActionBarAccountAuthenticatorActivity.
  * The AbstractAccountAuthenticator passes in the response to the intent using the following:
  * <pre>
  *      intent.putExtra({@link android.accounts.AccountManager#KEY_ACCOUNT_AUTHENTICATOR_RESPONSE}, response);
@@ -40,7 +21,7 @@ import android.support.v7.app.ActionBarActivity;
  * {@link android.accounts.AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  */
-public class SherlockAccountAuthenticatorActivity extends ActionBarActivity {
+public class ActionBarAccountAuthenticatorActivity extends ActionBarActivity {
     private AccountAuthenticatorResponse accountAuthenticatorResponse = null;
     private Bundle resultBundle = null;
 
