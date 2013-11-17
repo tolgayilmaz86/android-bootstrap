@@ -99,7 +99,7 @@ you will then be able to install your own built version.
 
 This project depends on the Android V7 Support Library for the AppCompat toolbar, so
 you have to import it into your workspace.  Do File/Import and then choose Android
-then Existing Androi Code Into Workspace and select the library from
+then Existing Android Code Into Workspace and select the library from
 \Android_SDK\extras\android\support\v7\appcompat.
 
 Next, you'll need to install the [Eclipse Integration Gradle Plugin](https://github.com/spring-projects/eclipse-integration-gradle).
