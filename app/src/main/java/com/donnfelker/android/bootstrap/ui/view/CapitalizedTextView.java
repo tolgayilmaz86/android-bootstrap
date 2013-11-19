@@ -7,7 +7,8 @@ import android.util.AttributeSet;
 import android.widget.Button;
 
 import com.donnfelker.android.bootstrap.util.Strings;
-
+import android.util.Log;
+import java.util.Hashtable;
 import java.util.Locale;
 
 /**
