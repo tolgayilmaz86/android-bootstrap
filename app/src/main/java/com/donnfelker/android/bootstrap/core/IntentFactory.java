@@ -1,5 +1,5 @@
 package com.donnfelker.android.bootstrap.core;
 
 public class IntentFactory {
-    //FIXME do we need this class?
+    //TODO implement an Activity and Fragment delegate pattern
 }

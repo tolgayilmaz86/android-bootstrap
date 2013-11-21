@@ -54,7 +54,7 @@ public class LogoutService {
                     return removeAccountFuture.getResult();
                 }
             } else {
-                //TODO what should be done here?
+                Ln.w("accountManagerWithContext is null");
             }
 
             return false;

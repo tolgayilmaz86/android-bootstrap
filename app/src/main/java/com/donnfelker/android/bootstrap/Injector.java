@@ -4,7 +4,7 @@ import dagger.ObjectGraph;
 
 public final class Injector {
 
-    public static ObjectGraph objectGraph = null;  //TODO why is this public?
+    private static ObjectGraph objectGraph = null;
 
     public static void init(final Object rootModule) {
 
