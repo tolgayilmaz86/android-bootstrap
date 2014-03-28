@@ -2,7 +2,7 @@ package com.donnfelker.android.bootstrap.core;
 
 public class TimerPausedEvent {
 
-    private boolean timerIsPaused;
+    private final boolean timerIsPaused;
 
     public TimerPausedEvent(boolean timerIsPaused) {
         this.timerIsPaused = timerIsPaused;

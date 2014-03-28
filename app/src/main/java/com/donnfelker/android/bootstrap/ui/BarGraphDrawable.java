@@ -32,9 +32,11 @@ public class BarGraphDrawable extends PaintDrawable {
         super(android.R.color.transparent);
         this.data = data;
         this.colors = colors;
-        for (int i = 0; i < data.length; i++)
-            for (int j = 0; j < data[i].length; j++)
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
                 max = Math.max(max, data[i][j]);
+            }
+        }
     }
 
     @Override

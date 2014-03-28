@@ -2,19 +2,15 @@ package com.donnfelker.android.bootstrap;
 
 import dagger.ObjectGraph;
 
-public final class Injector
-{
-    public static ObjectGraph objectGraph = null;
+public final class Injector {
 
+    private static ObjectGraph objectGraph = null;
 
     public static void init(final Object rootModule) {
 
-        if(objectGraph == null)
-        {
+        if (objectGraph == null) {
             objectGraph = ObjectGraph.create(rootModule);
-        }
-        else
-        {
+        } else {
             objectGraph = objectGraph.plus(rootModule);
         }
 
@@ -23,19 +19,16 @@ public final class Injector
 
     }
 
-    public static void init(final Object rootModule, final Object target)
-    {
+    public static void init(final Object rootModule, final Object target) {
         init(rootModule);
         inject(target);
     }
 
-    public static final void inject(final Object target)
-    {
+    public static void inject(final Object target) {
         objectGraph.inject(target);
     }
 
-    public static <T> T resolve(Class<T> type)
-    {
+    public static <T> T resolve(Class<T> type) {
         return objectGraph.get(type);
     }
 }

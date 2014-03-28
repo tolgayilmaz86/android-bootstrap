@@ -23,7 +23,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
      * @param resources
      * @param fragmentManager
      */
-    public BootstrapPagerAdapter(Resources resources, FragmentManager fragmentManager) {
+    public BootstrapPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
     }
@@ -34,37 +34,39 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
-        Bundle bundle = new Bundle();
+    public Fragment getItem(final int position) {
+        final Fragment result;
         switch (position) {
-        case 0:
-            NewsListFragment newsFragment = new NewsListFragment();
-            newsFragment.setArguments(bundle);
-            return newsFragment;
-        case 1:
-            UserListFragment userListFragment = new UserListFragment();
-            userListFragment.setArguments(bundle);
-            return userListFragment;
-        case 2:
-            CheckInsListFragment checkInsFragment = new CheckInsListFragment();
-            checkInsFragment.setArguments(bundle);
-            return checkInsFragment;
-        default:
-            return null;
+            case 0:
+                result = new NewsListFragment();
+                break;
+            case 1:
+                result = new UserListFragment();
+                break;
+            case 2:
+                result = new CheckInsListFragment();
+                break;
+            default:
+                result = null;
+                break;
         }
+        if (result != null) {
+            result.setArguments(new Bundle()); //TODO do we need this?
+        }
+        return result;
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
+    public CharSequence getPageTitle(final int position) {
         switch (position) {
-        case 0:
-            return resources.getString(R.string.page_news);
-        case 1:
-            return resources.getString(R.string.page_users);
-        case 2:
-            return resources.getString(R.string.page_checkins);
-        default:
-            return null;
+            case 0:
+                return resources.getString(R.string.page_news);
+            case 1:
+                return resources.getString(R.string.page_users);
+            case 2:
+                return resources.getString(R.string.page_checkins);
+            default:
+                return null;
         }
     }
 }

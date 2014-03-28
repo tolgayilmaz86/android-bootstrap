@@ -5,9 +5,10 @@ package com.donnfelker.android.bootstrap.core;
 /**
  * Bootstrap constants
  */
-public class Constants {
+public final class Constants {
+    private Constants() {}
 
-    public static class Auth {
+    public static final class Auth {
         private Auth() {}
 
         /**
@@ -35,9 +36,8 @@ public class Constants {
      * All HTTP is done through a REST style API built for demonstration purposes on Parse.com
      * Thanks to the nice people at Parse for creating such a nice system for us to use for bootstrap!
      */
-    public static class Http {
+    public static final class Http {
         private Http() {}
-
 
 
         /**
@@ -78,7 +78,7 @@ public class Constants {
     }
 
 
-    public static class Extra {
+    public static final class Extra {
         private Extra() {}
 
         public static final String NEWS_ITEM = "news_item";
@@ -87,7 +87,7 @@ public class Constants {
 
     }
 
-    public static class Intent {
+    public static final class Intent {
         private Intent() {}
 
         /**
@@ -97,8 +97,9 @@ public class Constants {
 
     }
 
-    public static class Notification{
-        private Notification() {}
+    public static class Notification {
+        private Notification() {
+        }
 
         public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
     }

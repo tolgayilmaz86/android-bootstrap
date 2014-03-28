@@ -11,11 +11,11 @@ import android.support.v4.content.AsyncTaskLoader;
  * <p/>
  * Based on CursorLoader.java in the Fragment compatibility package
  *
- * @param <D>
- *            data type
+ * @param <D> data type
  * @author Alexander Blom (me@alexanderblom.se)
  */
 public abstract class AsyncLoader<D> extends AsyncTaskLoader<D> {
+
     private D data;
 
     /**
@@ -23,15 +23,16 @@ public abstract class AsyncLoader<D> extends AsyncTaskLoader<D> {
      *
      * @param context
      */
-    public AsyncLoader(Context context) {
+    public AsyncLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public void deliverResult(D data) {
-        if (isReset())
+    public void deliverResult(final D data) {
+        if (isReset()) {
             // An async query came in while the loader is stopped
             return;
+        }
 
         this.data = data;
 
@@ -40,11 +41,13 @@ public abstract class AsyncLoader<D> extends AsyncTaskLoader<D> {
 
     @Override
     protected void onStartLoading() {
-        if (data != null)
+        if (data != null) {
             deliverResult(data);
+        }
 
-        if (takeContentChanged() || data == null)
+        if (takeContentChanged() || data == null) {
             forceLoad();
+        }
     }
 
     @Override

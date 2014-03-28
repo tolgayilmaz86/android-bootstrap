@@ -14,7 +14,7 @@ public class News implements Serializable {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -22,7 +22,7 @@ public class News implements Serializable {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(final String content) {
         this.content = content;
     }
 
@@ -30,7 +30,7 @@ public class News implements Serializable {
         return objectId;
     }
 
-    public void setObjectId(String objectId) {
+    public void setObjectId(final String objectId) {
         this.objectId = objectId;
     }
 }

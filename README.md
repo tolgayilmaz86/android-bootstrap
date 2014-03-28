@@ -95,6 +95,26 @@ Android security as it it won't let you directly replace an app that's been
 signed with a different key.  Manually uninstall Android Bootstrap from your device and
 you will then be able to install your own built version.
 
+## Building in Eclipse
+
+This project depends on the Android V7 Support Library for the AppCompat toolbar, so
+you have to import it into your workspace.  Do File/Import and then choose Android
+then Existing Android Code Into Workspace and select the library from
+\Android_SDK\extras\android\support\v7\appcompat.
+
+Next, you'll need to install the [Eclipse Integration Gradle Plugin](https://github.com/spring-projects/eclipse-integration-gradle).
+and restart Eclipse.
+
+You can then import the Android Bootstrap project by doing File/Import/Gradle/Gradle Project
+and the clicking the Browse button to point to the Android Bootstrap directory.  Click
+on Build Model, and then you can put a checkbox next to "app" and finish the import.  This
+will show up as "app" in your Eclipse workspace.  You can rename it by right clicking on it
+and choosing Refactor/Rename.
+
+If it complains that "/gen already exists but is not a source folder", right click on the
+gen folder and then BuildPath/SourceFolder.
+
+
 ## Acknowledgements
 
 Android Bootstrap is a result of a template project I've developed over the years as well as
@@ -105,13 +125,13 @@ code in this project is based on the GitHub Gaug.es and GitHub Android app.
 Android Bootstrap is built on the awesome [Parse.com API](http://www.parse.com/)
 and uses many great open-source libraries from the Android dev community:
 
-* [ActionBarSherlock](https://github.com/JakeWharton/ActionBarSherlock) for a
+* [AppCompat](http://www.youtube.com/watch?v=6TGgYqfJnyc) for a
   consistent, great looking header across all Android platforms,
   [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator)
   for swiping between fragments and
   [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) for 
   view animations - all from [Jake Wharton](http://jakewharton.com/).
-* [MenuDrawer](https://github.com/SimonVT/android-menudrawer) for the menu drawer navigation.
+* [NavigationDrawer](http://developer.android.com/design/patterns/navigation-drawer.html) for the menu drawer navigation.
 * [Dagger](https://github.com/square/dagger) for dependency-injection.
 * [ButterKnife](https://github.com/JakeWharton/butterknife) for view injection
 * [Otto](https://github.com/square/otto) as the event bus
@@ -123,6 +143,10 @@ and uses many great open-source libraries from the Android dev community:
   remote HTTP resources (API's in this case).
 * [google-gson](http://code.google.com/p/google-gson/) for consuming JSON and hydrating
   POJO's for use in the app.
+
+
+## Contributors
+Thank you to all the [contributors](http://www.github.com/donnfelker/android-bootstrap/contributors) on this project. Your help is much appreciated.
 
 
 ## Contributing

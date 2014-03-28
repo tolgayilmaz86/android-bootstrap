@@ -4,11 +4,13 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.donnfelker.android.bootstrap.BootstrapApplication;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.core.PauseTimerEvent;
 import com.donnfelker.android.bootstrap.core.ResumeTimerEvent;
@@ -16,16 +18,19 @@ import com.donnfelker.android.bootstrap.core.StopTimerEvent;
 import com.donnfelker.android.bootstrap.core.TimerPausedEvent;
 import com.donnfelker.android.bootstrap.core.TimerService;
 import com.donnfelker.android.bootstrap.core.TimerTickEvent;
-import javax.inject.Inject;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import javax.inject.Inject;
+
 import butterknife.InjectView;
-import butterknife.Views;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class BootstrapTimerActivity extends BootstrapFragmentActivity implements View.OnClickListener {
 
-    @Inject Bus BUS;
+    @Inject Bus eventBus;
 
     @InjectView(R.id.chronometer) protected TextView chronometer;
     @InjectView(R.id.start) protected Button start;
@@ -34,12 +39,15 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
     @InjectView(R.id.resume) protected Button resume;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.bootstrap_timer);
 
-        setTitle(R.string.timer);
+        setTitle(R.string.title_timer);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         start.setOnClickListener(this);
         stop.setOnClickListener(this);
@@ -49,22 +57,8 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        BUS.register(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        BUS.unregister(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()) {
+    public void onClick(final View v) {
+        switch (v.getId()) {
             case R.id.start:
                 startTimer();
                 break;
@@ -80,17 +74,44 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            // Source:
+            // http://developer.android.com/training/implementing-navigation/ancestral.html
+            // This is the home button in the top left corner of the screen.
+            case android.R.id.home:
+                final Intent upIntent = NavUtils.getParentActivityIntent(this);
+                // If parent is not properly defined in AndroidManifest.xml upIntent will be null
+                // TODO hanlde upIntent == null
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                    // This activity is NOT part of this app's task, so create a new task
+                    // when navigating up, with a synthesized back stack.
+                    TaskStackBuilder.create(this)
+                            // Add all of this activity's parents to the back stack
+                            .addNextIntentWithParentStack(upIntent)
+                                    // Navigate up to the closest parent
+                            .startActivities();
+                } else {
+                    // This activity is part of this app's task, so simply
+                    // navigate up to the logical parent activity.
+                    NavUtils.navigateUpTo(this, upIntent);
+                }
+                return true;
+                default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /**
      * Starts the timer service
      */
     private void startTimer() {
-        if(isTimerServiceRunning() == false) {
+        if (!isTimerServiceRunning()) {
             final Intent i = new Intent(this, TimerService.class);
             startService(i);
 
-            start.setVisibility(View.GONE);
-            stop.setVisibility(View.VISIBLE);
-            pause.setVisibility(View.VISIBLE);
+            setButtonVisibility(GONE, VISIBLE, GONE, VISIBLE);
         }
     }
 
@@ -98,88 +119,80 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
      * Posts a {@link StopTimerEvent} message to the {@link Bus}
      */
     private void produceStopEvent() {
-        BUS.post(new StopTimerEvent());
+        eventBus.post(new StopTimerEvent());
     }
 
     /**
      * Posts a {@link PauseTimerEvent} message to the {@link Bus}
      */
     private void producePauseEvent() {
-        BUS.post(new PauseTimerEvent());
+        eventBus.post(new PauseTimerEvent());
     }
 
     /**
      * Posts a {@link ResumeTimerEvent} message to the {@link Bus}
      */
     private void produceResumeEvent() {
-        BUS.post(new ResumeTimerEvent());
+        eventBus.post(new ResumeTimerEvent());
     }
 
     @Subscribe
-    public void onTimerPausedEvent(TimerPausedEvent event) {
-        if(event.isTimerIsPaused()) {
-            resume.setVisibility(View.VISIBLE);
-            stop.setVisibility(View.VISIBLE);
-            pause.setVisibility(View.GONE);
-            start.setVisibility(View.GONE);
-        } else if(isTimerServiceRunning()) {
-            pause.setVisibility(View.VISIBLE);
-            stop.setVisibility(View.VISIBLE);
-            resume.setVisibility(View.GONE);
-            start.setVisibility(View.GONE);
+    public void onTimerPausedEvent(final TimerPausedEvent event) {
+        if (event.isTimerIsPaused()) {
+            setButtonVisibility(GONE, VISIBLE, VISIBLE, GONE);
+        } else if (isTimerServiceRunning()) {
+            setButtonVisibility(GONE, VISIBLE, GONE, VISIBLE);
         }
     }
 
     /**
      * Called by {@link Bus} when a tick event occurs.
+     *
      * @param event The event
      */
     @Subscribe
-    public void onTickEvent(TimerTickEvent event) {
+    public void onTickEvent(final TimerTickEvent event) {
         setFormattedTime(event.getMillis());
     }
 
-
-
     /**
      * Called by {@link Bus} when a tick event occurs.
+     *
      * @param event The event
      */
     @Subscribe
-    public void onPauseEvent(PauseTimerEvent event) {
-        resume.setVisibility(View.VISIBLE);
-        pause.setVisibility(View.GONE);
+    public void onPauseEvent(final PauseTimerEvent event) {
+        setButtonVisibility(GONE, VISIBLE, VISIBLE, GONE);
     }
 
     /**
      * Called by {@link Bus} when a tick event occurs.
+     *
      * @param event The event
      */
     @Subscribe
-    public void onResumeEvent(ResumeTimerEvent event) {
-        resume.setVisibility(View.GONE);
-        pause.setVisibility(View.VISIBLE);
+    public void onResumeEvent(final ResumeTimerEvent event) {
+        setButtonVisibility(GONE, VISIBLE, GONE, VISIBLE);
     }
 
     /**
      * Called by {@link Bus} when a tick event occurs.
+     *
      * @param event The event
      */
     @Subscribe
-    public void onStopEvent(StopTimerEvent event) {
-        resume.setVisibility(View.GONE);
-        pause.setVisibility(View.GONE);
-        start.setVisibility(View.VISIBLE);
-        stop.setVisibility(View.GONE);
+    public void onStopEvent(final StopTimerEvent event) {
+        setButtonVisibility(VISIBLE, GONE, GONE, GONE);
         setFormattedTime(0); // Since its stopped, zero out the timer.
     }
 
     /**
      * Checks to see if the timer service is running or not.
+     *
      * @return true if the service is running otherwise false.
      */
     private boolean isTimerServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        final ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (TimerService.class.getName().equals(service.service.getClassName())) {
                 return true;
@@ -188,8 +201,17 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
         return false;
     }
 
+    private void setButtonVisibility(final int start, final int stop,
+                                     final int resume, final int pause) {
+        this.start.setVisibility(start);
+        this.stop.setVisibility(stop);
+        this.resume.setVisibility(resume);
+        this.pause.setVisibility(pause);
+    }
+
     /**
      * Sets the formatted time
+     *
      * @param millis the elapsed time
      */
     private void setFormattedTime(long millis) {
@@ -199,34 +221,17 @@ public class BootstrapTimerActivity extends BootstrapFragmentActivity implements
 
     /**
      * Formats the time to look like "HH:MM:SS"
+     *
      * @param millis The number of elapsed milliseconds
      * @return A formatted time value
      */
-    public static String formatTime(long millis) {
-
-        long seconds = millis / 1000;
-        long minutes = seconds / 60;
-        long hours = minutes / 60;
-
-        seconds = seconds % 60;
-        minutes = minutes % 60;
-        hours = hours % 60;
-
-        String secondsD = String.valueOf(seconds);
-        String minutesD = String.valueOf(minutes);
-        String hoursD = String.valueOf(hours);
-
-        if (seconds < 10)
-            secondsD = "0" + seconds;
-        if (minutes < 10)
-            minutesD = "0" + minutes;
-        if (hours < 10)
-            hoursD = "0" + hours;
-
-        // HH:MM:SS
-        return String.format("%1$s:%2$s:%3$s" , hoursD , minutesD , secondsD);
-
+    public static String formatTime(final long millis) {
+        //TODO does not support hour>=100 (4.1 days)
+        return String.format("%02d:%02d:%02d",
+                millis / (1000 * 60 * 60),
+                (millis / (1000 * 60)) % 60,
+                (millis / 1000) % 60
+        );
     }
-
 
 }

@@ -11,22 +11,21 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 
-import com.donnfelker.android.bootstrap.BootstrapApplication;
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.ui.BootstrapTimerActivity;
-import javax.inject.Inject;
-
 import com.donnfelker.android.bootstrap.util.Ln;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
 import com.squareup.otto.Subscribe;
 
+import javax.inject.Inject;
+
 import static com.donnfelker.android.bootstrap.core.Constants.Notification.TIMER_NOTIFICATION_ID;
 
 public class TimerService extends Service {
 
-    @Inject protected Bus BUS;
+    @Inject protected Bus eventBus;
     @Inject NotificationManager notificationManager;
 
     private boolean timerRunning = false;
@@ -50,7 +49,7 @@ public class TimerService extends Service {
         Injector.inject(this);
 
         // Register the bus so we can send notifications.
-        BUS.register(this);
+        eventBus.register(this);
 
     }
 
@@ -58,7 +57,7 @@ public class TimerService extends Service {
     public void onDestroy() {
 
         // Unregister bus, since its not longer needed as the service is shutting down
-        BUS.unregister(this);
+        eventBus.unregister(this);
 
         notificationManager.cancel(TIMER_NOTIFICATION_ID);
 
@@ -70,7 +69,7 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if(timerStarted == false) {
+        if (!timerStarted) {
 
             timerStarted = true;
 
@@ -135,7 +134,7 @@ public class TimerService extends Service {
         base = SystemClock.elapsedRealtime();
 
         // If coming from a paused state, then find our true base.
-        if(pausedBaseTime > 0)
+        if (pausedBaseTime > 0)
             base = base - pausedBaseTime;
 
         isPaused = false;
@@ -172,10 +171,9 @@ public class TimerService extends Service {
         currentRunningTimeInMillis = now - base;
         Ln.d("Elapsed Seconds: " + currentRunningTimeInMillis / 1000);
 
-        BUS.post(produceTickEvent());
+        eventBus.post(produceTickEvent());
 
     }
-
 
 
     private void notifyTimerRunning() {
@@ -191,6 +189,7 @@ public class TimerService extends Service {
 
     /**
      * Creates a notification to show in the notification bar
+     *
      * @param message the message to display in the notification bar
      * @return a new {@link Notification}
      */

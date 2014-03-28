@@ -4,8 +4,8 @@ package com.donnfelker.android.bootstrap.ui;
 import android.view.LayoutInflater;
 
 import com.donnfelker.android.bootstrap.R;
-import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.donnfelker.android.bootstrap.R.drawable;
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ public abstract class AlternatingColorListAdapter<V> extends
      * @param inflater
      * @param items
      */
-    public AlternatingColorListAdapter(final int layoutId,
-            final LayoutInflater inflater, final List<V> items) {
+    public AlternatingColorListAdapter(final int layoutId, final LayoutInflater inflater,
+                                       final List<V> items) {
         this(layoutId, inflater, items, true);
     }
 
@@ -41,8 +41,8 @@ public abstract class AlternatingColorListAdapter<V> extends
      * @param items
      * @param selectable
      */
-    public AlternatingColorListAdapter(final int layoutId,
-            LayoutInflater inflater, final List<V> items, boolean selectable) {
+    public AlternatingColorListAdapter(final int layoutId, final LayoutInflater inflater,
+                                       final List<V> items, final boolean selectable) {
         super(inflater, layoutId);
 
         if (selectable) {

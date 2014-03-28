@@ -7,6 +7,7 @@ package com.donnfelker.android.bootstrap.core;
  * as the background service runs the timer.
  */
 public class TimerTickEvent {
+
     private final long millis;
 
     public TimerTickEvent(long millis) {
@@ -21,13 +22,12 @@ public class TimerTickEvent {
         return (millis / 1000);
     }
 
-
     @Override
     public String toString() {
         return new StringBuilder("")
-                .append("Millis: " + getMillis())
+                .append("Millis: ").append(getMillis())
                 .append(", ")
-                .append("Seconds: " + getSeconds())
+                .append("Seconds: ").append(getSeconds())
                 .toString();
     }
 

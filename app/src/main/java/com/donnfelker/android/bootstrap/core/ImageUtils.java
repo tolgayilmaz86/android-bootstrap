@@ -1,10 +1,6 @@
 package com.donnfelker.android.bootstrap.core;
 
 
-
-import static android.graphics.Bitmap.Config.ARGB_8888;
-import static android.graphics.Color.WHITE;
-import static android.graphics.PorterDuff.Mode.DST_IN;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,16 +9,28 @@ import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.widget.ImageView;
+
 import com.donnfelker.android.bootstrap.util.Ln;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import static android.graphics.Bitmap.Config.ARGB_8888;
+import static android.graphics.Color.WHITE;
+import static android.graphics.PorterDuff.Mode.DST_IN;
+
 /**
  * Image utilities
  */
-public class ImageUtils {
+public final class ImageUtils {
+
+    /**
+     * This is a utility class.
+     */
+    private ImageUtils() {
+        //never called
+    }
 
     /**
      * Get a bitmap from the image path
@@ -41,7 +49,7 @@ public class ImageUtils {
      * @param sampleSize
      * @return bitmap or null if read fails
      */
-    public static Bitmap getBitmap(final String imagePath, int sampleSize) {
+    public static Bitmap getBitmap(final String imagePath, final int sampleSize) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inDither = false;
         options.inSampleSize = sampleSize;
@@ -79,16 +87,17 @@ public class ImageUtils {
             file = new RandomAccessFile(imagePath, "r");
             BitmapFactory.decodeFileDescriptor(file.getFD(), null, options);
             return new Point(options.outWidth, options.outHeight);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             Ln.d(e, "Could not get size.");
             return null;
         } finally {
-            if (file != null)
+            if (file != null) {
                 try {
                     file.close();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     Ln.d(e, "Could not get size.");
                 }
+            }
         }
     }
 
@@ -100,8 +109,8 @@ public class ImageUtils {
      * @param height
      * @return image
      */
-    public static Bitmap getBitmap(final String imagePath, int width, int height) {
-        Point size = getSize(imagePath);
+    public static Bitmap getBitmap(final String imagePath, final int width, final int height) {
+        final Point size = getSize(imagePath);
         int currWidth = size.x;
         int currHeight = size.y;
 
@@ -123,7 +132,7 @@ public class ImageUtils {
      * @param height
      * @return image
      */
-    public static Bitmap getBitmap(final File image, int width, int height) {
+    public static Bitmap getBitmap(final File image, final int width, final int height) {
         return getBitmap(image.getAbsolutePath(), width, height);
     }
 
@@ -156,9 +165,10 @@ public class ImageUtils {
      * @param view
      */
     public static void setImage(final File image, final ImageView view) {
-        Bitmap bitmap = getBitmap(image);
-        if (bitmap != null)
+        final Bitmap bitmap = getBitmap(image);
+        if (bitmap != null) {
             view.setImageBitmap(bitmap);
+        }
     }
 
     /**
@@ -169,20 +179,20 @@ public class ImageUtils {
      * @return rounded corner bitmap
      */
     public static Bitmap roundCorners(final Bitmap source, final float radius) {
-        int width = source.getWidth();
-        int height = source.getHeight();
+        final int width = source.getWidth();
+        final int height = source.getHeight();
 
-        Paint paint = new Paint();
+        final Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(WHITE);
 
-        Bitmap clipped = Bitmap.createBitmap(width, height, ARGB_8888);
+        final Bitmap clipped = Bitmap.createBitmap(width, height, ARGB_8888);
         Canvas canvas = new Canvas(clipped);
         canvas.drawRoundRect(new RectF(0, 0, width, height), radius, radius,
                 paint);
         paint.setXfermode(new PorterDuffXfermode(DST_IN));
 
-        Bitmap rounded = Bitmap.createBitmap(width, height, ARGB_8888);
+        final Bitmap rounded = Bitmap.createBitmap(width, height, ARGB_8888);
         canvas = new Canvas(rounded);
         canvas.drawBitmap(source, 0, 0, null);
         canvas.drawBitmap(clipped, 0, 0, paint);
