@@ -5,7 +5,7 @@
 This repository contains the source code for the [Android Bootstrap](http://www.androidbootstrap.com/)
 Android app available from [Google Play](https://play.google.com/store/apps/details?id=com.donnfelker.android.bootstrap).
 
-Please see the [issues](https://github.com/donnfelker/android-bootstrap/issues) section
+Please see the [issues](https://github.com/androidbootstrap/android-bootstrap/issues) section
 to report any bugs or feature requests and to see the list of known issues.
 
 Have a questions about Android Bootstrap? Ask away on the [android-bootstrap discussion forum](https://groups.google.com/forum/#!forum/android-bootstrap).
@@ -57,10 +57,8 @@ The application
 * [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 
-Copyright 2013 Donn Felker
-
-
-Copyright 2013 GitHub Inc.
+Copyright 2014 Donn Felker
+Copyright 2014 GitHub Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -77,19 +75,19 @@ limitations under the License.
 
 ## Building
 
-The build requires [Maven](http://maven.apache.org/download.html)
-v3.0.3+ and the [Android SDK](http://developer.android.com/sdk/index.html)
+The build requires [Gradle](http://www.gradle.org/downloads)
+v1.10+ and the [Android SDK](http://developer.android.com/sdk/index.html)
 to be installed in your development environment. In addition you'll need to set
 the `ANDROID_HOME` environment variable to the location of your SDK:
 
-    export ANDROID_HOME=/home/donnfelker/tools/android-sdk
+    export ANDROID_HOME=/path/to/your/android-sdk
 
 After satisfying those requirements, the build is pretty simple:
 
-* Run `mvn clean package` from the `app` directory to build the APK only
-* Run `mvn clean install` from the root directory to build the app and also run
+* Run `gradlew` or `gradle assembleDebug` or `gradle assembleRelease` from the `app` directory to build the APK only
+* Run one of the commands above from the root directory to build the app and also run
   the integration tests, this requires a connected Android device or running
-  emulator
+  emulator.
 
 You might find that your device doesn't let you install your build if you
 already have the version from the Android Market installed.  This is standard
@@ -99,22 +97,7 @@ you will then be able to install your own built version.
 
 ## Building in Eclipse
 
-This project depends on the Android V7 Support Library for the AppCompat toolbar, so
-you have to import it into your workspace.  Do File/Import and then choose Android
-then Existing Android Code Into Workspace and select the library from
-\Android_SDK\extras\android\support\v7\appcompat.
-
-Next, you'll need to install the [Eclipse Integration Gradle Plugin](https://github.com/spring-projects/eclipse-integration-gradle).
-and restart Eclipse.
-
-You can then import the Android Bootstrap project by doing File/Import/Gradle/Gradle Project
-and the clicking the Browse button to point to the Android Bootstrap directory.  Click
-on Build Model, and then you can put a checkbox next to "app" and finish the import.  This
-will show up as "app" in your Eclipse workspace.  You can rename it by right clicking on it
-and choosing Refactor/Rename.
-
-If it complains that "/gen already exists but is not a source folder", right click on the
-gen folder and then BuildPath/SourceFolder.
+Not supported, please use Android Studio
 
 
 ## Acknowledgements
@@ -148,13 +131,13 @@ and uses many great open-source libraries from the Android dev community:
 
 
 ## Contributors
-Thank you to all the [contributors](http://www.github.com/donnfelker/android-bootstrap/contributors) on this project. Your help is much appreciated.
+Thank you to all the [contributors](http://www.github.com/androidbootstrap/android-bootstrap/contributors) on this project. Your help is much appreciated.
 
 
 ## Contributing
 
 Please fork this repository and contribute back using
-[pull requests](https://github.com/donnfelker/android-bootstrap/pulls).
+[pull requests](https://github.com/androidbootstrap/android-bootstrap/pulls).
 
 Any contributions, large or small, major features, bug fixes, additional
 language translations, unit/integration tests are welcomed and appreciated
