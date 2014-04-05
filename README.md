@@ -1,12 +1,14 @@
 # Android Bootstrap App
 
+[![Build Status](https://travis-ci.org/AndroidBootstrap/android-bootstrap.svg?branch=master)](https://travis-ci.org/AndroidBootstrap/android-bootstrap)
+
 This repository contains the source code for the [Android Bootstrap](http://www.androidbootstrap.com/)
 Android app available from [Google Play](https://play.google.com/store/apps/details?id=com.donnfelker.android.bootstrap).
 
 Please see the [issues](https://github.com/donnfelker/android-bootstrap/issues) section
 to report any bugs or feature requests and to see the list of known issues.
 
-Have a questions about Android Bootstrap? Ask away on the [android-bootstrap discussion forum](https://groups.google.com/forum/#!forum/android-bootstrap). 
+Have a questions about Android Bootstrap? Ask away on the [android-bootstrap discussion forum](https://groups.google.com/forum/#!forum/android-bootstrap).
 
 <a href="https://play.google.com/store/apps/details?id=com.donnfelker.android.bootstrap" alt="Download from Google Play">
   <img src="http://f.cl.ly/items/3V0K1s1i402W0c193v2w/Image%202013.07.08%201%3A45%3A25%20PM.png">
@@ -28,27 +30,27 @@ password: android
 
 
 ## Generating your Bootstrap App
-Why generate? Simple ... renaming files, folders, copy and pasting is SUPER error prone and well... it sucks overall. This can easily take a few days with debugging if you run into issues and perform a lot of typo's. Using the generator on [AndroidBootstrap.com](http://www.androidbootstrap.com) you can generate your application with your application name as well as the package (and folder structure) that you want to work with. 
+Why generate? Simple ... renaming files, folders, copy and pasting is SUPER error prone and well... it sucks overall. This can easily take a few days with debugging if you run into issues and perform a lot of typo's. Using the generator on [AndroidBootstrap.com](http://www.androidbootstrap.com) you can generate your application with your application name as well as the package (and folder structure) that you want to work with.
 
-As an example, you know that you want your app name and package to the following: 
+As an example, you know that you want your app name and package to the following:
 
   - *App Name*: Notify
   - *Package Name*: com.notify.app.mobile
 
 After generating the app on [AndroidBootstrap.com](http://www.androidbootstrap.com) the folder structure of the source code for the app will change:
 
-  - From: __com/donnfelker/android/bootstrap__ 
+  - From: __com/donnfelker/android/bootstrap__
   - To: __com/notify/app/mobile__
 
-At that point all the source files that were located in ____com/donnfelker/android/bootstrap__ will be moved to the new folder __com/notify/app/mobile__. 
+At that point all the source files that were located in ____com/donnfelker/android/bootstrap__ will be moved to the new folder __com/notify/app/mobile__.
 
-All import statments that reference the old resources (__R.com.donnfelker.android.bootstrap.R__) will now be renamed to the correct package. The artifact id's in the *pom.xml* (and various other places) will be replaced. The App Name will be replaced in the strings/etc. 
+All import statments that reference the old resources (__R.com.donnfelker.android.bootstrap.R__) will now be renamed to the correct package. The artifact id's in the *pom.xml* (and various other places) will be replaced. The App Name will be replaced in the strings/etc.
 
-The end result is that you will be given a zip file with the correct structure. Open the zip and then execute *mvn clean package* and your app should be ready for development. 
+The end result is that you will be given a zip file with the correct structure. Open the zip and then execute *mvn clean package* and your app should be ready for development.
 
 Enjoy!
 
-The application 
+The application
 
 ## License
 
@@ -129,7 +131,7 @@ and uses many great open-source libraries from the Android dev community:
   consistent, great looking header across all Android platforms,
   [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator)
   for swiping between fragments and
-  [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) for 
+  [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) for
   view animations - all from [Jake Wharton](http://jakewharton.com/).
 * [NavigationDrawer](http://developer.android.com/design/patterns/navigation-drawer.html) for the menu drawer navigation.
 * [Dagger](https://github.com/square/dagger) for dependency-injection.
