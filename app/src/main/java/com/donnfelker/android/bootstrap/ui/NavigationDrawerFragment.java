@@ -241,7 +241,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
+        if (!isTablet() && drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
