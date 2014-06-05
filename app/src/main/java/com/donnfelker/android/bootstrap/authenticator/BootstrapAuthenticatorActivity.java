@@ -1,5 +1,13 @@
 package com.donnfelker.android.bootstrap.authenticator;
 
+import static android.R.layout.simple_dropdown_item_1line;
+import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
+import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
+import static android.accounts.AccountManager.KEY_AUTHTOKEN;
+import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
@@ -21,39 +29,29 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.donnfelker.android.bootstrap.Injector;
+import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.R.id;
 import com.donnfelker.android.bootstrap.R.layout;
 import com.donnfelker.android.bootstrap.R.string;
+import com.donnfelker.android.bootstrap.core.BootstrapService;
 import com.donnfelker.android.bootstrap.core.Constants;
 import com.donnfelker.android.bootstrap.core.User;
+import com.donnfelker.android.bootstrap.events.UnAuthorizedErrorEvent;
 import com.donnfelker.android.bootstrap.ui.TextWatcherAdapter;
 import com.donnfelker.android.bootstrap.util.Ln;
 import com.donnfelker.android.bootstrap.util.SafeAsyncTask;
-import com.donnfelker.android.bootstrap.util.Strings;
-import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.wishlist.Toaster;
-import com.google.gson.Gson;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.Views;
-
-import static android.R.layout.simple_dropdown_item_1line;
-import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
-import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
-import static android.accounts.AccountManager.KEY_AUTHTOKEN;
-import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
-import static android.view.KeyEvent.ACTION_DOWN;
-import static android.view.KeyEvent.KEYCODE_ENTER;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.HEADER_PARSE_APP_ID;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.HEADER_PARSE_REST_API_KEY;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_APP_ID;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.PARSE_REST_API_KEY;
-import static com.donnfelker.android.bootstrap.core.Constants.Http.URL_AUTH;
-import static com.github.kevinsawicki.http.HttpRequest.get;
+import retrofit.RetrofitError;
 
 /**
  * Activity to authenticate the user against an API (example API on Parse.com)
@@ -82,6 +80,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
 
     private AccountManager accountManager;
+
+    @Inject BootstrapService bootstrapService;
+    @Inject Bus bus;
 
     @InjectView(id.et_email) protected AutoCompleteTextView emailText;
     @InjectView(id.et_password) protected EditText passwordText;
@@ -119,6 +120,8 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+
+        Injector.inject(this);
 
         accountManager = AccountManager.get(this);
 
@@ -189,7 +192,14 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @Override
     protected void onResume() {
         super.onResume();
+        bus.register(this);
         updateUIWithValidation();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bus.unregister(this);
     }
 
     private void updateUIWithValidation() {
@@ -215,6 +225,12 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
             }
         });
         return dialog;
+    }
+
+    @Subscribe
+    public void onUnAuthorizedErrorEvent(UnAuthorizedErrorEvent unAuthorizedErrorEvent) {
+        // Could not authorize for some reason.
+        Toaster.showLong(BootstrapAuthenticatorActivity.this, R.string.message_bad_credentials);
     }
 
     /**
@@ -243,39 +259,21 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 final String query = String.format("%s=%s&%s=%s",
                         PARAM_USERNAME, email, PARAM_PASSWORD, password);
 
-                final HttpRequest request = get(URL_AUTH + "?" + query)
-                        .header(HEADER_PARSE_APP_ID, PARSE_APP_ID)
-                        .header(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY);
+                User loginResponse = bootstrapService.authenticate(email, password);
+                token = loginResponse.getSessionToken();
 
-
-                Ln.d("Authentication response=%s", request.code());
-
-                if (request.ok()) {
-                    final User model = new Gson().fromJson(
-                            Strings.toString(request.buffer()),
-                            User.class
-                    );
-                    token = model.getSessionToken();
-                }
-
-                return request.ok();
+                return true;
             }
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                final Throwable cause = e.getCause() != null ? e.getCause() : e;
-
-                final String message;
-                // A 404 is returned as an Exception with this message
-                if ("Received authentication challenge is null".equals(cause
-                        .getMessage())) {
-                    message = getResources().getString(
-                            string.message_bad_credentials);
-                } else {
-                    message = cause.getMessage();
+                // Retrofit Errors are handled inside of the {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Toaster.showLong(BootstrapAuthenticatorActivity.this, cause.getMessage());
+                    }
                 }
-
-                Toaster.showLong(BootstrapAuthenticatorActivity.this, message);
             }
 
             @Override
@@ -325,7 +323,6 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         } else {
             accountManager.setPassword(account, password);
         }
-
 
         authToken = token;
 

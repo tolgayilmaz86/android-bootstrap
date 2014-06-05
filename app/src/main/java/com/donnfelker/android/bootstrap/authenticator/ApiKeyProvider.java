@@ -21,7 +21,11 @@ import static com.donnfelker.android.bootstrap.core.Constants.Auth.BOOTSTRAP_ACC
  */
 public class ApiKeyProvider {
 
-    @Inject protected AccountManager accountManager;
+    private AccountManager accountManager;
+
+    public ApiKeyProvider(AccountManager accountManager) {
+        this.accountManager = accountManager;
+    }
 
     /**
      * This call blocks, so shouldn't be called on the UI thread.

@@ -44,7 +44,7 @@ public abstract class SafeAsyncTask<ResultT> implements Callable<ResultT> {
      * Sets executor to Executors.newFixedThreadPool(DEFAULT_POOL_SIZE) and
      * Handler to new Handler()
      */
-    public SafeAsyncTask() {
+    public  SafeAsyncTask() {
         this.executor = DEFAULT_EXECUTOR;
     }
 
