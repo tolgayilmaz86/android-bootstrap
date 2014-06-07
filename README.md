@@ -19,7 +19,7 @@ Have a questions about Android Bootstrap? Ask away on the [android-bootstrap dis
 </a>
 
 ## HOW TO
-Learn how to develop with IntelliJ and Maven. [Watch the how to video](http://www.youtube.com/watch?v=YbyzRNxcvZw&feature=youtube_gdata)
+Learn how to develop with IntelliJ and Gradle.
 
 ## Authentication
 Log into this demo app with the following credentials:
@@ -30,23 +30,31 @@ password: android
 
 
 ## Generating your Bootstrap App
-Why generate? Simple ... renaming files, folders, copy and pasting is SUPER error prone and well... it sucks overall. This can easily take a few days with debugging if you run into issues and perform a lot of typo's. Using the generator on [AndroidBootstrap.com](http://www.androidbootstrap.com) you can generate your application with your application name as well as the package (and folder structure) that you want to work with.
+Why generate? Simple ... renaming files, folders, copy and pasting is SUPER error prone and well... it sucks overall.
+This can easily take a few days with debugging if you run into issues and perform a lot of typo's.
+Using the generator on [AndroidBootstrap.com](http://www.androidbootstrap.com) you can generate your application
+with your application name as well as the package (and folder structure) that you want to work with.
 
 As an example, you know that you want your app name and package to the following:
 
   - *App Name*: Notify
   - *Package Name*: com.notify.app.mobile
 
-After generating the app on [AndroidBootstrap.com](http://www.androidbootstrap.com) the folder structure of the source code for the app will change:
+After generating the app on [AndroidBootstrap.com](http://www.androidbootstrap.com) the folder structure of the source
+code for the app will change:
 
   - From: __com/donnfelker/android/bootstrap__
   - To: __com/notify/app/mobile__
 
-At that point all the source files that were located in ____com/donnfelker/android/bootstrap__ will be moved to the new folder __com/notify/app/mobile__.
+At that point all the source files that were located in ____com/donnfelker/android/bootstrap__ will be moved to the
+new folder __com/notify/app/mobile__.
 
-All import statments that reference the old resources (__R.com.donnfelker.android.bootstrap.R__) will now be renamed to the correct package. The artifact id's in the *pom.xml* (and various other places) will be replaced. The App Name will be replaced in the strings/etc.
+All import statments that reference the old resources (__R.com.donnfelker.android.bootstrap.R__) will now be renamed
+to the correct package. The artifact id's in the *pom.xml* (and various other places) will be replaced. The App Name
+will be replaced in the strings/etc.
 
-The end result is that you will be given a zip file with the correct structure. Open the zip and then execute *mvn clean package* and your app should be ready for development.
+The end result is that you will be given a zip file with the correct structure. Open the zip and then execute the
+*./gradlew* command and your app should be ready for development.
 
 Enjoy!
 
@@ -97,7 +105,8 @@ you will then be able to install your own built version.
 
 ## Building in Eclipse
 
-Not supported, please use Android Studio
+Why are you using Eclipse still? :)
+Please use Android Studio, we do not support Eclipse.
 
 
 ## Acknowledgements
@@ -124,14 +133,15 @@ and uses many great open-source libraries from the Android dev community:
   for driving our app during integration tests.
 * [android-maven-plugin](https://github.com/jayway/maven-android-plugin)
   for automating our build and producing release-ready APKs.
-* [http-request](https://github.com/kevinsawicki/http-request) for interacting with
+* [Retrofit](http://square.github.io/retrofit/) for interacting with
   remote HTTP resources (API's in this case).
 * [google-gson](http://code.google.com/p/google-gson/) for consuming JSON and hydrating
   POJO's for use in the app.
 
 
 ## Contributors
-Thank you to all the [contributors](http://www.github.com/androidbootstrap/android-bootstrap/contributors) on this project. Your help is much appreciated.
+Thank you to all the [contributors](http://www.github.com/androidbootstrap/android-bootstrap/contributors) on
+this project. Your help is much appreciated.
 
 
 ## Contributing
