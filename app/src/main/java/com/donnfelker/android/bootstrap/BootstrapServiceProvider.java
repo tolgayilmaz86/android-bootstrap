@@ -12,13 +12,20 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import retrofit.RestAdapter;
+
 /**
  * Provider for a {@link com.donnfelker.android.bootstrap.core.BootstrapService} instance
  */
 public class BootstrapServiceProvider {
 
-    @Inject ApiKeyProvider keyProvider;
-    @Inject UserAgentProvider userAgentProvider;
+    private RestAdapter restAdapter;
+    private ApiKeyProvider keyProvider;
+
+    public BootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider keyProvider) {
+        this.restAdapter = restAdapter;
+        this.keyProvider = keyProvider;
+    }
 
     /**
      * Get service for configured key provider
@@ -31,6 +38,10 @@ public class BootstrapServiceProvider {
      */
     public BootstrapService getService(final Activity activity)
             throws IOException, AccountsException {
-        return new BootstrapService(keyProvider.getAuthKey(activity), userAgentProvider);
+        // The call to keyProvider.getAuthKey(...) is what initiates the login screen. Call that now.
+        keyProvider.getAuthKey(activity);
+
+        // TODO: See how that affects the bootstrap service.
+        return new BootstrapService(restAdapter);
     }
 }

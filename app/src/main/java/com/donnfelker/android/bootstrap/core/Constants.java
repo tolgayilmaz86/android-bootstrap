@@ -45,25 +45,39 @@ public final class Constants {
          */
         public static final String URL_BASE = "https://api.parse.com";
 
+
         /**
          * Authentication URL
          */
-        public static final String URL_AUTH = URL_BASE + "/1/login";
+        public static final String URL_AUTH_FRAG = "/1/login";
+        public static final String URL_AUTH = URL_BASE + URL_AUTH_FRAG;
 
         /**
          * List Users URL
          */
-        public static final String URL_USERS = URL_BASE + "/1/users";
+        public static final String URL_USERS_FRAG =  "/1/users";
+        public static final String URL_USERS = URL_BASE + URL_USERS_FRAG;
+
 
         /**
          * List News URL
          */
-        public static final String URL_NEWS = URL_BASE + "/1/classes/News";
+        public static final String URL_NEWS_FRAG = "/1/classes/News";
+        public static final String URL_NEWS = URL_BASE + URL_NEWS_FRAG;
+
 
         /**
          * List Checkin's URL
          */
-        public static final String URL_CHECKINS = URL_BASE + "/1/classes/Locations";
+        public static final String URL_CHECKINS_FRAG = "/1/classes/Locations";
+        public static final String URL_CHECKINS = URL_BASE + URL_CHECKINS_FRAG;
+
+        /**
+         * PARAMS for auth
+         */
+        public static final String PARAM_USERNAME = "username";
+        public static final String PARAM_PASSWORD = "password";
+
 
         public static final String PARSE_APP_ID = "zHb2bVia6kgilYRWWdmTiEJooYA17NnkBSUVsr4H";
         public static final String PARSE_REST_API_KEY = "N2kCY1T3t3Jfhf9zpJ5MCURn3b25UpACILhnf5u9";
