@@ -45,7 +45,15 @@ public class HeaderFooterListAdapter<E extends BaseAdapter> extends
         list = view;
         wrapped = adapter;
     }
-
+    
+   /**
+     * Notifies the attached observers that the underlying data has been changed and any View reflecting the data set should refresh itself.
+     */
+    public void notifyDataSetChanged()
+    {
+        wrapped.notifyDataSetChanged();
+    }
+    
     /**
      * Add non-selectable header view with no data
      *
