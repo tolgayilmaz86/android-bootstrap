@@ -8,7 +8,8 @@ import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-import butterknife.Views;
+import butterknife.ButterKnife;
+
 
 /**
  * Base class for all Bootstrap Activities that need fragments.
@@ -29,7 +30,7 @@ public class BootstrapFragmentActivity extends Activity {
     public void setContentView(final int layoutResId) {
         super.setContentView(layoutResId);
 
-        Views.inject(this);
+        ButterKnife.inject(this);
     }
 
     @Override

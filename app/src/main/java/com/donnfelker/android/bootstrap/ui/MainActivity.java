@@ -24,7 +24,7 @@ import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
-import butterknife.Views;
+import butterknife.ButterKnife;
 
 
 /**
@@ -59,7 +59,7 @@ public class MainActivity extends BootstrapFragmentActivity {
         }
 
         // View injection with Butterknife
-        Views.inject(this);
+        ButterKnife.inject(this);
 
         // Set up navigation drawer
         title = drawerTitle = getTitle();
