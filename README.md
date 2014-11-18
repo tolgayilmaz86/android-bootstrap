@@ -1,7 +1,6 @@
-# UPDATE: 2014-11-13
-Android Bootstrap will be moving to API 15+ in the coming weeks. I (Donn) will be removing all the pre API 15 code. AppCompat, etc.
-I will also be implementing RxJava into this app as well. I will be refactoring many pieces of this app. There will be no upgrade path as
-Android Bootstrap is mean to act as a starting point for Android Applications.
+# UPDATE: 2014-11-18
+Android Bootstrap is now API 15+ only. I will also be implementing RxJava, Material design and a few other things into this app as well.
+There will be *no upgrade path* as Android Bootstrap is mean to act as a starting point for Android Applications.
 
 # Android Bootstrap App
 
