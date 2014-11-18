@@ -64,6 +64,7 @@ android {
     buildTypes {
         debug {
             packageNameSuffix '.debug'
+            versionNameSuffix '-debug'
             runProguard false
             // zipAlign false // this is default for debug
         }
