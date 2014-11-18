@@ -2,8 +2,9 @@ package com.donnfelker.android.bootstrap.authenticator;
 
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+
 
 
 /**
@@ -21,7 +22,7 @@ import android.support.v7.app.ActionBarActivity;
  * {@link android.accounts.AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  */
-public class ActionBarAccountAuthenticatorActivity extends ActionBarActivity {
+public class ActionBarAccountAuthenticatorActivity extends Activity {
     private AccountAuthenticatorResponse accountAuthenticatorResponse = null;
     private Bundle resultBundle = null;
 

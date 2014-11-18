@@ -1,20 +1,19 @@
 package com.donnfelker.android.bootstrap.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.donnfelker.android.bootstrap.Injector;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
 import butterknife.Views;
 
 /**
  * Base class for all Bootstrap Activities that need fragments.
  */
-public class BootstrapFragmentActivity extends ActionBarActivity {
+public class BootstrapFragmentActivity extends Activity {
 
     @Inject
     protected Bus eventBus;

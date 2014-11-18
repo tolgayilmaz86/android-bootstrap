@@ -2,11 +2,11 @@
 package com.donnfelker.android.bootstrap.ui;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,7 +40,7 @@ import java.util.List;
  * @param <E>
  */
 public abstract class ItemListFragment<E> extends Fragment
-        implements LoaderCallbacks<List<E>> {
+        implements LoaderManager.LoaderCallbacks<List<E>> {
 
     private static final String FORCE_REFRESH = "forceRefresh";
 
@@ -201,13 +201,9 @@ public abstract class ItemListFragment<E> extends Fragment
             return;
         }
 
-        getActionBarActivity().setSupportProgressBarIndeterminateVisibility(true);
+        getActivity().setProgressBarIndeterminateVisibility(true);
 
         getLoaderManager().restartLoader(0, args, this);
-    }
-
-    private ActionBarActivity getActionBarActivity() {
-        return ((ActionBarActivity) getActivity());
     }
 
     /**
@@ -220,7 +216,7 @@ public abstract class ItemListFragment<E> extends Fragment
 
     public void onLoadFinished(final Loader<List<E>> loader, final List<E> items) {
 
-        getActionBarActivity().setSupportProgressBarIndeterminateVisibility(false);
+        getActivity().setProgressBarIndeterminateVisibility(false);
 
         final Exception exception = getException(loader);
         if (exception != null) {

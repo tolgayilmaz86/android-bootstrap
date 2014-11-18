@@ -3,11 +3,11 @@
 package com.donnfelker.android.bootstrap.ui;
 
 import android.accounts.OperationCanceledException;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,14 +75,14 @@ public class MainActivity extends BootstrapFragmentActivity {
 
                 /** Called when a drawer has settled in a completely closed state. */
                 public void onDrawerClosed(View view) {
-                    getSupportActionBar().setTitle(title);
-                    supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                    getActionBar().setTitle(title);
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 }
 
                 /** Called when a drawer has settled in a completely open state. */
                 public void onDrawerOpened(View drawerView) {
-                    getSupportActionBar().setTitle(drawerTitle);
-                    supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                    getActionBar().setTitle(drawerTitle);
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 }
             };
 
@@ -90,7 +90,7 @@ public class MainActivity extends BootstrapFragmentActivity {
             drawerLayout.setDrawerListener(drawerToggle);
 
             navigationDrawerFragment = (NavigationDrawerFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+                    getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
             // Set up the drawer.
             navigationDrawerFragment.setUp(
@@ -99,8 +99,8 @@ public class MainActivity extends BootstrapFragmentActivity {
         }
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
 
         checkAuth();
@@ -135,7 +135,7 @@ public class MainActivity extends BootstrapFragmentActivity {
         if (userHasAuthenticated) {
 
             Ln.d("Foo");
-            final FragmentManager fragmentManager = getSupportFragmentManager();
+            final FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, new CarouselFragment())
                     .commit();
