@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -29,11 +30,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
-import com.donnfelker.android.bootstrap.R.id;
-import com.donnfelker.android.bootstrap.R.layout;
-import com.donnfelker.android.bootstrap.R.string;
 import com.donnfelker.android.bootstrap.core.BootstrapService;
 import com.donnfelker.android.bootstrap.core.Constants;
 import com.donnfelker.android.bootstrap.core.User;
@@ -84,9 +83,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @Inject BootstrapService bootstrapService;
     @Inject Bus bus;
 
-    @InjectView(id.et_email) protected AutoCompleteTextView emailText;
-    @InjectView(id.et_password) protected EditText passwordText;
-    @InjectView(id.b_signin) protected Button signInButton;
+    @InjectView(R.id.et_email) protected AutoCompleteTextView emailText;
+    @InjectView(R.id.et_password) protected EditText passwordText;
+    @InjectView(R.id.b_signin) protected Button signInButton;
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -132,9 +131,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
         requestNewAccount = email == null;
 
-        setContentView(layout.login_activity);
+        setContentView(R.layout.login_activity);
 
         ButterKnife.inject(this);
+
 
         emailText.setAdapter(new ArrayAdapter<String>(this,
                 simple_dropdown_item_1line, userEmailAccounts()));
@@ -166,10 +166,12 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         emailText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
 
-        final TextView signUpText = (TextView) findViewById(id.tv_signup);
+        final TextView signUpText = (TextView) findViewById(R.id.tv_signup);
         signUpText.setMovementMethod(LinkMovementMethod.getInstance());
-        signUpText.setText(Html.fromHtml(getString(string.signup_link)));
+        signUpText.setText(Html.fromHtml(getString(R.string.signup_link)));
     }
+
+
 
     private List<String> userEmailAccounts() {
         final Account[] accounts = accountManager.getAccountsByType("com.google");
@@ -214,7 +216,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @Override
     protected Dialog onCreateDialog(int id) {
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage(getText(string.message_signing_in));
+        dialog.setMessage(getText(R.string.message_signing_in));
         dialog.setIndeterminate(true);
         dialog.setCancelable(true);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -373,10 +375,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
             Ln.d("onAuthenticationResult: failed to authenticate");
             if (requestNewAccount) {
                 Toaster.showLong(BootstrapAuthenticatorActivity.this,
-                        string.message_auth_failed_new_account);
+                        R.string.message_auth_failed_new_account);
             } else {
                 Toaster.showLong(BootstrapAuthenticatorActivity.this,
-                        string.message_auth_failed);
+                        R.string.message_auth_failed);
             }
         }
     }

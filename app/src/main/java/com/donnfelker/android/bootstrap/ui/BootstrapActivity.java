@@ -3,6 +3,7 @@ package com.donnfelker.android.bootstrap.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import com.donnfelker.android.bootstrap.Injector;
@@ -15,7 +16,7 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 /**
  * Base activity for a Bootstrap activity which does not use fragments.
  */
-public abstract class BootstrapActivity extends Activity {
+public abstract class BootstrapActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -64,8 +65,18 @@ public class MainActivity extends BootstrapFragmentActivity {
         // Set up navigation drawer
         title = drawerTitle = getTitle();
 
+        setupToolbar();
+
         if(!isTablet()) {
+
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+            // Now retrieve the DrawerLayout so that we can set the status bar color.
+            // This only takes effect on Lollipop, or when using translucentStatusBar
+            // on KitKat.
+            //drawerLayout.setStatusBarBackgroundColor(yourChosenColor);
+
+
             drawerToggle = new ActionBarDrawerToggle(
                     this,                    /* Host activity */
                     drawerLayout,           /* DrawerLayout object */
@@ -99,11 +110,19 @@ public class MainActivity extends BootstrapFragmentActivity {
         }
 
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+//        getActionBar().setHomeButtonEnabled(true);
 
 
         checkAuth();
+
+    }
+
+    private void setupToolbar() {
+        // As we're using a Toolbar, we should retrieve it and set it
+        // to be our ActionBar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
     }
 
