@@ -2,7 +2,7 @@
 
 <resources>
 
-    <style name="Theme.Bootstrap.Dark" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.Bootstrap.Dark" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/pager_background</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
 
@@ -19,7 +19,9 @@
     <!-- You can also set colorControlNormal, colorControlActivated
          colorControlHighlight, and colorSwitchThumbNormal. -->
 
+        <item name="windowActionBar">false</item>
     </style>
+
 
     <style name="Widget.Styled.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/actionbar_background</item>

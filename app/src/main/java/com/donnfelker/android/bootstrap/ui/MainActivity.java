@@ -2,6 +2,7 @@
 
 package com.donnfelker.android.bootstrap.ui;
 
+import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -21,11 +22,20 @@ import com.donnfelker.android.bootstrap.events.NavItemSelectedEvent;
 import com.donnfelker.android.bootstrap.util.Ln;
 import com.donnfelker.android.bootstrap.util.SafeAsyncTask;
 import com.donnfelker.android.bootstrap.util.UIUtils;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Subscribe;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Observer;
+import rx.android.observables.AndroidObservable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func0;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -162,32 +172,49 @@ public class MainActivity extends BootstrapFragmentActivity {
 
     }
 
-    private void checkAuth() {
-        new SafeAsyncTask<Boolean>() {
+    private Boolean isAuthed() throws IOException, AccountsException {
+        return (serviceProvider.getService(this) != null);
+    }
 
+    private Observable<Boolean> checkAuthObservable() {
+        return Observable.defer(new Func0<Observable<Boolean>>() {
             @Override
-            public Boolean call() throws Exception {
-                final BootstrapService svc = serviceProvider.getService(MainActivity.this);
-                return svc != null;
-            }
-
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                super.onException(e);
-                if (e instanceof OperationCanceledException) {
-                    // User cancelled the authentication process (back button, etc).
-                    // Since auth could not take place, lets finish this activity.
-                    finish();
+            public Observable<Boolean> call() {
+                try {
+                    return Observable.just(isAuthed());
+                } catch(IOException e) {
+                    return Observable.error(e);
+                } catch(AccountsException e) {
+                    return Observable.error(e);
                 }
             }
+        });
+    }
 
-            @Override
-            protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
-                super.onSuccess(hasAuthenticated);
-                userHasAuthenticated = true;
-                initScreen();
-            }
-        }.execute();
+    private void checkAuth() {
+
+        AndroidObservable.bindActivity(this, checkAuthObservable())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Ln.e(e);
+                        Toaster.showLong(MainActivity.this, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Boolean isAuthed) {
+                        userHasAuthenticated = true;
+                        initScreen();
+                    }
+                });
+
     }
 
     @Override
