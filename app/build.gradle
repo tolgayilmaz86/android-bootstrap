@@ -61,6 +61,7 @@ android {
         // Exclude file to avoid
         // Error: Duplicate files during packaging of APK
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'LICENSE.txt'
     }
 
     // signingConfigs {
