@@ -24,8 +24,6 @@ import static com.donnfelker.android.bootstrap.authenticator.BootstrapAuthentica
 
 class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
 
-    private static final String DESCRIPTION_CLIENT = "Bootstrap for Android";
-
     private final Context context;
 
     public BootstrapAccountAuthenticator(final Context context) {
