@@ -42,6 +42,7 @@ import retrofit.converter.GsonConverter;
 
         injects = {
                 BootstrapApplication.class,
+                BootstrapApplicationImpl.class,
                 BootstrapAuthenticatorActivity.class,
                 MainActivity.class,
                 BootstrapTimerActivity.class,
