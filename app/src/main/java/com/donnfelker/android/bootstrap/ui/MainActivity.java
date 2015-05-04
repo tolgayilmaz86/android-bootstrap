@@ -17,7 +17,6 @@ import com.donnfelker.android.bootstrap.BootstrapServiceProvider;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.core.BootstrapService;
 import com.donnfelker.android.bootstrap.events.NavItemSelectedEvent;
-import com.donnfelker.android.bootstrap.util.Ln;
 import com.donnfelker.android.bootstrap.util.SafeAsyncTask;
 import com.donnfelker.android.bootstrap.util.UIUtils;
 import com.squareup.otto.Subscribe;
@@ -25,6 +24,7 @@ import com.squareup.otto.Subscribe;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 
 /**
@@ -134,7 +134,6 @@ public class MainActivity extends BootstrapFragmentActivity {
     private void initScreen() {
         if (userHasAuthenticated) {
 
-            Ln.d("Foo");
             final FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, new CarouselFragment())
@@ -198,7 +197,7 @@ public class MainActivity extends BootstrapFragmentActivity {
     @Subscribe
     public void onNavigationItemSelected(NavItemSelectedEvent event) {
 
-        Ln.d("Selected: %1$s", event.getItemPosition());
+        Timber.d("Selected: %1$s", event.getItemPosition());
 
         switch(event.getItemPosition()) {
             case 0:

@@ -14,12 +14,13 @@ import android.support.v4.app.NotificationCompat;
 import com.donnfelker.android.bootstrap.Injector;
 import com.donnfelker.android.bootstrap.R;
 import com.donnfelker.android.bootstrap.ui.BootstrapTimerActivity;
-import com.donnfelker.android.bootstrap.util.Ln;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 import static com.donnfelker.android.bootstrap.core.Constants.Notification.TIMER_NOTIFICATION_ID;
 
@@ -61,7 +62,7 @@ public class TimerService extends Service {
 
         notificationManager.cancel(TIMER_NOTIFICATION_ID);
 
-        Ln.d("Service has been destroyed");
+        Timber.d("Service has been destroyed");
 
         super.onDestroy();
     }
@@ -169,7 +170,7 @@ public class TimerService extends Service {
     private void dispatchTimerUpdate(long now) {
 
         currentRunningTimeInMillis = now - base;
-        Ln.d("Elapsed Seconds: " + currentRunningTimeInMillis / 1000);
+        Timber.d("Elapsed Seconds: " + currentRunningTimeInMillis / 1000);
 
         eventBus.post(produceTickEvent());
 

@@ -6,10 +6,11 @@ import android.accounts.AccountManagerFuture;
 import android.content.Context;
 
 import com.donnfelker.android.bootstrap.core.Constants;
-import com.donnfelker.android.bootstrap.util.Ln;
 import com.donnfelker.android.bootstrap.util.SafeAsyncTask;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 
 /**
@@ -55,7 +56,7 @@ public class LogoutServiceImpl implements LogoutService {
                     return removeAccountFuture.getResult();
                 }
             } else {
-                Ln.w("accountManagerWithContext is null");
+                Timber.w("accountManagerWithContext is null");
             }
 
             return false;
@@ -65,7 +66,7 @@ public class LogoutServiceImpl implements LogoutService {
         protected void onSuccess(final Boolean accountWasRemoved) throws Exception {
             super.onSuccess(accountWasRemoved);
 
-            Ln.d("Logout succeeded: %s", accountWasRemoved);
+            Timber.d("Logout succeeded: %s", accountWasRemoved);
             onSuccess.run();
 
         }
@@ -74,7 +75,7 @@ public class LogoutServiceImpl implements LogoutService {
         protected void onException(final Exception e) throws RuntimeException {
             super.onException(e);
 
-            Ln.e(e.getCause(), "Logout failed.");
+            Timber.e(e.getCause(), "Logout failed.");
         }
     }
 }

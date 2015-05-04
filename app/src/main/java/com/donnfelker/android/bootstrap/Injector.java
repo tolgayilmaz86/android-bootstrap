@@ -1,8 +1,7 @@
 package com.donnfelker.android.bootstrap;
 
-import com.donnfelker.android.bootstrap.util.Ln;
-
 import dagger.ObjectGraph;
+import timber.log.Timber;
 
 public final class Injector {
 
@@ -27,13 +26,13 @@ public final class Injector {
     }
 
     public static void add(Object... objects) {
-        Ln.d("add()");
+        Timber.d("add()");
         if (objectGraph == null) {
             objectGraph = ObjectGraph.create(objects);
         } else {
             objectGraph = objectGraph.plus(objects);
         }
-        Ln.d("successfully added into objectgraph");
+        Timber.d("successfully added into objectgraph");
 
     }
 

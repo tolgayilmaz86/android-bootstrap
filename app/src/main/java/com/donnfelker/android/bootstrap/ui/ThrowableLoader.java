@@ -3,7 +3,7 @@ package com.donnfelker.android.bootstrap.ui;
 
 import android.content.Context;
 
-import com.donnfelker.android.bootstrap.util.Ln;
+import timber.log.Timber;
 
 
 /**
@@ -35,7 +35,7 @@ public abstract class ThrowableLoader<D> extends AsyncLoader<D> {
         try {
             return loadData();
         } catch (final Exception e) {
-            Ln.d(e, "Exception loading data");
+            Timber.d(e, "Exception loading data");
             exception = e;
             return data;
         }
