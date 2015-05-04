@@ -19,15 +19,6 @@ public class BootstrapApplication extends Application {
     public BootstrapApplication() {
     }
 
-    /**
-     * Create main application
-     *
-     * @param context
-     */
-    public BootstrapApplication(final Context context) {
-        this();
-        attachBaseContext(context);
-    }
 
     @Override
     public void onCreate() {
@@ -36,23 +27,8 @@ public class BootstrapApplication extends Application {
         instance = this;
 
         // Perform injection
-        Injector.init(getRootModule(), this);
+        Injector.init(this, Modules.list());
 
-    }
-
-    private Object getRootModule() {
-        return new RootModule();
-    }
-
-
-    /**
-     * Create main application
-     *
-     * @param instrumentation
-     */
-    public BootstrapApplication(final Instrumentation instrumentation) {
-        this();
-        attachBaseContext(instrumentation.getTargetContext());
     }
 
     public static BootstrapApplication getInstance() {
