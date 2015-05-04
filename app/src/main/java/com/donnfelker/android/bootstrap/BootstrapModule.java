@@ -75,7 +75,7 @@ public class BootstrapModule {
 
     @Provides
     BootstrapServiceProvider provideBootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider apiKeyProvider) {
-        return new BootstrapServiceProvider(restAdapter, apiKeyProvider);
+        return new BootstrapServiceProviderImpl(restAdapter, apiKeyProvider);
     }
 
     @Provides

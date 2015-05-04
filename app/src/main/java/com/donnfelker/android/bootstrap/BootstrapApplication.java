@@ -6,6 +6,8 @@ import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
 
+import javax.inject.Inject;
+
 /**
  * Android Bootstrap application
  */
