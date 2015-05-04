@@ -7,9 +7,6 @@ import com.donnfelker.android.bootstrap.core.BootstrapService;
 
 import java.io.IOException;
 
-/**
- * Created by donnfelker on 5/4/15.
- */
 public interface BootstrapServiceProvider {
     BootstrapService getService(Activity activity)
             throws IOException, AccountsException;
