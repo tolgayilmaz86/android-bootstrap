@@ -6,6 +6,7 @@ import android.content.Context;
 import com.donnfelker.android.bootstrap.authenticator.ApiKeyProvider;
 import com.donnfelker.android.bootstrap.authenticator.BootstrapAuthenticatorActivity;
 import com.donnfelker.android.bootstrap.authenticator.LogoutService;
+import com.donnfelker.android.bootstrap.authenticator.LogoutServiceImpl;
 import com.donnfelker.android.bootstrap.core.BootstrapService;
 import com.donnfelker.android.bootstrap.core.Constants;
 import com.donnfelker.android.bootstrap.core.PostFromAnyThreadBus;
@@ -64,7 +65,7 @@ public class BootstrapModule {
     @Provides
     @Singleton
     LogoutService provideLogoutService(final Context context, final AccountManager accountManager) {
-        return new LogoutService(context, accountManager);
+        return new LogoutServiceImpl(context, accountManager);
     }
 
     @Provides
