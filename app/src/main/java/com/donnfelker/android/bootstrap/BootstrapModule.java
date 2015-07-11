@@ -6,6 +6,7 @@ import android.content.Context;
 import com.donnfelker.android.bootstrap.authenticator.ApiKeyProvider;
 import com.donnfelker.android.bootstrap.authenticator.BootstrapAuthenticatorActivity;
 import com.donnfelker.android.bootstrap.authenticator.LogoutService;
+import com.donnfelker.android.bootstrap.authenticator.LogoutServiceImpl;
 import com.donnfelker.android.bootstrap.core.BootstrapService;
 import com.donnfelker.android.bootstrap.core.Constants;
 import com.donnfelker.android.bootstrap.core.PostFromAnyThreadBus;
@@ -41,6 +42,7 @@ import retrofit.converter.GsonConverter;
 
         injects = {
                 BootstrapApplication.class,
+                BootstrapApplicationImpl.class,
                 BootstrapAuthenticatorActivity.class,
                 MainActivity.class,
                 BootstrapTimerActivity.class,
@@ -64,7 +66,7 @@ public class BootstrapModule {
     @Provides
     @Singleton
     LogoutService provideLogoutService(final Context context, final AccountManager accountManager) {
-        return new LogoutService(context, accountManager);
+        return new LogoutServiceImpl(context, accountManager);
     }
 
     @Provides
@@ -74,7 +76,7 @@ public class BootstrapModule {
 
     @Provides
     BootstrapServiceProvider provideBootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider apiKeyProvider) {
-        return new BootstrapServiceProvider(restAdapter, apiKeyProvider);
+        return new BootstrapServiceProviderImpl(restAdapter, apiKeyProvider);
     }
 
     @Provides

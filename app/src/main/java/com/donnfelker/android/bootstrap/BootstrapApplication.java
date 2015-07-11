@@ -3,13 +3,13 @@
 package com.donnfelker.android.bootstrap;
 
 import android.app.Application;
-import android.app.Instrumentation;
-import android.content.Context;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Android Bootstrap application
  */
-public class BootstrapApplication extends Application {
+public abstract class BootstrapApplication extends Application {
 
     private static BootstrapApplication instance;
 
@@ -19,41 +19,25 @@ public class BootstrapApplication extends Application {
     public BootstrapApplication() {
     }
 
-    /**
-     * Create main application
-     *
-     * @param context
-     */
-    public BootstrapApplication(final Context context) {
-        this();
-        attachBaseContext(context);
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
+
+        init();
 
         instance = this;
 
         // Perform injection
-        Injector.init(getRootModule(), this);
+        Injector.init(this, Modules.list());
 
+        onAfterInjection();
     }
 
-    private Object getRootModule() {
-        return new RootModule();
-    }
+    protected abstract void onAfterInjection();
 
-
-    /**
-     * Create main application
-     *
-     * @param instrumentation
-     */
-    public BootstrapApplication(final Instrumentation instrumentation) {
-        this();
-        attachBaseContext(instrumentation.getTargetContext());
-    }
+    protected abstract void init();
 
     public static BootstrapApplication getInstance() {
         return instance;

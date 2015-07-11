@@ -1,28 +1,36 @@
 buildscript {
     repositories {
-        maven { url 'http://repo1.maven.org/maven2' }
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
         mavenLocal()
-        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
     mavenLocal()
-    mavenCentral()
+    jcenter()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
     compile 'com.google.code.gson:gson:2.3'
 
     // Dependency Injection
-    compile 'com.squareup.dagger:dagger:1.0.1'
-    compile 'com.squareup.dagger:dagger-compiler:1.0.1'
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+
+    // View Injection
     compile 'com.jakewharton:butterknife:6.0.0'
+
+    // Logging
+    compile 'com.jakewharton.timber:timber:3.0.2'
 
     compile 'com.actionbarsherlock:viewpagerindicator:2.4.1'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -38,8 +46,13 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.5.1'
 
     // Android Support Libs
-    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.android.support:support-v4:22.0.0'
     compile 'com.android.support:support-v13:20.0.0'
+
+    // Fabric/Crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
+        transitive = true
+    }
 
     androidTestCompile 'junit:junit:4.11'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'

@@ -16,8 +16,7 @@ import butterknife.ButterKnife;
  */
 public class BootstrapFragmentActivity extends Activity {
 
-    @Inject
-    protected Bus eventBus;
+    @Inject protected Bus eventBus;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

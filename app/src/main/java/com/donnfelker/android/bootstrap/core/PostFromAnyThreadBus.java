@@ -3,9 +3,10 @@ package com.donnfelker.android.bootstrap.core;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.donnfelker.android.bootstrap.util.Ln;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+
+import timber.log.Timber;
 
 /**
  * This message bus allows you to post a message from any thread and it will get handled and then
@@ -50,8 +51,7 @@ public class PostFromAnyThreadBus extends Bus
         }
         catch (IllegalArgumentException e)
         {
-            // TODO: use Crashlytics unhandled exception logging
-            Ln.e(e);
+            Timber.e(e, e.getMessage());
         }
     }
 }

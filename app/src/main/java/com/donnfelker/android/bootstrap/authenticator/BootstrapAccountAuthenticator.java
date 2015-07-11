@@ -11,7 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.donnfelker.android.bootstrap.core.Constants;
-import com.donnfelker.android.bootstrap.util.Ln;
+
+import timber.log.Timber;
 
 import static android.accounts.AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE;
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
@@ -22,8 +23,6 @@ import static android.accounts.AccountManager.KEY_INTENT;
 import static com.donnfelker.android.bootstrap.authenticator.BootstrapAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE;
 
 class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
-
-    private static final String DESCRIPTION_CLIENT = "Bootstrap for Android";
 
     private final Context context;
 
@@ -66,7 +65,7 @@ class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
 
     /**
      * This method gets called when the
-     * {@link com.donnfelker.android.bootstrap.authenticator.ApiKeyProvider#getAuthKey()}
+     * {@link com.donnfelker.android.bootstrap.authenticator.ApiKeyProvider#getAuthKey(android.app.Activity)}
      * methods gets invoked.
      * This happens on a different process, so debugging it can be a beast.
      *
@@ -82,7 +81,7 @@ class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
                                final Account account, final String authTokenType,
                                final Bundle options) throws NetworkErrorException {
 
-        Ln.d("Attempting to get authToken");
+        Timber.d("Attempting to get authToken");
 
         final String authToken = AccountManager.get(context).peekAuthToken(account, authTokenType);
 
